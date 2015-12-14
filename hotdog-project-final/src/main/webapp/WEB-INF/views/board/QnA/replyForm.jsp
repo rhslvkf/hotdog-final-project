@@ -187,7 +187,3 @@
  <input type="hidden" name="relevel" value="${requestScope.bvo.relevel }">
  <input type="hidden" name="no" value="${requestScope.bvo.boardNumber}">
   </form>
-
-
-
-

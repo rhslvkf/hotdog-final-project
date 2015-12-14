@@ -199,7 +199,6 @@
 
     
     
-<body>
 <form id="updatePostingForm" method=post action="${initParam.root}auth_updatePosting.do?type=board_adoption" enctype="multipart/form-data">
 <input type = "hidden" name = "boardNumber" value = "${bvo.boardNumber}">
 	<table class="content">
@@ -319,7 +318,3 @@
 	</table>
 
 </form>
-
-
-</body>
-</html>
