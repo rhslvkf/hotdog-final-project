@@ -421,13 +421,7 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
 		</tr>
 		<tr><td colspan="3">애견크기 : ${requestScope.bvo.petVO.petSize}</td></tr>
 		<tr>
-			<td colspan="3">
-			<pre style="white-space: pre-wrap;">${requestScope.bvo.boardContent}
-			<c:if test="${fn:length(requestScope.bvo.fileNameList) != 0 }">
-			<c:forEach begin="1" end="${fn:length(requestScope.bvo.fileNameList)}" var="i">
-			<img src="${initParam.root}upload/${requestScope.bvo.fileNameList[i-1]}" width="300px" height="200px">
-			</c:forEach>
-			</c:if>
+			<td colspan="3"><pre style="white-space: pre-wrap;">${requestScope.bvo.boardContent}
 			</pre>
 			</td>
 		</tr>
