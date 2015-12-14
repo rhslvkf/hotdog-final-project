@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="board_QnA"> 
+ <insert id="posting">
+ 		<selectKey keyProperty="boardNumber" resultType="int" order="BEFORE">
+			select QnA_seq.nextval from dual
+		</selectKey>
+		insert into board_QnA(QnA_number,QnA_title,QnA_content,QnA_date,member_id,QnA_ref,QnA_restep,QnA_relevel)
+		values(#{boardNumber},#{boardTitle},#{boardContent},sysdate,#{memberVO.memberId},#{boardNumber},0,0)
+ </insert>
+ <insert id="uploadFile">
+		insert into board_QnA_file(file_name,board_number)
+		values(#{fileName},#{boardNumber})
+ </insert>
+ <update id="updatePosting">
+ 		update board_QnA set
+		QnA_title=#{boardTitle},QnA_content=#{boardContent}
+		where QnA_number=#{boardNumber}
+ </update>
+ <update id="hits">
+ update board_QnA set QnA_hits=QnA_hits+1 where QnA_number=#{boardNumber}
+ </update>
+ <delete id="deletePosting">
+ 		delete from board_QnA where QnA_number=#{boardNumber}
+ </delete>
+ 
+ 
+ 	<resultMap type="bvo" id="boardRM">
+		<result property="boardNumber" column="QnA_number" />
+		<result property="boardTitle" column="QnA_title" />
+		<result property="boardDate" column="QnA_date" />
+		<result property="boardHits" column="QnA_hits" />
+		<result property="boardContent" column="QnA_content" />
+		<result property="boardType" column="board_type" />
+		<result property="fileName" column="file_name" />
+		<result property="memberVO.memberId" column="member_id" />	
+		<result property="memberVO.memberName" column="member_name" />	
+		<result property="memberVO.memberNickName" column="member_nickname" />
+		<result property="ref" column="QnA_ref"/>
+     	<result property="restep" column="QnA_restep"/>
+		<result property="relevel" column="QnA_relevel"/>
+	</resultMap>
+	<select id="showContent" resultMap="boardRM">
+		select b.QnA_number,b.QnA_title,to_char(b.QnA_date,'YYYY.MM.DD') as QnA_date,b.QnA_content,
+		b.QnA_hits,b.QnA_ref,b.QnA_restep,b.QnA_relevel,m.member_id,m.member_nickname
+		from board_QnA b,hotdog_member m 
+		where b.member_id=m.member_id and b.QnA_number=#{value}
+	</select>
+	<select id="getPostingList" resultMap="boardRM">
+select b.QnA_number,b.QnA_title,b.QnA_date,b.QnA_hits,b.member_id,b.QnA_ref,b.QnA_restep,b.QnA_relevel,m.member_nickname from (
+			select QnA_number,QnA_title,QnA_date,QnA_hits,ceil(rownum/8) as page,QnA_ref,QnA_restep,QnA_relevel,member_id from (
+					select QnA_number,QnA_title,to_char(QnA_date,'YYYY.MM.DD') as QnA_date,
+					QnA_hits,QnA_ref,QnA_restep,QnA_relevel,member_id from board_QnA  order by QnA_ref desc, QnA_restep asc
+		     )
+       ) b,hotdog_member m where b.member_id=m.member_id and page=#{value}
+	</select>
+	
+	<select id="totalContent" resultType="int">
+	select count(*) from board_QnA
+	</select>
+	
+	<select id="totalContentBySearchingTitle" resultType="int">
+		select count(*) from board_QnA where QnA_title like '%' || #{word} || '%'
+	</select>
+	
+	<select id="totalContentBySearchingContent" resultType="int">
+		select count(*) from board_QnA where QnA_content like '%' || #{word} || '%'
+	</select>
+	
+	<select id="totalContentBySearchingNickName" resultType="int">
+		select count(*) from(
+			select m.member_nickname from board_QnA b, hotdog_member m where b.member_id = m.member_id
+		) where member_nickname like '%' || #{word} || '%'
+	</select>
+	
+	<select id="searchPostingByTitle"  resultMap="boardRM">
+		select b.QnA_number,b.QnA_title,b.QnA_date,b.QnA_hits,b.member_id,b.QnA_ref,b.QnA_restep,b.QnA_relevel,m.member_nickname from(
+			select QnA_number,QnA_title,QnA_date,QnA_hits,ceil(rownum/8) as page,QnA_ref,QnA_restep,QnA_relevel,member_id from(
+				select QnA_number,QnA_title,to_char(QnA_date,'YYYY.MM.DD') as QnA_date,
+				QnA_hits,QnA_ref,QnA_restep,QnA_relevel,member_id from(
+				select * from board_QnA where QnA_title like '%' || #{word} || '%' order by QnA_ref desc, QnA_restep asc
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+	<select id="searchPostingByContent" resultMap="boardRM">
+			select b.QnA_number,b.QnA_title,b.QnA_date,b.QnA_hits,b.member_id,b.QnA_ref,b.QnA_restep,b.QnA_relevel,m.member_nickname from(
+			select QnA_content,QnA_number,QnA_title,QnA_date,QnA_hits,ceil(rownum/8) as page,QnA_ref,QnA_restep,QnA_relevel,member_id from(
+				select QnA_content,QnA_number,QnA_title,to_char(QnA_date,'YYYY.MM.DD') as QnA_date,
+				QnA_hits,QnA_ref,QnA_restep,QnA_relevel,member_id from(
+				select * from board_QnA where QnA_content like '%' || #{word} || '%' order by QnA_ref desc, QnA_restep asc
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+	<select id="searchPostingByNickName" resultMap="boardRM">
+			select b.QnA_number,b.QnA_title,b.QnA_date,b.QnA_hits,b.QnA_ref,b.QnA_restep,b.QnA_relevel,b.member_id,m.member_nickname from(
+			select QnA_content,QnA_number,QnA_title,QnA_date,QnA_hits,ceil(rownum/8) as page,member_id,QnA_ref,QnA_restep,QnA_relevel,member_nickname from(
+				select QnA_content,QnA_number,QnA_title,to_char(QnA_date,'YYYY.MM.DD') as QnA_date,QnA_ref,QnA_restep,QnA_relevel,QnA_hits,member_id,member_nickname from(
+						select QnA_content,QnA_number,QnA_title,QnA_date,QnA_hits,QnA_ref,QnA_restep,QnA_relevel,m.member_id,m.member_nickname from(
+							select * from board_QnA b, hotdog_member m where b.member_id = m.member_id order by QnA_ref desc, QnA_restep asc
+						)b, hotdog_member m where m.member_nickname like '%' || #{word} || '%' 
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+	<select id="showPostingListById" resultMap="boardRM">
+		select b.QnA_title,b.board_type,b.QnA_number,b.QnA_hits,b.QnA_date,m.member_nickname from(
+	        select QnA_title,board_type,QnA_number,QnA_hits,to_char(QnA_date,'YYYY.MM.DD') as QnA_date from board_QnA
+			where member_id = #{memberId}
+		)b, hotdog_member m where m.member_id = #{memberId}
+	</select>
+	
+	<select id="searchFileName" resultType="String">
+		select file_name from board_QnA_file
+		where board_number = #{value}
+	</select>
+	
+		<select id="searchBoard" resultMap="boardRM" parameterType="map">
+     select b.board_type,b.QnA_number,b.QnA_title,b.QnA_content,b.QnA_date,b.QnA_hits,b.QnA_ref,b.QnA_restep,b.QnA_relevel,b.member_id,m.member_nickname from(
+				select board_type,QnA_content,QnA_number,QnA_title,to_char(QnA_date,'YYYY.MM.DD') as QnA_date,
+				QnA_hits,QnA_ref,QnA_restep,QnA_relevel,member_id from(
+				select * from board_QnA where QnA_title like '%' || #{word1} || '%' or QnA_content like '%' || #{word2} || '%' order by QnA_ref desc, QnA_restep asc
+				)
+		) b,hotdog_member m where b.member_id=m.member_id
+	</select>
+	
+		<select id="searchPostingByTitleOrContents" resultMap="boardRM">
+		select b.QnA_number,b.QnA_title,b.QnA_date,b.QnA_hits,b.member_id,b.QnA_ref,b.QnA_restep,b.QnA_relevel,m.member_nickname from(
+			select QnA_content,QnA_number,QnA_title,QnA_date,QnA_hits,ceil(rownum/8) as page,QnA_ref,QnA_restep,QnA_relevel,member_id from(
+				select QnA_content,QnA_number,QnA_title,to_char(QnA_date,'YYYY.MM.DD') as QnA_date,
+				QnA_hits,QnA_ref,QnA_restep,QnA_relevel,member_id from(
+				select * from board_QnA where QnA_title like '%' || #{word1} || '%' or QnA_content like '%' || #{word2} || '%' order by QnA_ref desc, QnA_restep asc
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+	<select id="totalContentBySearchingTitleOrContents" resultType="int">
+		select count(*) from board_QnA where QnA_title like '%' || #{word1} || '%' or
+		QnA_content like '%' || #{word2} || '%'
+	</select>
+	
+	<update id="updateRestep" parameterType="map">
+	 update board_QnA set QnA_restep = QnA_restep+1 where QnA_ref=#{ref} and QnA_restep > #{restep}
+	 </update>
+	
+	<insert id="writeReply">
+	 <selectKey keyProperty="boardNumber" resultType="int" order="BEFORE">
+	 		select QnA_seq.nextval from dual 
+	 </selectKey>
+	 	insert into board_QnA
+	 	(QnA_number,QnA_title,QnA_content,QnA_date,member_id,QnA_ref,QnA_restep,QnA_relevel)
+	 	values(#{boardNumber},#{boardTitle},#{boardContent},sysdate,#{memberVO.memberId},#{ref},#{restep},#{relevel})
+	 </insert>
+	
+ </mapper> 	

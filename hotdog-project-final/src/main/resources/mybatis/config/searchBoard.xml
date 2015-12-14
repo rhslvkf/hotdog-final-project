@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="searchBoard">
+ 
+ 		<resultMap type="bvo" id="boardRM">
+		<result property="boardNumber" column="abandoned_number" />
+		<result property="boardTitle" column="abandoned_title" />
+		<result property="boardDate" column="abandoned_date" />
+		<result property="boardHits" column="abandoned_hits" />
+		<result property="boardContent" column="abandoned_content" />
+		<result property="boardType" column="board_type" />
+		<result property="memberVO.memberId" column="member_id" />	
+		<result property="memberVO.memberName" column="member_name" />	
+		<result property="memberVO.memberNickName" column="member_nickname" />
+		<result property="boardNumber" column="adoption_number" />
+		<result property="boardTitle" column="adoption_title" />
+		<result property="boardDate" column="adoption_date" />
+		<result property="boardHits" column="adoption_hits" />
+		<result property="boardContent" column="adoption_content" />
+		<result property="boardNumber" column="community_number" />
+		<result property="boardTitle" column="community_title" />
+		<result property="boardDate" column="community_date" />
+		<result property="boardHits" column="community_hits" />
+		<result property="boardContent" column="community_content" />
+		<result property="boardNumber" column="notice_number" />
+		<result property="boardTitle" column="notice_title" />
+		<result property="boardDate" column="notice_date" />
+		<result property="boardHits" column="notice_hits" />
+		<result property="boardContent" column="notice_content" />
+     	<result property="boardNumber" column="petInfo_number" />
+		<result property="boardTitle" column="petInfo_title" />
+		<result property="boardDate" column="petInfo_date" />
+		<result property="boardHits" column="petInfo_hits" />
+		<result property="boardContent" column="petInfo_content" />
+		<result property="boardNumber" column="petPicture_number" />
+		<result property="boardTitle" column="petPicture_title" />
+		<result property="boardDate" column="petPicture_date" />
+		<result property="boardHits" column="petPicture_hits" />
+		<result property="boardContent" column="petPicture_content" />
+		<result property="boardNumber" column="QnA_number" />
+		<result property="boardTitle" column="QnA_title" />
+		<result property="boardDate" column="QnA_date" />
+		<result property="boardHits" column="QnA_hits" />
+		<result property="boardContent" column="QnA_content" />
+
+	</resultMap>
+	 
+	 		<select id="searchBoardPaging" resultMap="boardRM" resultType="list"
+		parameterType="map">
+		select b.board_type,b.abandoned_content,b.abandoned_number,b.abandoned_title,b.abandoned_date,b.member_id,m.member_nickname from(
+			select board_type,abandoned_content,abandoned_number,abandoned_title,abandoned_date,ceil(rownum/8) as page,member_id from(
+		select b.board_type,b.abandoned_content,b.abandoned_number,b.abandoned_title,b.abandoned_date,b.member_id,m.member_nickname from(
+			select board_type,abandoned_content,abandoned_number,abandoned_title,abandoned_date,member_id from(
+				select board_type,abandoned_content,abandoned_number,abandoned_title,to_char(abandoned_date,'YYYY.MM.DD') as abandoned_date,
+				member_id from(
+				select board_type,abandoned_content,abandoned_number,abandoned_title,abandoned_date,member_id from board_abandoned where abandoned_title like '%' || #{word1} || '%' or abandoned_content like '%' || #{word2} || '%'
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id
+		
+		UNION ALL
+		
+				select b.board_type,b.adoption_content,b.adoption_number,b.adoption_title,b.adoption_date,b.member_id,m.member_nickname from(
+			select board_type,adoption_content,adoption_number,adoption_title,adoption_date,member_id from(
+				select board_type,adoption_content,adoption_number,adoption_title,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,
+				member_id from(
+				select board_type,adoption_content,adoption_number,adoption_title,adoption_date,member_id from board_adoption where adoption_title like '%' || #{word1} || '%' or adoption_content like '%' || #{word2} || '%'
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id
+		
+		UNION ALL
+		
+				select b.board_type,b.community_content,b.community_number,b.community_title,b.community_date,b.member_id,m.member_nickname from(
+			select board_type,community_content,community_number,community_title,community_date,member_id from(
+				select board_type,community_content,community_number,community_title,to_char(community_date,'YYYY.MM.DD') as community_date,
+				member_id from(
+				select board_type,community_content,community_number,community_title,community_date,member_id from board_community where community_title like '%' || #{word1} || '%' or community_content like '%' || #{word2} || '%'
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id
+		
+		UNION ALL
+		
+				select b.board_type,b.notice_content,b.notice_number,b.notice_title,b.notice_date,b.member_id,m.member_nickname from(
+			select board_type,notice_content,notice_number,notice_title,notice_date,member_id from(
+				select board_type,notice_content,notice_number,notice_title,to_char(notice_date,'YYYY.MM.DD') as notice_date,
+				member_id from(
+				select board_type,notice_content,notice_number,notice_title,notice_date,member_id from board_notice where notice_title like '%' || #{word1} || '%' or notice_content like '%' || #{word2} || '%'
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id
+		
+		UNION ALL
+		
+				select b.board_type,b.petInfo_content,b.petInfo_number,b.petInfo_title,b.petInfo_date,b.member_id,m.member_nickname from(
+			select board_type,petInfo_content,petInfo_number,petInfo_title,petInfo_date,member_id from(
+				select board_type,petInfo_content,petInfo_number,petInfo_title,to_char(petInfo_date,'YYYY.MM.DD') as petInfo_date,
+				member_id from(
+				select board_type,petInfo_content,petInfo_number,petInfo_title,petInfo_date,member_id from board_petInfo where petInfo_title like '%' || #{word1} || '%' or petInfo_content like '%' || #{word2} || '%'
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id
+		
+		UNION ALL
+		
+				select b.board_type,b.petPicture_content,b.petPicture_number,b.petPicture_title,b.petPicture_date,b.member_id,m.member_nickname from(
+			select board_type,petPicture_content,petPicture_number,petPicture_title,petPicture_date,member_id from(
+				select board_type,petPicture_content,petPicture_number,petPicture_title,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date,
+				member_id from(
+				select board_type,petPicture_content,petPicture_number,petPicture_title,petPicture_date,member_id from board_petPicture where petPicture_title like '%' || #{word1} || '%' or petPicture_content like '%' || #{word2} || '%'
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id
+		
+		UNION ALL
+		
+				select b.board_type,b.QnA_content,b.QnA_number,b.QnA_title,b.QnA_date,b.member_id,m.member_nickname from(
+			select board_type,QnA_content,QnA_number,QnA_title,QnA_date,member_id from(
+				select board_type,QnA_content,QnA_number,QnA_title,to_char(QnA_date,'YYYY.MM.DD') as QnA_date,
+				member_id from(
+				select board_type,QnA_content,QnA_number,QnA_title,QnA_date,member_id from board_QnA where QnA_title like '%' || #{word1} || '%' or QnA_content like '%' || #{word2} || '%'
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id)
+		
+		)b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}		
+		
+	</select>
+	
+	
+  
+ </mapper> 	
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

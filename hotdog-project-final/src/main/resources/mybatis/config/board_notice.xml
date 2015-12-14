@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="board_notice"> 
+ <insert id="posting">
+ 		<selectKey keyProperty="boardNumber" resultType="int" order="BEFORE">
+			select notice_seq.nextval from dual
+		</selectKey>
+		insert into board_notice(notice_number,notice_title,notice_content,notice_date,member_id)
+		values(#{boardNumber},#{boardTitle},#{boardContent},sysdate,#{memberVO.memberId})
+ </insert>
+ 
+ 
+ <insert id="uploadFile">
+		insert into board_notice_file(file_name,board_number)
+		values(#{fileName},#{boardNumber})
+ </insert>
+ <update id="updatePosting">
+ 		update board_notice set
+		notice_title=#{boardTitle},notice_content=#{boardContent}
+		where notice_number=#{boardNumber}
+ </update>
+ <update id="hits">
+ update board_notice set notice_hits=notice_hits+1 where notice_number=#{boardNumber}
+ </update>
+ <delete id="deletePosting">
+ 		delete from board_notice where notice_number=#{boardNumber}
+ </delete>
+ 
+ 
+ 	<resultMap type="bvo" id="boardRM">
+		<result property="boardNumber" column="notice_number" />
+		<result property="boardTitle" column="notice_title" />
+		<result property="boardDate" column="notice_date" />
+		<result property="boardHits" column="notice_hits" />
+		<result property="boardContent" column="notice_content" />
+		<result property="boardType" column="board_type" />
+		<result property="fileName" column="file_name" />
+		<result property="memberVO.memberId" column="member_id" />	
+		<result property="memberVO.memberName" column="member_name" />	
+		<result property="memberVO.memberNickName" column="member_nickname" />
+	</resultMap>
+	<select id="showContent" resultMap="boardRM">
+		select b.notice_number,b.notice_title,to_char(b.notice_date,'YYYY.MM.DD') as notice_date,b.notice_content,
+		b.notice_hits,m.member_id,m.member_nickname
+		from board_notice b,hotdog_member m 
+		where b.member_id=m.member_id and b.notice_number=#{value}
+	</select>
+	<select id="getPostingList" resultMap="boardRM">
+		select b.notice_number,b.notice_title,b.notice_date,b.notice_hits,b.member_id,m.member_nickname from (
+			select notice_number,notice_title,notice_date,notice_hits,ceil(rownum/8) as page,member_id from (
+					select notice_number,notice_title,to_char(notice_date,'YYYY.MM.DD') as notice_date,
+					notice_hits,member_id from board_notice  order by notice_number desc
+		     )
+       ) b,hotdog_member m where b.member_id=m.member_id and page=#{value}
+	</select>
+	
+	<select id="totalContent" resultType="int">
+	select count(*) from board_notice
+	</select>
+	
+	<select id="totalContentBySearchingTitle" resultType="int">
+		select count(*) from board_notice where notice_title like '%' || #{word} || '%'
+	</select>
+	
+	<select id="totalContentBySearchingContent" resultType="int">
+		select count(*) from board_notice where notice_content like '%' || #{word} || '%'
+	</select>
+	
+	<select id="totalContentBySearchingNickName" resultType="int">
+		select count(*) from(
+			select m.member_nickname from board_notice b, hotdog_member m where b.member_id = m.member_id
+		) where member_nickname like '%' || #{word} || '%'
+	</select>
+	
+	<select id="searchPostingByTitle"  resultMap="boardRM">
+		select b.notice_number,b.notice_title,b.notice_date,b.notice_hits,b.member_id,m.member_nickname from(
+			select notice_number,notice_title,notice_date,notice_hits,ceil(rownum/8) as page,member_id from(
+				select notice_number,notice_title,to_char(notice_date,'YYYY.MM.DD') as notice_date,
+				notice_hits,member_id from(
+				select * from board_notice where notice_title like '%' || #{word} || '%' order by notice_number desc
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+	<select id="searchPostingByContent" resultMap="boardRM">
+		select b.notice_number,b.notice_title,b.notice_date,b.notice_hits,b.member_id,m.member_nickname from(
+			select notice_content,notice_number,notice_title,notice_date,notice_hits,ceil(rownum/8) as page,member_id from(
+				select notice_content,notice_number,notice_title,to_char(notice_date,'YYYY.MM.DD') as notice_date,
+				notice_hits,member_id from(
+				select * from board_notice where notice_content like '%' || #{word} || '%' order by notice_number desc
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+	<select id="searchPostingByNickName" resultMap="boardRM">
+		select b.notice_number,b.notice_title,b.notice_date,b.notice_hits,b.member_id,m.member_nickname from(
+			select notice_content,notice_number,notice_title,notice_date,notice_hits,ceil(rownum/8) as page,member_id,member_nickname from(
+				select notice_content,notice_number,notice_title,to_char(notice_date,'YYYY.MM.DD') as notice_date,notice_hits,member_id,member_nickname from(
+						select notice_content,notice_number,notice_title,notice_date,notice_hits,m.member_id,m.member_nickname from(
+							select * from board_notice b, hotdog_member m where b.member_id = m.member_id order by notice_number desc
+						)b, hotdog_member m where m.member_nickname like '%' || #{word} || '%' 
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+	<select id="showPostingListById" resultMap="boardRM">
+		select b.notice_title,b.board_type,b.notice_number,b.notice_hits,b.notice_date,m.member_nickname from(
+	        select notice_title,board_type,notice_number,notice_hits,to_char(notice_date,'YYYY.MM.DD') as notice_date from board_notice
+			where member_id = #{memberId}
+		)b, hotdog_member m where m.member_id = #{memberId}
+	</select>
+	
+	<select id="searchFileName" resultType="String">
+		select file_name from board_notice_file
+		where board_number = #{value}
+	</select>
+	<select id="latestnoticePosting" resultMap="boardRM">
+		select b.notice_number,b.notice_title,b.notice_date,m.member_id,m.member_nickname,b.notice_hits from(
+		select notice_number,notice_title,notice_date,notice_hits,ceil(rownum/5) as page,member_id from(
+			select notice_number,notice_title,notice_hits,to_char(notice_date,'YYYY.MM.DD') as notice_date,
+			member_id from board_notice order by notice_number desc
+		)
+		)b,hotdog_member m where b.member_id=m.member_id and page=#{value}
+	</select>
+	
+				<select id="searchBoard" resultMap="boardRM" parameterType="map">
+     select b.board_type,b.notice_number,b.notice_title,b.notice_content,b.notice_date,b.notice_hits,b.member_id,m.member_nickname from(
+				select board_type,notice_content,notice_number,notice_title,to_char(notice_date,'YYYY.MM.DD') as notice_date,
+				notice_hits,member_id from(
+				select * from board_notice where notice_title like '%' || #{word1} || '%' or notice_content like '%' || #{word2} || '%' order by notice_number desc
+				)
+		) b,hotdog_member m where b.member_id=m.member_id
+	</select>
+	
+		<select id="searchPostingByTitleOrContents"  resultMap="boardRM">
+		select b.notice_number,b.notice_title,b.notice_date,b.notice_hits,b.member_id,m.member_nickname from(
+			select notice_number,notice_title,notice_date,notice_hits,ceil(rownum/8) as page,member_id from(
+				select notice_number,notice_title,to_char(notice_date,'YYYY.MM.DD') as notice_date,
+				notice_hits,member_id from(
+				select * from board_notice where notice_title like '%' || #{word1} || '%' or notice_content like '%' || #{word2} || '%' order by notice_number desc
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+		<select id="totalContentBySearchingTitleOrContents" resultType="int">
+		select count(*) from board_notice where notice_title like '%' || #{word1} || '%' or
+		notice_content like '%' || #{word2} || '%'
+	</select>
+	
+ </mapper> 	

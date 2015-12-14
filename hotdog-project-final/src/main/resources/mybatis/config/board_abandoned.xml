@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board_abandoned">
+
+	<insert id="posting">
+		<selectKey keyProperty="boardNumber" resultType="int" order="BEFORE">
+			select abandoned_seq.nextval from dual
+		</selectKey>
+		insert into
+		board_abandoned(abandoned_number,abandoned_title,abandoned_content,abandoned_date,member_id)
+		values(#{boardNumber},#{boardTitle},#{boardContent},sysdate,#{memberVO.memberId})
+	</insert>
+	<insert id="uploadFile">
+		insert into
+		board_abandoned_file(file_name,board_number)
+		values(#{fileName},#{boardNumber})
+	</insert>
+	<update id="updatePosting">
+		update board_abandoned set
+		abandoned_title=#{boardTitle},abandoned_content=#{boardContent}
+		where
+		abandoned_number=#{boardNumber}
+	</update>
+	<update id="hits">
+		update board_abandoned set abandoned_hits=abandoned_hits+1 where
+		abandoned_number=#{boardNumber}
+	</update>
+	<delete id="deletePosting">
+		delete from board_abandoned where abandoned_number=#{boardNumber}
+	</delete>
+
+
+	<resultMap type="bvo" id="boardRM">
+		<result property="boardNumber" column="abandoned_number" />
+		<result property="boardTitle" column="abandoned_title" />
+		<result property="boardDate" column="abandoned_date" />
+		<result property="boardHits" column="abandoned_hits" />
+		<result property="boardContent" column="abandoned_content" />
+		<result property="boardType" column="board_type" />
+		<result property="fileName" column="file_name" />
+		<result property="memberVO.memberId" column="member_id" />
+		<result property="memberVO.memberName" column="member_name" />
+		<result property="memberVO.memberNickName" column="member_nickname" />
+	</resultMap>
+	<select id="showContent" resultMap="boardRM">
+		select
+		b.abandoned_number,b.abandoned_title,to_char(b.abandoned_date,'YYYY.MM.DD')
+		as abandoned_date,b.abandoned_content,
+		b.abandoned_hits,m.member_id,m.member_nickname
+		from board_abandoned
+		b,hotdog_member m
+		where b.member_id=m.member_id and b.abandoned_number=#{value}
+	</select>
+	<select id="getPostingList" resultMap="boardRM">
+		select
+		b.abandoned_number,b.abandoned_title,b.abandoned_date,b.abandoned_hits,b.member_id,m.member_nickname
+		from (
+		select
+		abandoned_number,abandoned_title,abandoned_date,abandoned_hits,ceil(rownum/8)
+		as page,member_id from (
+		select abandoned_number,abandoned_title,to_char(abandoned_date,'YYYY.MM.DD')
+		as abandoned_date,
+		abandoned_hits,member_id from board_abandoned order by abandoned_number desc
+		)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{value}
+	</select>
+
+	<select id="totalContent" resultType="int">
+		select count(*) from board_abandoned
+	</select>
+
+	<select id="totalContentBySearchingTitle" resultType="int">
+		select
+		count(*) from board_abandoned where abandoned_title like '%' ||
+		#{word} || '%'
+	</select>
+
+	<select id="totalContentBySearchingContent" resultType="int">
+		select
+		count(*) from board_abandoned where abandoned_content like '%' ||
+		#{word} || '%'
+	</select>
+
+	<select id="totalContentBySearchingNickName" resultType="int">
+		select
+		count(*) from(
+		select m.member_nickname from board_abandoned b, hotdog_member m where
+		b.member_id = m.member_id
+		) where member_nickname like '%' || #{word}
+		|| '%'
+	</select>
+
+	<select id="searchPostingByTitle" resultMap="boardRM">
+		select
+		b.abandoned_number,b.abandoned_title,b.abandoned_date,b.abandoned_hits,b.member_id,m.member_nickname
+		from(
+		select
+		abandoned_number,abandoned_title,abandoned_date,abandoned_hits,ceil(rownum/8)
+		as page,member_id from(
+		select abandoned_number,abandoned_title,to_char(abandoned_date,'YYYY.MM.DD')
+		as abandoned_date,
+		abandoned_hits,member_id from(
+		select * from board_abandoned where abandoned_title like '%' || #{word} ||
+		'%' order by abandoned_number desc
+		)
+		)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+
+	<select id="searchPostingByContent" resultMap="boardRM">
+		select
+		b.abandoned_number,b.abandoned_title,b.abandoned_date,b.abandoned_hits,b.member_id,m.member_nickname
+		from(
+		select
+		abandoned_content,abandoned_number,abandoned_title,abandoned_date,abandoned_hits,ceil(rownum/8)
+		as page,member_id from(
+		select
+		abandoned_content,abandoned_number,abandoned_title,to_char(abandoned_date,'YYYY.MM.DD')
+		as abandoned_date,
+		abandoned_hits,member_id from(
+		select * from board_abandoned where abandoned_content like '%' || #{word} ||
+		'%' order by abandoned_number desc
+		)
+		)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+
+	<select id="searchPostingByNickName" resultMap="boardRM">
+		select
+		b.abandoned_number,b.abandoned_title,b.abandoned_date,b.abandoned_hits,b.member_id,m.member_nickname
+		from(
+		select
+		abandoned_content,abandoned_number,abandoned_title,abandoned_date,abandoned_hits,ceil(rownum/8)
+		as page,member_id,member_nickname from(
+		select
+		abandoned_content,abandoned_number,abandoned_title,to_char(abandoned_date,'YYYY.MM.DD')
+		as abandoned_date,abandoned_hits,member_id,member_nickname from(
+		select
+		abandoned_content,abandoned_number,abandoned_title,abandoned_date,abandoned_hits,m.member_id,m.member_nickname
+		from(
+		select * from board_abandoned b, hotdog_member m where b.member_id =
+		m.member_id order by abandoned_number desc
+		)b, hotdog_member m where m.member_nickname like '%' || #{word} || '%'
+		)
+		)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+
+	<select id="showPostingListById" resultMap="boardRM">
+		select
+		b.abandoned_title,b.board_type,b.abandoned_number,b.abandoned_hits,b.abandoned_date,m.member_nickname
+		from(
+		select
+		abandoned_title,board_type,abandoned_number,abandoned_hits,to_char(abandoned_date,'YYYY.MM.DD')
+		as abandoned_date from board_abandoned
+		where member_id = #{memberId}
+		)b, hotdog_member m where m.member_id =
+		#{memberId}
+	</select>
+
+	<select id="searchFileName" resultType="String">
+		select file_name from
+		board_abandoned_file
+		where board_number = #{value}
+	</select>
+
+	<select id="isScrape" resultMap="boardRM">
+		select * from
+		board_abandoned_scrape
+		where member_id = #{memberVO.memberId} and
+		board_number = #{boardNumber}
+	</select>
+
+	<insert id="insertScrape">
+		insert into
+		board_abandoned_scrape(member_id,board_number)
+		values(#{memberVO.memberId},#{boardNumber})
+	</insert>
+
+	<select id="getAllScrapeFromAbandoned" resultMap="boardRM">
+		select
+		b.abandoned_title,b.board_type,b.abandoned_number,b.abandoned_hits,to_char(abandoned_date,'YYYY.MM.DD')
+		as abandoned_date,m.member_nickname from(
+		select
+		b.abandoned_title,b.board_type,b.abandoned_number,b.abandoned_hits,b.abandoned_date,b.member_id
+		from(
+		select board_number from board_abandoned_scrape where member_id =
+		#{memberId}
+		)s, board_abandoned b, hotdog_member m
+		where abandoned_number = s.board_number and m.member_id = #{memberId}
+		)b,
+		hotdog_member m
+		where b.member_id = m.member_id
+	</select>
+	<select id="latestPosting" resultMap="boardRM">
+		select
+		b.abandoned_number,b.abandoned_title,b.abandoned_date,m.member_id,m.member_nickname,b.abandoned_hits
+		from(
+		select
+		abandoned_number,abandoned_title,abandoned_date,abandoned_hits,ceil(rownum/5)
+		as page,member_id from(
+		select
+		abandoned_number,abandoned_title,abandoned_hits,to_char(abandoned_date,'YYYY.MM.DD')
+		as abandoned_date,
+		member_id from board_abandoned order by abandoned_number desc
+		)
+		)b,hotdog_member
+		m where b.member_id=m.member_id and page=#{value}
+
+	</select>
+
+
+
+	<!--댓글 이벤트 -->
+
+	<resultMap type="cvo" id="commentRM">
+		<result property="commentNumber" column="comment_number" />
+		<result property="memberNickName" column="member_nickname" />
+		<result property="commentDate" column="comment_date" />
+		<result property="commentContent" column="comment_content" />
+		<result property="commentGroup" column="comment_group" />
+		<result property="commentStep" column="comment_step" />
+		<result property="commentIndent" column="comment_indent" />
+		<result property="commentBoardNumber" column="board_number" />
+	</resultMap>
+
+
+
+
+	<insert id="postingComment" parameterType="cvo">
+		<selectKey keyProperty="commentNumber" resultType="int"
+			order="BEFORE">
+			select abandoned_comment_seq.nextval from dual
+		</selectKey>
+		insert into board_abandoned_comment
+		(comment_number,member_nickname,comment_date,comment_content,comment_group,comment_step,comment_indent,board_number)
+		values(#{commentNumber},#{memberNickName},sysdate,#{commentContent},#{commentNumber},0,0,#{commentBoardNumber})
+	</insert>
+
+
+
+	<select id="commentList" parameterType="int" resultMap="commentRM">
+		select
+		comment_number,comment_content,to_char(comment_date,'MM/DD
+		HH24:MI:SS') as comment_date
+		,member_nickname,comment_group,comment_step,comment_indent from
+		board_abandoned_comment where board_number=#{commentBoardNumber}
+		order by comment_group desc,comment_number asc
+	</select>
+
+	<delete id="deleteComment" parameterType="int">
+		delete from
+		board_abandoned_comment where comment_number=#{commentNumber}
+	</delete>
+
+	<select id="selectOneChat" parameterType="int" resultMap="commentRM	">
+		select
+		* from board_abandoned_comment where comment_number=#{commentNumber}
+	</select>
+
+
+	<insert id="insertReContent" parameterType="cvo">
+		<selectKey keyProperty="commentNumber" resultType="int"
+			order="BEFORE">
+			select abandoned_comment_seq.nextval from dual
+		</selectKey>
+		insert into board_abandoned_comment
+		(comment_number,member_nickname,comment_date,comment_content,comment_group,comment_step,comment_indent,board_number)
+		values(#{commentNumber},#{memberNickName},sysdate,#{commentContent},#{commentGroup},#{commentStep},#{commentIndent},#{commentBoardNumber})
+	</insert>
+
+	<select id="getCountOfAbandonedComment" resultType="int">
+		select
+		count(*) from board_abandoned_comment where member_nickname = #{value}
+	</select>
+
+
+
+	<update id="replyShape1" parameterType="cvo">
+		update
+		board_abandoned_comment set comment_step = comment_step + 1 where
+		comment_group = #{commentGroup} and comment_step > #{commentStep} and
+		board_number=#{commentBoardNumber}
+	</update>
+
+
+
+	<select id="replyShapeCondition" resultType="int">
+		select count(*) from
+		(select * from board_abandoned_comment where
+		comment_group=#{commentGroup} and comment_indent-1=#{commentIndent})
+	</select>
+
+	<select id="maxStepComment" resultType="int">
+		select max(comment_step)
+		from board_abandoned_comment where comment_group=#{commentGroup} and
+		comment_indent-1=#{commentIndent}
+	</select>
+
+	<select id="getCommentListByNickNameFromAbandoned" resultMap="boardRM">
+		select b.board_type, b.abandoned_number, b.abandoned_title,
+		m.member_nickname, b.abandoned_date, b.abandoned_hits from(
+		select distinct(board_number) from board_abandoned_comment where
+		member_nickname = #{memberNickName}
+		)c, board_abandoned b,
+		hotdog_member m where c.board_number = b.abandoned_number
+	</select>
+
+	<select id="searchBoard" resultMap="boardRM" resultType="list"
+		parameterType="map">
+		select
+		b.board_type,b.abandoned_number,b.abandoned_title,b.abandoned_content,b.abandoned_date,b.abandoned_hits,b.member_id,m.member_nickname
+		from(select
+		board_type,abandoned_content,abandoned_number,abandoned_title,to_char(abandoned_date,'YYYY.MM.DD')
+		as abandoned_date,abandoned_hits,member_id from(select * from
+		board_abandoned where abandoned_title like '%' || #{word1} || '%' or
+		abandoned_content like '%' || #{word2} || '%' order by
+		abandoned_number desc)) b,hotdog_member m where
+		b.member_id=m.member_id
+	</select>
+
+	<select id="searchPostingByTitleOrContents" resultMap="boardRM">
+		select
+		b.abandoned_number,b.abandoned_title,b.abandoned_date,b.abandoned_hits,b.member_id,m.member_nickname
+		from(
+		select
+		abandoned_number,abandoned_title,abandoned_date,abandoned_hits,ceil(rownum/8)
+		as page,member_id from(
+		select abandoned_number,abandoned_title,to_char(abandoned_date,'YYYY.MM.DD')
+		as abandoned_date,
+		abandoned_hits,member_id from(
+		select * from board_abandoned where abandoned_title like '%' || #{word1} ||
+		'%' or abandoned_content like '%' || #{word2} || '%' order by
+		abandoned_number desc
+		)
+		)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+
+	<select id="totalContentBySearchingTitleOrContents" resultType="int">
+		select count(*) from board_abandoned where abandoned_title like '%' ||
+		#{word1} || '%' or
+		abandoned_content like '%' || #{word2} || '%'
+	</select>
+
+</mapper> 	

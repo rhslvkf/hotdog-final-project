@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="board_adoption"> 
+ <insert id="posting">
+ 		<selectKey keyProperty="boardNumber" resultType="int" order="BEFORE">
+			select adoption_seq.nextval from dual
+		</selectKey>
+		insert into board_adoption(adoption_number,adoption_title,adoption_content,adoption_date,adoption_residence,pet_type,pet_age,pet_gender,pet_neutralinfo,pet_size,member_id,member_tel)
+		values(#{boardNumber},#{boardTitle},#{boardContent},sysdate,#{residence},#{petVO.petType},#{petVO.petAge},#{petVO.petGender},#{petVO.petNeutralInfo},#{petVO.petSize},#{memberVO.memberId},#{memberVO.memberTel})
+
+ </insert>
+ 
+
+ 
+ <insert id="uploadFile">
+		insert into board_adoption_file(file_name,board_number)
+		values(#{fileName},#{boardNumber})
+ </insert>
+ <update id="updatePosting">
+		update board_adoption set
+		adoption_title=#{boardTitle},adoption_content=#{boardContent},adoption_residence=#{residence},
+		pet_type=#{petVO.petType},pet_gender=#{petVO.petGender},pet_neutralinfo=#{petVO.petNeutralInfo},pet_age=#{petVO.petAge},pet_size=#{petVO.petSize}
+		where adoption_number=#{boardNumber}
+ </update>
+ <update id="hits">
+ update board_adoption set adoption_hits=adoption_hits+1 where adoption_number=#{boardNumber}
+ </update>
+ <delete id="deletePosting">
+ 		delete from board_adoption where adoption_number=#{boardNumber}
+ </delete>
+ 
+ 
+ 	<resultMap type="bvo" id="boardRM">
+		<result property="boardNumber" column="adoption_number" />
+		<result property="boardTitle" column="adoption_title" />
+		<result property="boardDate" column="adoption_date" />
+		<result property="boardHits" column="adoption_hits" />
+		<result property="boardContent" column="adoption_content" />
+		<result property="residence" column="adoption_residence"/>
+		<result property="boardType" column="board_type" />
+		<result property="fileName" column="file_name" />
+		<result property="petVO.petType" column="pet_type"/>
+		<result property="petVO.petGender" column="pet_gender"/>
+		<result property="petVO.petNeutralInfo" column="pet_neutralinfo"/>
+		<result property="petVO.petAge" column="pet_age"/>
+		<result property="petVO.petSize" column="pet_size"/>
+		<result property="memberVO.memberId" column="member_id" />	
+		<result property="memberVO.memberName" column="member_name" />	
+		<result property="memberVO.memberNickName" column="member_nickname" />
+		<result property="memberVO.memberTel" column="member_tel"/>
+	</resultMap>
+	<select id="showContent" resultMap="boardRM">
+	   select b.adoption_number,b.adoption_title,to_char(b.adoption_date,'YYYY.MM.DD') as adoption_date,b.adoption_content,
+		b.adoption_hits,b.adoption_residence,b.pet_type,b.pet_age,b.pet_gender,b.pet_neutralinfo,b.pet_size,m.member_id,m.member_nickname,m.member_tel
+		from board_adoption b,hotdog_member m
+		where b.member_id=m.member_id and b.adoption_number=#{value}
+	</select>
+	<select id="getPostingList" resultMap="boardRM">
+		select b.adoption_number,b.adoption_title,b.adoption_date,b.adoption_hits,b.member_id,m.member_nickname from (
+			select adoption_number,adoption_title,adoption_date,adoption_hits,ceil(rownum/8) as page,member_id from (
+					select adoption_number,adoption_title,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,
+					adoption_hits,member_id from board_adoption  order by adoption_number desc
+		     )
+       ) b,hotdog_member m where b.member_id=m.member_id and page=#{value}
+	</select>
+	
+	<select id="totalContent" resultType="int">
+	select count(*) from board_adoption
+	</select>
+	
+	<select id="totalContentBySearchingTitle" resultType="int">
+		select count(*) from board_adoption where adoption_title like '%' || #{word} || '%'
+	</select>
+	
+	<select id="totalContentBySearchingContent" resultType="int">
+		select count(*) from board_adoption where adoption_content like '%' || #{word} || '%'
+	</select>
+	
+	<select id="totalContentBySearchingNickName" resultType="int">
+		select count(*) from(
+			select m.member_nickname from board_adoption b, hotdog_member m where b.member_id = m.member_id
+		) where member_nickname like '%' || #{word} || '%'
+	</select>
+	
+	<select id="searchPostingByTitle"  resultMap="boardRM">
+		select b.adoption_number,b.adoption_title,b.adoption_date,b.adoption_hits,b.member_id,m.member_nickname from(
+			select adoption_number,adoption_title,adoption_date,adoption_hits,ceil(rownum/8) as page,member_id from(
+				select adoption_number,adoption_title,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,
+				adoption_hits,member_id from(
+				select * from board_adoption where adoption_title like '%' || #{word} || '%' order by adoption_number desc
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+	<select id="searchPostingByContent" resultMap="boardRM">
+		select b.adoption_number,b.adoption_title,b.adoption_date,b.adoption_hits,b.member_id,m.member_nickname from(
+			select adoption_content,adoption_number,adoption_title,adoption_date,adoption_hits,ceil(rownum/8) as page,member_id from(
+				select adoption_content,adoption_number,adoption_title,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,
+				adoption_hits,member_id from(
+				select * from board_adoption where adoption_content like '%' || #{word} || '%' order by adoption_number desc
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+	<select id="searchPostingByNickName" resultMap="boardRM">
+		select b.adoption_number,b.adoption_title,b.adoption_date,b.adoption_hits,b.member_id,m.member_nickname from(
+			select adoption_content,adoption_number,adoption_title,adoption_date,adoption_hits,ceil(rownum/8) as page,member_id,member_nickname from(
+				select adoption_content,adoption_number,adoption_title,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,adoption_hits,member_id,member_nickname from(
+						select adoption_content,adoption_number,adoption_title,adoption_date,adoption_hits,m.member_id,m.member_nickname from(
+							select * from board_adoption b, hotdog_member m where b.member_id = m.member_id order by adoption_number desc
+						)b, hotdog_member m where m.member_nickname like '%' || #{word} || '%' 
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+	<select id="showPostingListById" resultMap="boardRM">
+		select b.adoption_title,b.board_type,b.adoption_number,b.adoption_hits,b.adoption_date,m.member_nickname from(
+	        select adoption_title,board_type,adoption_number,adoption_hits,to_char(adoption_date,'YYYY.MM.DD') as adoption_date from board_adoption
+			where member_id = #{memberId}
+		)b, hotdog_member m where m.member_id = #{memberId}
+	</select>
+	
+	<select id="searchFileName" resultType="String">
+		select file_name from board_adoption_file
+		where board_number = #{value}
+	</select>
+	
+	<select id="isScrape" resultMap="boardRM">
+		select * from board_adoption_scrape
+		where member_id = #{memberVO.memberId} and board_number = #{boardNumber}
+	</select>
+	
+	<insert id="insertScrape">
+		insert into board_adoption_scrape(member_id,board_number)
+		values(#{memberVO.memberId},#{boardNumber})
+	</insert>
+	
+	<select id="getAllScrapeFromAdoption" resultMap="boardRM">
+		select b.adoption_title,b.board_type,b.adoption_number,b.adoption_hits,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,m.member_nickname from(
+			select b.adoption_title,b.board_type,b.adoption_number,b.adoption_hits,b.adoption_date,b.member_id from( 
+				select board_number from board_adoption_scrape where member_id = #{memberId}
+			)s, board_adoption b, hotdog_member m
+			where adoption_number = s.board_number and m.member_id = #{memberId}
+		)b, hotdog_member m
+		where b.member_id = m.member_id
+	</select>
+
+	
+	<select id="getCountOfAdoptionComment" resultType="int">
+		select count(*) from board_adoption_comment where member_nickname = #{value}
+	</select>
+	
+	
+	
+
+		<resultMap type="cvo" id="commentRM">
+		<result property="commentNumber" column="comment_number" />	
+		<result property="memberNickName" column="member_nickname" />
+		<result property="commentDate" column="comment_date" />
+		<result property="commentContent" column="comment_content" />
+		<result property="commentGroup" column="comment_group" />
+		<result property="commentStep" column="comment_step" />
+		<result property="commentIndent" column="comment_indent" />
+		<result property="commentBoardNumber" column="board_number" />
+	</resultMap>
+	
+	
+
+	
+	
+
+
+	<delete id="deleteComment" parameterType="int">
+		delete from board_adoption_comment where comment_number=#{commentNumber}
+	</delete>
+	
+
+
+	
+
+
+	
+	
+	
+	<insert id="postingComment" parameterType="cvo">
+		 <selectKey keyProperty="commentNumber" resultType="int" order="BEFORE">
+			select adoption_comment_seq.nextval from dual
+		</selectKey>
+			insert into board_adoption_comment
+			(comment_number,member_nickname,comment_date,comment_content,comment_group,comment_step,comment_indent,board_number)
+			values(#{commentNumber},#{memberNickName},sysdate,#{commentContent},#{commentNumber},'0','0',#{commentBoardNumber})
+	</insert>
+
+	
+
+	<select id="commentList" parameterType="int" resultMap="commentRM">
+		select comment_number,comment_content,to_char(comment_date,'MM/DD HH24:MI:SS') as comment_date
+		,member_nickname,comment_group,comment_step,comment_indent from board_adoption_comment where board_number=#{commentBoardNumber} 
+		order by comment_group asc,comment_step asc
+	</select>
+	
+
+	
+	<select id="selectOneChat" parameterType="int" resultMap="commentRM">
+		select comment_group,comment_step,comment_indent 
+		from board_adoption_comment where comment_number=#{value}
+	</select>
+	
+	<update id="replyShape" parameterType="cvo">
+		update board_adoption_comment set comment_step = comment_step + 1 where comment_group = #{commentGroup} and comment_step >= #{commentStep} and board_number=#{commentBoardNumber}
+	</update>
+	
+		<update id="replyShape1" parameterType="cvo">
+		update board_adoption_comment set comment_step = comment_step + 1 where comment_group = #{commentGroup} and comment_step > #{commentStep} and board_number=#{commentBoardNumber}
+	</update>
+	
+
+	
+
+
+	<insert id="insertReContent" parameterType="cvo">
+		<selectKey keyProperty="commentNumber" resultType="int" order="BEFORE">
+			select adoption_comment_seq.nextval from dual
+		</selectKey>
+			insert into board_adoption_comment
+			(comment_number,member_nickname,comment_date,comment_content,comment_group,comment_step,comment_indent,board_number)
+			values(#{commentNumber},#{memberNickName},sysdate,#{commentContent},#{commentGroup},#{commentStep},#{commentIndent},#{commentBoardNumber})
+	</insert>
+	
+	<select id="replyShapeCondition" resultType="int">
+		select count(*) from
+		(select * from board_adoption_comment where comment_group=#{commentGroup} and comment_indent-1=#{commentIndent})
+	</select>
+	
+	<select id="maxStepComment" resultType="int">
+		select max(comment_step) from board_adoption_comment where comment_group=#{commentGroup} and comment_indent-1=#{commentIndent}
+	</select>
+	
+	<select id="getCommentListByNickNameFromAdoption" resultMap="boardRM">
+		select b.board_type, b.adoption_number, b.adoption_title, m.member_nickname, b.adoption_date, b.adoption_hits from(
+			select distinct(board_number) from board_adoption_comment where member_nickname = #{memberNickName}
+		)c, board_adoption b, hotdog_member m where c.board_number = b.adoption_number
+	</select>
+	
+			<select id="searchBoard" resultMap="boardRM" parameterType="map">
+     select b.board_type,b.adoption_number,b.adoption_title,b.adoption_content,b.adoption_date,b.adoption_hits,b.member_id,m.member_nickname from(
+				select board_type,adoption_content,adoption_number,adoption_title,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,
+				adoption_hits,member_id from(
+				select * from board_adoption where adoption_title like '%' || #{word1} || '%' or adoption_content like '%' || #{word2} || '%' order by adoption_number desc
+				)
+		) b,hotdog_member m where b.member_id=m.member_id
+   </select>
+   
+   	<select id="searchPostingByTitleOrContents" resultMap="boardRM">
+		select b.adoption_number,b.adoption_title,b.adoption_date,b.adoption_hits,b.member_id,m.member_nickname from(
+			select adoption_content,adoption_number,adoption_title,adoption_date,adoption_hits,ceil(rownum/8) as page,member_id from(
+				select adoption_content,adoption_number,adoption_title,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,
+				adoption_hits,member_id from(
+				select * from board_adoption where adoption_title like '%' || #{word1} || '%' or adoption_content like '%' || #{word2} || '%' order by adoption_number desc
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>	
+	
+	<select id="totalContentBySearchingTitleOrContents" resultType="int">
+		select count(*) from board_adoption where adoption_title like '%' || #{word1} || '%' or
+		adoption_content like '%' || #{word2} || '%'
+	</select>
+	
+ </mapper> 	

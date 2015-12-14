@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="board_petPicture"> 
+ <insert id="posting">
+ 		<selectKey keyProperty="boardNumber" resultType="int" order="BEFORE">
+			select petPicture_seq.nextval from dual
+		</selectKey>
+		insert into board_petPicture(petPicture_number,petPicture_title,petPicture_content,petPicture_date,member_id)
+		values(#{boardNumber},#{boardTitle},#{boardContent},sysdate,#{memberVO.memberId})
+ </insert>
+ <insert id="uploadFile">
+		insert into board_petPicture_file(file_name,board_number)
+		values(#{fileName},#{boardNumber})
+ </insert>
+ <update id="updatePosting">
+ 		update board_petPicture set
+		petPicture_title=#{boardTitle},petPicture_content=#{boardContent}
+		where petPicture_number=#{boardNumber}
+ </update>
+ <update id="hits">
+ update board_petPicture set petPicture_hits=petPicture_hits+1 where petPicture_number=#{boardNumber}
+ </update>
+ <delete id="deletePosting">
+ 		delete from board_petPicture where petPicture_number=#{boardNumber}
+ </delete>
+ 
+ 
+ 	<resultMap type="bvo" id="boardRM">
+		<result property="boardNumber" column="petPicture_number" />
+		<result property="boardTitle" column="petPicture_title" />
+		<result property="boardDate" column="petPicture_date" />
+		<result property="boardHits" column="petPicture_hits" />
+		<result property="boardContent" column="petPicture_content" />
+		<result property="boardType" column="board_type" />
+		<result property="fileName" column="file_name" />
+		<result property="memberVO.memberId" column="member_id" />	
+		<result property="memberVO.memberName" column="member_name" />	
+		<result property="memberVO.memberNickName" column="member_nickname" />
+	</resultMap>
+	<select id="showContent" resultMap="boardRM">
+		select b.petPicture_number,b.petPicture_title,to_char(b.petPicture_date,'YYYY.MM.DD') as petPicture_date,b.petPicture_content,
+		b.petPicture_hits,m.member_id,m.member_nickname
+		from board_petPicture b,hotdog_member m 
+		where b.member_id=m.member_id and b.petPicture_number=#{value}
+	</select>
+	<select id="getPostingList" resultMap="boardRM">
+		select b.petPicture_number,b.petPicture_title,b.petPicture_date,b.petPicture_hits,b.member_id,m.member_nickname from (
+			select petPicture_number,petPicture_title,petPicture_date,petPicture_hits,ceil(rownum/8) as page,member_id from (
+					select petPicture_number,petPicture_title,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date,
+					petPicture_hits,member_id from board_petPicture  order by petPicture_number desc
+		     )
+       ) b,hotdog_member m where b.member_id=m.member_id and page=#{value}
+	</select>
+	
+	<select id="totalContent" resultType="int">
+	select count(*) from board_petPicture
+	</select>
+	
+	<select id="totalContentBySearchingTitle" resultType="int">
+		select count(*) from board_petPicture where petPicture_title like '%' || #{word} || '%'
+	</select>
+	
+	<select id="totalContentBySearchingContent" resultType="int">
+		select count(*) from board_petPicture where petPicture_content like '%' || #{word} || '%'
+	</select>
+	
+	<select id="totalContentBySearchingNickName" resultType="int">
+		select count(*) from(
+			select m.member_nickname from board_petPicture b, hotdog_member m where b.member_id = m.member_id
+		) where member_nickname like '%' || #{word} || '%'
+	</select>
+	
+	<select id="searchPostingByTitle"  resultMap="boardRM">
+		select b.petPicture_number,b.petPicture_title,b.petPicture_date,b.petPicture_hits,b.member_id,m.member_nickname from(
+			select petPicture_number,petPicture_title,petPicture_date,petPicture_hits,ceil(rownum/8) as page,member_id from(
+				select petPicture_number,petPicture_title,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date,
+				petPicture_hits,member_id from(
+				select * from board_petPicture where petPicture_title like '%' || #{word} || '%' order by petPicture_number desc
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+	<select id="searchPostingByContent" resultMap="boardRM">
+		select b.petPicture_number,b.petPicture_title,b.petPicture_date,b.petPicture_hits,b.member_id,m.member_nickname from(
+			select petPicture_content,petPicture_number,petPicture_title,petPicture_date,petPicture_hits,ceil(rownum/8) as page,member_id from(
+				select petPicture_content,petPicture_number,petPicture_title,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date,
+				petPicture_hits,member_id from(
+				select * from board_petPicture where petPicture_content like '%' || #{word} || '%' order by petPicture_number desc
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+	<select id="searchPostingByNickName" resultMap="boardRM">
+		select b.petPicture_number,b.petPicture_title,b.petPicture_date,b.petPicture_hits,b.member_id,m.member_nickname from(
+			select petPicture_content,petPicture_number,petPicture_title,petPicture_date,petPicture_hits,ceil(rownum/8) as page,member_id,member_nickname from(
+				select petPicture_content,petPicture_number,petPicture_title,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date,petPicture_hits,member_id,member_nickname from(
+						select petPicture_content,petPicture_number,petPicture_title,petPicture_date,petPicture_hits,m.member_id,m.member_nickname from(
+							select * from board_petPicture b, hotdog_member m where b.member_id = m.member_id order by petPicture_number desc
+						)b, hotdog_member m where m.member_nickname like '%' || #{word} || '%' 
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+	<select id="showPostingListById" resultMap="boardRM">
+		select b.petPicture_title,b.board_type,b.petPicture_number,b.petPicture_hits,b.petPicture_date,m.member_nickname from(
+	        select petPicture_title,board_type,petPicture_number,petPicture_hits,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date from board_petPicture
+			where member_id = #{memberId}
+		)b, hotdog_member m where m.member_id = #{memberId}
+	</select>
+	
+	<select id="searchFileName" resultType="String">
+		select file_name from board_petPicture_file
+		where board_number = #{value}
+	</select>
+	
+	<select id="getCountOfPetPictureComment" resultType="int">
+		select count(*) from board_petPicture_comment where member_nickname = #{value}
+	</select>
+	
+	<!--댓글 이벤트 -->
+	
+
+	
+	<resultMap type="cvo" id="commentRM">
+		<result property="commentNumber" column="comment_number" />	
+		<result property="memberNickName" column="member_nickname" />
+		<result property="commentDate" column="comment_date" />
+		<result property="commentContent" column="comment_content" />
+		<result property="commentGroup" column="comment_group" />
+		<result property="commentStep" column="comment_step" />
+		<result property="commentIndent" column="comment_indent" />
+		<result property="commentBoardNumber" column="board_number" />
+	</resultMap>
+	
+	
+	
+	
+	<insert id="postingComment" parameterType="cvo">
+		 <selectKey keyProperty="commentNumber" resultType="int" order="BEFORE">
+			select petPicture_comment_seq.nextval from dual
+		</selectKey>
+			insert into board_petPicture_comment
+			(comment_number,member_nickname,comment_date,comment_content,comment_group,comment_step,comment_indent,board_number)
+			values(#{commentNumber},#{memberNickName},sysdate,#{commentContent},#{commentNumber},'0','0',#{commentBoardNumber})
+	</insert>
+
+	
+
+	<select id="commentList" parameterType="int" resultMap="commentRM">
+		select comment_number,comment_content,to_char(comment_date,'MM/DD HH24:MI:SS') as comment_date
+		,member_nickname,comment_group,comment_step,comment_indent from board_petPicture_comment where board_number=#{commentBoardNumber} 
+		order by comment_group asc,comment_step asc
+	</select>
+	
+	<delete id="deleteComment" parameterType="int">
+		delete from board_petPicture_comment where comment_number=#{commentNumber}
+	</delete>
+	
+	<select id="selectOneChat" parameterType="int" resultMap="commentRM">
+		select comment_group,comment_step,comment_indent 
+		from board_petPicture_comment where comment_number=#{value}
+	</select>
+	
+	<update id="replyShape" parameterType="cvo">
+		update board_petPicture_comment set comment_step = comment_step + 1 where comment_group = #{commentGroup} and comment_step >= #{commentStep} and board_number=#{commentBoardNumber}
+	</update>
+	
+		<update id="replyShape1" parameterType="cvo">
+		update board_petPicture_comment set comment_step = comment_step + 1 where comment_group = #{commentGroup} and comment_step > #{commentStep} and board_number=#{commentBoardNumber}
+	</update>
+	
+
+	
+
+
+	<insert id="insertReContent" parameterType="cvo">
+		<selectKey keyProperty="commentNumber" resultType="int" order="BEFORE">
+			select petPicture_comment_seq.nextval from dual
+		</selectKey>
+			insert into board_petPicture_comment
+			(comment_number,member_nickname,comment_date,comment_content,comment_group,comment_step,comment_indent,board_number)
+			values(#{commentNumber},#{memberNickName},sysdate,#{commentContent},#{commentGroup},#{commentStep},#{commentIndent},#{commentBoardNumber})
+	</insert>
+	
+	<!-- 최근 게시글 불러오기 -->
+	<!-- <select id="latestPetPicturePosting" resultMap="boardRM">
+		select petpicture_number, petpicture_title, file_name from(
+	    	select b.petpicture_number, b.petpicture_title, f.file_name as file_name from(
+				select petpicture_number, petpicture_title from board_petpicture 
+			)b, board_petpicture_file f where b.petpicture_number = f.board_number
+	    ) bp
+	    where rowid in(select max(rowid) from(
+	    	select b.petpicture_number, b.petpicture_title, f.file_name as file_name from(
+				select petpicture_number, petpicture_title from board_petpicture 
+			)b, board_petpicture_file f where b.petpicture_number = f.board_number
+	    ) where petpicture_number = bp.petpicture_number) order by petpicture_number desc
+	</select> -->
+	<!-- 최근 게시글 불러오기 -->
+	<select id="latestPetPicturePosting" resultMap="boardRM">
+		select petpicture_number, petpicture_title, petpicture_content from board_petpicture where 13 > rownum order by petpicture_number desc
+	</select>
+	
+	<select id="replyShapeCondition" resultType="int">
+		select count(*) from
+		(select * from board_petPicture_comment where comment_group=#{commentGroup} and comment_indent-1=#{commentIndent})
+	</select>
+	
+	<select id="maxStepComment" resultType="int">
+		select max(comment_step) from board_petPicture_comment where comment_group=#{commentGroup} and comment_indent-1=#{commentIndent}
+	</select>
+	
+	<select id="getCommentListByNickNameFromPetPicture" resultMap="boardRM">
+		select b.board_type, b.petpicture_number, b.petpicture_title, m.member_nickname, b.petpicture_date, b.petpicture_hits from(
+			select distinct(board_number) from board_petpicture_comment where member_nickname = #{memberNickName}
+		)c, board_petpicture b, hotdog_member m where c.board_number = b.petpicture_number
+	</select>
+	
+		 <select id="searchBoard" resultMap="boardRM" parameterType="map">
+     select b.board_type,b.petPicture_number,b.petPicture_title,b.petPicture_content,b.petPicture_date,b.petPicture_hits,b.member_id,m.member_nickname from(
+				select board_type,petPicture_content,petPicture_number,petPicture_title,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date,
+				petPicture_hits,member_id from(
+				select * from board_petPicture where petPicture_title like '%' || #{word1} || '%' or petPicture_content like '%' || #{word2} || '%' order by petPicture_number desc
+				)
+		) b,hotdog_member m where b.member_id=m.member_id
+	</select>
+	
+	<select id="searchPostingByTitleOrContents" resultMap="boardRM">
+		select b.petPicture_number,b.petPicture_title,b.petPicture_date,b.petPicture_hits,b.member_id,m.member_nickname from(
+			select petPicture_content,petPicture_number,petPicture_title,petPicture_date,petPicture_hits,ceil(rownum/8) as page,member_id from(
+				select petPicture_content,petPicture_number,petPicture_title,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date,
+				petPicture_hits,member_id from(
+				select * from board_petPicture where petPicture_title like '%' || #{word1} || '%' or petPicture_content like '%' || #{word2} || '%' order by petPicture_number desc
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
+	</select>
+	
+	<select id="totalContentBySearchingTitleOrContents" resultType="int">
+		select count(*) from board_petPicture where petPicture_title like '%' || #{word1} || '%' or
+		petPicture_content like '%' || #{word2} || '%'
+	</select>
+	
+ </mapper> 	
