@@ -277,10 +277,10 @@ function showMessageList(){
 		success:function(result){ 
 			var title = "<table class='messageList'>";
 			if(result.length != 0){
-				title += "<tr><th>보낸이</th><th>제목</th><th>작성일</th><th>조회</th><th>받는이></th></tr>";
+				title += "<tr><th>보낸이</th><th>제목</th><th>작성일</th><th>조회</th><th>받는이</th></tr>";
 				for(var i=0;i<result.length;i++){
 					title += "<tr><td>"+result[i].sender		
-							+"</td><td><a id='pick' href='#'>"+result[i].messageTitle+"</a>"
+							+"</td><td><a id='pickRe' href='#'>"+result[i].messageTitle+"</a>"
 							+"</td><td>"+result[i].messageDate
 							+"</td><td>"+result[i].messageReaded
 							+"</td><td>"+result[i].receiver
@@ -304,7 +304,7 @@ function sendMessageList(){
 		success:function(result){ 
 			var title = "<table class='messageList'>";
 			if(result.length != 0){
-				title += "<tr><th>보낸이</th><th>제목</th><th>작성일</th><th>조회</th><th>받는이></th></tr>";
+				title += "<tr><th>보낸이</th><th>제목</th><th>작성일</th><th>조회</th><th>받는이</th></tr>";
 				for(var i=0;i<result.length;i++){
 					title += "<tr><td>"+result[i].sender		
 					+"</td><td><a id='pick' href='#'>"+result[i].messageTitle+"</a>"
@@ -324,34 +324,131 @@ function sendMessageList(){
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
- $(document).on("click","#pick", function(){//동적으로 버튼이 생긴 경우 처리 방식      
+ $(document).on("click","#pickRe", function(){    //받은 메시지함 상세 보기
 		var sender=$(this).parent().prev().text();
 		var messageDate=$(this).parent().next().text();
-		var reciever=$(this).parent().next().next().next().text();
+		var receiver=$(this).parent().next().next().next().text();
 		var messageTitle=$(this).text();
+		var type="received";
 		var flag="받은쪽지함"
 		if($("#ListName").text()=="보낸쪽지함")
-			flag="보낸쪽지함"
+			flag="보낸쪽지함";
 			
 		$.ajax({
 			type:"POST",
 			url:"messageContent.do",
-			data:"receiver="+reciever+"&sender="+sender+"&messageTitle="+messageTitle+"&type="+flag,
+			data:"receiver="+receiver+"&sender="+sender+"&messageDate="+messageDate+"&type="+flag,
 			success:function(result){ 
-				var title = "<table class='messageList'>";
+				var title="<a id='replyMesssage' href='#'><h3>답장하기</h3></a>";
+				 title+="<table class='messageList1'>";
 				if(result.length != 0){
 					title+="<tr><td>보낸사람:</td><td>"+result.sender+"</td>";
-					title+="<tr><td>받는사람:</td><td>"+result.receiver+"</td>";
-					title+="<td>제목:</td><td>"+result.messageTitle+"</td><tr>";
-					title+="<tr><td>내용:"+result.messageContent+"</td><tr>";		
+					title+="<td>받는사람:</td><td>"+result.receiver+"</td>";
+					title+="<td>날짜:</td><td>"+result.messageDate+"</td></tr>";
+					title+="<tr><td>제목:</td><td>"+result.messageTitle+"</td></tr>";
+					title+="<tr><td>내용:"+result.messageContent+"</td></tr>";	
+					title+="<tr><td id='redelBtn'><a><h3>삭제</h3></a><td></tr>"
 				}
 				title += "</table>";
 				$("#showContentMessage").html(title);
 				$("#messageContent").modal();
+	
 			} 
 		}); 
 	});	   
+	
+ $(document).on("click","#pick", function(){//보낸 메시지 함 상세보기    
+		var sender=$(this).parent().prev().text();
+		var messageDate=$(this).parent().next().text();
+		var receiver=$(this).parent().next().next().next().text();
+		var messageTitle=$(this).text();
+	
+		var flag="받은쪽지함"
+		if($("#ListName").text()=="보낸쪽지함")
+			flag="보낸쪽지함";
+			
+		$.ajax({
+			type:"POST",
+			url:"messageContent.do",
+			data:"receiver="+receiver+"&sender="+sender+"&messageDate="+messageDate+"&type="+flag,
+			success:function(result){ 
+				var title = "<table class='messageList1'>";
+				if(result.length != 0){
+					title+="<tr><td>보낸사람:</td><td>"+result.sender+"</td>";
+					title+="<td>받는사람:</td><td>"+result.receiver+"</td>";
+					title+="<td>날짜:</td><td>"+result.messageDate+"</td></tr>";
+					title+="<tr><td>제목:</td><td>"+result.messageTitle+"</td></tr>";
+					title+="<tr><td>내용:"+result.messageContent+"</td></tr>";	
+					title+="<tr><td id='delBtn'><a><h3>삭제</h3></a><td></tr>"
+				}
+				title += "</table>";
+				$("#showContentMessage").html(title);
+				$("#messageContent").modal();
+			
+			} 
+		}); 
+	});	   
+ 
+ $(document).on("click","#delBtn", function(){ //보낸 메시지함 삭제  
+	 var receiver="";
+		receiver=$(".messageList1").children().children().children().eq(1).text();
+		sender=$(".messageList1").children().children().children().eq(3).text();
+		messageDate=$(".messageList1").children().children().children().eq(5).text();
 
+		 $.ajax({
+				type : "post",
+				url : "deleteMessage.do",
+				data : "sender="+receiver+"&receiver="+sender+"&messageDate="+messageDate,
+				dataType :"json"
+				}).done(function(){
+					$("#messageList").modal();
+				}) 	  
+ });
+ 
+ $(document).on("click","#redelBtn", function(){//받은 메시지함 삭제     
+	 var receiver="";
+		receiver=$(".messageList1").children().children().children().eq(1).text();
+		sender=$(".messageList1").children().children().children().eq(3).text();
+		messageDate=$(".messageList1").children().children().children().eq(5).text();
+		
+		 $.ajax({
+				type : "post",
+				url : "redeleteMessage.do",
+				data : "sender="+receiver+"&receiver="+sender+"&messageDate="+messageDate,
+				dataType :"json"
+			}).done(function(){
+				reload();
+			})  
+ });
+ 
+ $(document).on("click","#replyMesssage", function(){ //답장 모달    
+		var receiver=$(this).next().children().children().children().eq(1).text();
+ 		var sender=$(this).next().children().children().children().eq(3).text();
+ 		$("#Resender").text(sender)
+ 		$("#Rereceiver").text(receiver)
+ 		$("#messageReply").modal();
+	});	   
+ 
+ 
+ $(document).on("click","#replyClick", function(){//     답장 보내기
+	 	var receiver=$(this).parent().prev().children().eq(0).text()
+		var sender=$(this).parent().prev().children().eq(2).text() 
+		var messageContent=$("#replyMessageContent").val();
+		var messageTitle=$("#replyTitle").val();	
+ 		 $.ajax({
+			type : "post",
+			url : "sendMessage.do",
+			data : "sender="+receiver+"&receiver="+sender+"&messageContent="+messageContent+"&messageTitle="+messageTitle,
+			dataType :"json",
+			success : function(data) {
+				}
+			}).done(function(){
+				$("#replyTitle").val("");
+				$("#replyMessageContent").val("");
+				
+			})  
+	});
+ 
 
 
 //개인정보 이용약관 txt 파일 읽어오기
@@ -1746,7 +1843,7 @@ body {
 
 <!-- 쪽지리스트 모달 끝-->
 
-<!-- 쪽지상세보기 모달 시작 -->
+<!-- 보낸쪽지상세보기 모달 시작 -->
 <div class="modal fade" id="messageContent">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -1769,3 +1866,31 @@ body {
 	</div>
 </div>
 <!-- 쪽지상세보기 모달 끝-->
+
+
+<!-- 쪽지보내기 모달 시작 -->
+<div class="modal fade" id="messageReply">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">쪽지보내기</h4>
+          </div>
+          <div class="modal-body">
+            <a id="Resender"><h5></h5></a>
+            <a>-></a>
+            <a id="Rereceiver"><h5></h5></a>
+         	<input type="text" class="form-control" id="replyTitle" value="제목"></input>
+            <textarea class="form-control" id="replyMessageContent" rows="7" style="resize: none;"></textarea>
+          </div>
+          
+          <div class="modal-footer">
+            <a class="btn btn-default" id="replyClick" 
+            	href="">쪽지보내기</a>
+            <a class="btn btn-default" data-dismiss="modal">닫기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- 쪽지보내기 모달 끝 -->
+

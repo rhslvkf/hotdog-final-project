@@ -772,6 +772,8 @@ create table mail()
 		drop table message_box
 	
 		select * from message_box
+		
+		
 		create table message_box(
 				sender varchar2(30) not null,
 				receiver varchar2(30) not null,
@@ -783,7 +785,14 @@ create table mail()
 			    message_to_del varchar2(3) not null, 
 			    message_from_del varchar2(3) not null
 			)
+		select to_char(message_post_date,'MM/DD HH24:MI:SS') from  message_box 
 		
+		where to_char(message_post_date,'MM/DD HH24:MI:SS')='12/14 15:21:54' 
+ 12/14 15:21:54
+
+			
+			
+			
 		//메시지 보내기
 	 	insert into message_box(sender,receiver,message_post_date,message_title,message_content,message_readed,message_to_del,message_from_del)
  		values('to1','from1',sysdate,'야이새끼야','메롱','1','1','1')
@@ -821,7 +830,7 @@ create table mail()
 		//받은메시지 삭제
 		update  message_box set message_from_del=0 where sender=#{} and receiver=#{} and message_post_date={}  
 					
- 	
+ 		
 		
 		
 		select message_title, sender, message_post_date, message_readed from message_box 

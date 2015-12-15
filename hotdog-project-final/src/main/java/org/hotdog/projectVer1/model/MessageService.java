@@ -12,4 +12,7 @@ public interface MessageService {
 	
 	public abstract MessageVO messageContent(MessageVO mevo,String type);
 
+	public abstract void deleteMessage(MessageVO mevo);
+	public abstract void redeleteMessage(MessageVO mevo);
+
 }

@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	
  <select id="showMessageList" resultMap="messageRM">
  	select sender,message_title, receiver, to_char(message_post_date,'MM/DD HH24:MI:SS') as message_post_date, message_readed from message_box 
- 		where receiver=#{receiver} and message_to_del='1' order by message_post_date desc
+ 		where receiver=#{receiver} and message_from_del='1' order by message_post_date desc
  </select>
  
   <select id="sendMessageList" resultMap="messageRM">
@@ -33,143 +33,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  
  
  <select id="messageContent" resultMap="messageRM">
- 		select sender,receiver, message_title, message_content from message_box
- 		where sender=#{sender} and receiver=#{receiver} and message_title=#{messageTitle}  
+ 		select sender,receiver, message_title, message_content, to_char(message_post_date,'MM/DD HH24:MI:SS')as message_post_date from message_box
+ 		where sender=#{sender} and receiver=#{receiver} and to_char(message_post_date,'MM/DD HH24:MI:SS')=#{messageDate}  
  </select>
  
  <update id="readUpdate">
  		update  message_box set message_readed='0' 
- 		where sender=#{sender} and receiver=#{receiver} and message_title=#{messageTitle} 
+ 		where sender=#{sender} and receiver=#{receiver} and to_char(message_post_date,'MM/DD HH24:MI:SS')=#{messageDate} 
  </update>
 
+<update id="deleteMessage">
+ 		update  message_box set message_to_del='0' 
+ 		where sender=#{sender} and receiver=#{receiver} and to_char(message_post_date,'MM/DD HH24:MI:SS')=#{messageDate} 
+</update>
 
+<update id="redeleteMessage">
+ 		update  message_box set message_from_del='0' 
+ 		where sender=#{sender} and receiver=#{receiver} and to_char(message_post_date,'MM/DD HH24:MI:SS')=#{messageDate} 
+</update>
+
+<delete id="ComDelete">
+		delete from message_box where message_to_del='0' and message_from_del='0' 
+</delete>
  
- <resultMap type="mvo" id="membervo">
- 	<result column="member_id" property="memberId" />
- 	<result column="member_name" property="memberName" />
- 	<result column="member_password" property="memberPassword" />
- 	<result column="member_address" property="memberAddress" />
- 	<result column="member_nickname" property="memberNickName" />
- 	<result column="member_grade" property="memberGrade" />
- 	<result column="member_attendance" property="memberAttendance" />
- 	<result column="member_tel" property="memberTel" />
- 	<result column="member_status" property="memberStatus"/>
- 	<result column="pass_period" property="passPeriod"/>
- </resultMap>
- <!-- 로그인 -->
-	<select id="login" parameterType="mvo" resultMap="membervo">
-		select member_id,member_name,member_password,member_nickname,member_grade,member_attendance,member_tel,member_status,member_latestdate,TO_DATE(sysdate)-TO_DATE(pass_period) as pass_period from hotdog_member
-		where member_id=#{memberId} and member_password=#{memberPassword}
-	</select>
-	
-	<!-- 회원가입 -->
-	<insert id="register" parameterType="mvo">
-		insert into
-		hotdog_member(member_id,member_name,member_password,member_nickname,member_grade,member_tel,member_status,pass_period)
-		values(#{memberId},#{memberName},#{memberPassword},#{memberNickName},#{memberGrade},#{memberTel},#{memberStatus},sysdate)
-	</insert>
-	
-	<!-- 회원정보수정 -->
-	<update id="update" parameterType="mvo">
-		update hotdog_member set
-		member_password=#{memberPassword},
-		member_nickname=#{memberNickName},
-		member_name=#{memberName},
-		member_tel=#{memberTel},
-		member_grade=#{memberGrade},
-		pass_period=sysdate
-		where member_id=#{memberId}
-	</update>
-	
-	<update id="delete">
-	update hotdog_member set
-	member_status=#{memberStatus}
-	where member_id=#{memberId}
-	</update>
-	
-	<!-- 아이디체크 -->
-	<select id="idCheck" resultType="int">
-		select count(*) from
-		hotdog_member where member_id=#{memberId}
-	</select>
-	
-	<select id="passwordok" resultType="int">
-	select count(*) from 
-	hotdog_member where member_password=#{memberId}
-	</select>
-	
-	<!-- 닉네임체크 -->
-	<select id="nickNameCheck" resultType="int">
-		select count(*) from
-		hotdog_member where member_nickname=#{memberNickName}
-	</select>
-	
-	<!-- 아이디 찾기 -->
-	<select id="findMemberById" resultType="mvo">
-		select member_id,member_name,member_nickname,member_tel from hotdog_member
-		where member_id=#{value}
-	</select> 	
-	
-	<!-- 회원등급  -->
-	<update id="certification" parameterType="String">
-		update hotdog_member set member_grade = 'BRONZE'
-		where member_id = #{memberId} 
-	</update>
-	<update id="updateToSilver" parameterType="String">
-		update hotdog_member set member_grade = 'SILVER'
-		where member_id = #{memberId} 
-	</update>
-	<update id="updateToGold" parameterType="String">
-		update hotdog_member set member_grade = 'GOLD'
-		where member_id = #{memberId} 
-	</update>
-	
-	<!-- 등급확인 -->
-	<select id="confirmGrade" resultMap="membervo">
-		select member_grade from hotdog_member
-		where member_id = #{memberId}
-	</select>	
-	
-	<!-- 패스워드찾기 -->
-	<select id="searchPassword" resultMap="membervo">
-		select member_password from hotdog_member
-		where member_id = #{memberId} and member_name = #{memberName}
-	</select>
-	
-	<!-- 로그인한 최근 날짜 -->
-	<select id="checkLatestDate" resultType="int">
-		select count(*) from hotdog_member
-		where to_char(sysdate, 'YYYYMMDD') > member_latestdate and member_id = #{memberId}
-	</select>
-	
-	<!-- 출석일수 업데이트 -->
-	<update id="updateAttendance">
-		update hotdog_member set member_attendance = member_attendance + 1
-		where member_id = #{memberId}
-	</update>
-	
-	<!-- 로그인한 최근 날짜 업데이트 -->
-	<update id="updateLatestDate">
-		update hotdog_member set member_latestdate = to_char(sysdate,'YYYYMMDD') where member_id = #{memberId}
-	</update>
-	
-	<!-- 출석일수 확인 -->
-	<select id="getAttendance" resultType="int">
-		select member_attendance from hotdog_member
-		where member_id = #{memberId}
-	</select>
-	
-	<!-- 아이디 확인 -->
-	<select id="getMemberId" resultType="String">
-		select member_id from hotdog_member
-		where member_nickname = #{memberNickName}
-	</select>
-	
-	<!-- 닉네임 확인 -->
-	<select id="getMemberNickName" resultType="String">
-		select member_nickname from hotdog_member
-		where member_id = #{memberId}
-	</select>
 	
  </mapper> 	
  

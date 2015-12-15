@@ -31,8 +31,9 @@ public class MessageDAOImpl implements MessageDAO {
 
 	@Override
 	public MessageVO messageContent(MessageVO mevo) {
+	
 		MessageVO mvo=	sqlSessionTemplate.selectOne("message.messageContent",mevo);
-		System.out.println(mvo);
+	
 		return mvo;
 	}
 
@@ -41,6 +42,20 @@ public class MessageDAOImpl implements MessageDAO {
 	public void readUpdate(MessageVO mevo) {
 		sqlSessionTemplate.update("readUpdate",mevo);
 		
+	}
+
+
+	@Override
+	public void deleteMessage(MessageVO mevo) {
+		sqlSessionTemplate.update("message.deleteMessage",mevo);
+		System.out.println("보낸 쪽지함 삭제 완료");
+		sqlSessionTemplate.delete("message.ComDelete");
+	}
+	@Override
+	public void redeleteMessage(MessageVO mevo) {
+		sqlSessionTemplate.update("message.redeleteMessage",mevo);
+		System.out.println("받은 쪽지함 삭제 완료");
+		sqlSessionTemplate.delete("message.ComDelete");
 	}
 
 
