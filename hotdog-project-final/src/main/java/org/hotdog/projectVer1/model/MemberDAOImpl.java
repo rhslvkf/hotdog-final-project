@@ -11,7 +11,6 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	//회원가입
 	public void register(MemberVO mvo){
-		System.out.println(mvo);
 		sqlSessionTemplate.insert("member.register", mvo);
 	}
 	//회원정보수정
@@ -37,7 +36,6 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 	@Override
 	public MemberVO login(MemberVO vo){
-		System.out.println(vo);
 		return sqlSessionTemplate.selectOne("member.login",vo);
 	}
 	@Override
@@ -87,5 +85,9 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public String getMemberNickName(String memberId) {
 		return sqlSessionTemplate.selectOne("member.getMemberNickName",memberId);
+	}
+	@Override
+	public String loginTime() {
+		return sqlSessionTemplate.selectOne("member.loginTime");
 	}
 }

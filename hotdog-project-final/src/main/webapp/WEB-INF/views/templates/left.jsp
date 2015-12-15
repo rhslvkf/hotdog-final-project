@@ -33,55 +33,64 @@
             </c:choose>
             </div>
         </form>
+        <div style="height: 10px;"></div>
     </div>
     <script>
     
     $(document).ready(function(){
-		/* $.ajax({
+		$.ajax({
 			type:"POST",
-			url:"showPostingList.do",
-			data:"memberId=gonipal@naver.com",
-			success:function(result){ 
-				$("#messages").html(result.board_abandoned[0].boardType);
+			url:"getChatList.do",
+			data:"loginTime=${sessionScope.loginVo.loginTime}",
+			success:function(oldMessageList){ 
+				oldMessageList.forEach(function(oldMessage) {
+                    var messageTemplate = '<strong>:userName</strong><div class="alert alert-info"><strong>:message</strong>&nbsp;<span class="badge">:dateCreated</span></div>';
+                    $('#messages').append(
+                            messageTemplate.replace(':userName', oldMessage.userName).replace(':message', oldMessage.chatMessage).replace(':dateCreated', oldMessage.dateCreated));
+				    var objDiv = document.getElementById("messages");
+				    objDiv.scrollTop = objDiv.scrollHeight;
+				});
 			}
-		}); */
+		});
 	});
-        var contextpath = '${pageContext.request.contextPath}';
+    
+    $("#message").keydown(function(e){
+    	if(e.keyCode == 13){
+            e.cancelBubble = true;
+            $("#sendMessage").click();
+            return false;
+        }
+    });
+    
         var getNewMessages = function() {
             if (typeof (EventSource) == 'undefined') {
                 return;
             }
-            var source = new EventSource(contextpath + '/message?action=getNewMessages');
+            var source = new EventSource("getNewMessages.do");
             source.onmessage = function(event) {
                 var newMessageList = JSON.parse(event.data);
-                newMessageList
-                        .forEach(function(newMessage) {
+                newMessageList.forEach(function(newMessage) {
                             var messageTemplate = '<strong>:userName</strong><div class="alert alert-info"><strong>:message</strong>&nbsp;<span class="badge">:dateCreated</span></div>';
                             $('#messages').append(
-                                    messageTemplate.replace(':userName', newMessage.userName).replace(':message', newMessage.message).replace(':dateCreated',
-                                            Date.create(newMessage.dateCreated.iMillis).utc().format('{HH}:{mm}')));
+                                    messageTemplate.replace(':userName', newMessage.userName).replace(':message', newMessage.chatMessage).replace(':dateCreated', newMessage.dateCreated));
 						    var objDiv = document.getElementById("messages");
 						    objDiv.scrollTop = objDiv.scrollHeight;
-                            /* window.scrollTo(0, document.body.scrollHeight); */
                         });
             }
         };
 
-        $('#sendMessage').click(function() {
-            var message = {};
-            message.userName = $('#userName').val();
-            message.message = $('#message').val();
-            $.ajax({
-                type : 'post',
-                url : contextpath + '/message',
-                data : JSON.stringify({
-                    action : 'create',
-                    data : message
-                }),
-                contentType : 'application/json;charset=UTF-8'
+        $("#sendMessage").click(function() {
+        	if($("#message").val() == ""){
+        		$("#message").focus();
+        		return;
+        	}
+        	$.ajax({
+            	type:"POST",
+        		url:"insertChat.do",
+        		data:"userName="+$("#userName").val()+"&chatMessage="+$("#message").val(),
             });
-            $('#message').val('');
-            $('#message').focus();
+            $("#message").val("");
+            $("#message").focus();
         });
         getNewMessages();
     </script>
