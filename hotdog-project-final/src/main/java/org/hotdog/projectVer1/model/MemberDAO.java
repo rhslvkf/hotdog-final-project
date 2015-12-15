@@ -40,4 +40,6 @@ public interface MemberDAO {
 
 	public abstract String getMemberNickName(String memberId);
 
+	public abstract String loginTime();
+
 }

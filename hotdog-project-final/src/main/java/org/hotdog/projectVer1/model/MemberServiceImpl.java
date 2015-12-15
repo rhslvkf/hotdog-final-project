@@ -51,6 +51,7 @@ public class MemberServiceImpl implements MemberService{
 				memberDAO.updateLatestDate(mvo);
 				mvo = memberDAO.login(mvo);
 			}
+			mvo.setLoginTime(memberDAO.loginTime());
 		}
 		return mvo;
 	}
