@@ -2,9 +2,8 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-  
 		<h4>* 검색된 게시판 리스트(${fn:length(requestScope.lvo.map.allList)}개의 게시판,  ${requestScope.lvo.map.allNum}개의게시글)</h4><br><br> 
-		
+	
 <c:if test="${fn:length(requestScope.lvo.map.abandonedList)!=0}">
 <a href="${initParam.root}searchBoardPosting.do?type=board_abandoned&word=${requestScope.lvo.map.word}">유기견 게시판</a>(${fn:length(requestScope.lvo.map.abandonedList)})<br><br>
 </c:if>
@@ -33,10 +32,11 @@
 </c:if>
 
 <hr>
+<body>	
 <c:forEach items="${requestScope.lvo.list}" var="bvo">
 <c:choose>
 <c:when test="${bvo.boardType =='유기견정보'}">
-	<strong>${bvo.boardType}</strong><br>
+	<strong>유기견 게시판</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
 	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_abandoned">${bvo.boardTitle}</a></u><br>
@@ -45,8 +45,8 @@
 	<u>${bvo.boardTitle}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${fn:substring(bvo.boardContent,0,20)}<br>
-	${bvo.boardDate} &nbsp ${bvo.memberVO.memberNickName}<br><br><hr>	
+	${bvo.boardContent} <br><br>
+	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>	
 </c:when>
 
 <c:when test="${bvo.boardType =='분양게시판'}">
@@ -59,9 +59,8 @@
 	<u>${bvo.boardTitle}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${fn:substring(bvo.boardContent,0,20)}<br>
-	${bvo.boardDate} &nbsp ${bvo.memberVO.memberNickName}<br><br><hr>
-
+	${bvo.boardContent} <br><br>
+	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
 <c:when test="${bvo.boardType =='자유게시판'}">
@@ -74,8 +73,8 @@
 	<u>${bvo.boardTitle}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${fn:substring(bvo.boardContent,0,20)}<br>
-	${bvo.boardDate} &nbsp ${bvo.memberVO.memberNickName}<br><br><hr>
+	${bvo.boardContent} <br><br>
+	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
 <c:when test="${bvo.boardType =='공지사항'}">
@@ -88,12 +87,12 @@
 	<u>${bvo.boardTitle}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${fn:substring(bvo.boardContent,0,20)}<br>
-	${bvo.boardDate} &nbsp ${bvo.memberVO.memberNickName}<br><br><hr>
+	${bvo.boardContent} <br><br>
+	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
 <c:when test="${bvo.boardType =='애견정보'}">
-<strong>${bvo.boardType}</strong><br>
+<strong>애견정보 게시판</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
 	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_petInfo">${bvo.boardTitle}</a></u><br>
@@ -102,12 +101,12 @@
 	<u>${bvo.boardTitle}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${fn:substring(bvo.boardContent,0,20)}<br>
-	${bvo.boardDate} &nbsp ${bvo.memberVO.memberNickName}<br><br><hr>
+	${bvo.boardContent} <br><br>
+	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
 <c:when test="${bvo.boardType =='애견 사진'}">
-<strong>${bvo.boardType}</strong><br>
+<strong>애견사진 게시판</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
 	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_petPicture">${bvo.boardTitle}</a></u><br>
@@ -116,12 +115,12 @@
 	<u>${bvo.boardTitle}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${fn:substring(bvo.boardContent,0,20)}<br>
-	${bvo.boardDate} &nbsp ${bvo.memberVO.memberNickName}<br><br><hr>
+	${bvo.boardContent} <br><br>
+	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
 <c:when test="${bvo.boardType =='Q&A'}">
-<strong>${bvo.boardType}</strong><br>
+<strong>Q&A 게시판</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
 	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_QnA">${bvo.boardTitle}</a></u><br>
@@ -130,12 +129,12 @@
 	<u>${bvo.boardTitle}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${fn:substring(bvo.boardContent,0,20)}<br>
-	${bvo.boardDate} &nbsp ${bvo.memberVO.memberNickName}<br><br><hr>
+	${bvo.boardContent} <br><br>
+	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 </c:choose>
 </c:forEach>
-
+</body>
 <p class="paging">
 	<c:set var="pb" value="${requestScope.lvo.pagingBean}"></c:set>
 <div class="col-md-12 text-center">

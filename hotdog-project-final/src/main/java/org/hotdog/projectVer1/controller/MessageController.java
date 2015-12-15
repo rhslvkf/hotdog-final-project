@@ -1,8 +1,8 @@
+
 package org.hotdog.projectVer1.controller;
 
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 
 
@@ -62,3 +62,4 @@ public class MessageController {
 		}
 		
 }
+

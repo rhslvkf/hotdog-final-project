@@ -205,175 +205,179 @@ function layerControl(event, flag){
 </script>
 
 <script type="text/javascript">
-  	$(document).ready(function() {
-  		var indent="";
-  		var comment="";
-			$.ajax({
-				type : "post",
-				url : "commentList.do",
-				data : "commentBoardNumber=${requestScope.bvo.boardNumber }&type=board_adoption",
-				dataType : "json",
-				success : function(data) {
-					 $.each(data, function(i, value) {
-						 
-						indent=value.commentIndent;
-						var attach="";
-						for(var i = 0 ; i<indent;i++){
-							attach+=" &nbsp; &nbsp; ";
-						}
-						if(indent!=0){
-							attach+="<img src='${initParam.root }img/reply.jpg'></img>";
-						}
-						comment = attach + value.commentContent;
-						 var commentParentText = 
-										'<tr id="r1" name="commentParentCode">'+
-										'<td colspan=2>'+
-				                    	"<a style='display: none;' id='commentNumber'>"+value.commentNumber+"</a>"+
-				                        '<strong>'+value.memberNickName+" "+value.commentDate+'</strong> '+' <a style="cursor:pointer;" name="pAdd">댓글</a> | <a style="cursor:pointer;" name="pDel">삭제</a><p>'+comment+'</p>'+
-				                        '</td>'+
-				                   		 '</tr>';
-						 if($('#commentTable').contents().size()==0){
-                              $('#commentTable').append(commentParentText);
-                 		   }else{
-                              $('#commentTable tr:last').after(commentParentText);
-                 		   } 
-						
-						});
+$(document).ready(function() {
+		var indent="";
+		var comment="";
+		$.ajax({
+			type : "post",
+			url : "commentList.do",
+			data : "commentBoardNumber=${requestScope.bvo.boardNumber }&type=board_adoption",
+			dataType : "json",
+			success : function(data) {
+				 $.each(data, function(i, value) {
+					 
+					indent=value.commentIndent;
+					var attach="";
+					for(var i = 0 ; i<indent;i++){
+						attach+=" &nbsp; &nbsp; ";
 					}
-				});
-
-	
- 		//댓글달기
-	$("#commentParentSubmit").click(function(){
-			var now = new Date();
-			var nowAll = (now.getMonth()+1)+
-			"/"+now.getDate()+" "+ 
-			now.getHours()+":"+ 
-			now.getMinutes()+
-			":"+now.getSeconds()+" ";
-			var cno="";
-            var pName = $("#memberNickName");
-            var pText = $("#PcommentContent");
-            
-			if($(":input[name=PcommentContent]").val() == ""){
-				alert("댓글을 입력하세요");
-				$(":input[name=PcommentContent]").focus();
-			}else{
-				$.ajax({
-						type : "post",
-						url : "postingComment.do",
-						data : $("#commentForm").serialize()+"&commentBoardNumber=${requestScope.bvo.boardNumber }"+"&type=board_adoption",
-						dataType :"json",
-						success : function(data) {
-							cno =data;
-							}
-					}).done(function(){
-						 var commentParentText = '<tr id="r1" name="commentParentCode">'+
-						 '<td colspan=2>'+"<a style='display: none;' id='commentNumber'>"+cno+"</a>"+
-		                 '<strong>'+pName.val()+" "+nowAll+'</strong>'+' <a style="cursor:pointer;" name="pAdd">답글</a> | <a style="cursor:pointer;" name="pDel">삭제</a><p>'+pText.val()+'</p>'+
-		                 '</td>'+
-		             	'</tr>';
-		             	
-						 if($('#commentTable').contents().size()==0){
-		                     $('#commentTable').append(commentParentText);
-		                 }else{
-		                     $('#commentTable tr:last').after(commentParentText);
-		                 }
-							$("#PcommentContent").val("");		
-					})
-				}
-		});	 
-  	})
-	
-$(document).on("click","table#commentTable a", function(){//동적으로 버튼이 생긴 경우 처리 방식      
-	 var cno=$(this).prev().prev().text();
-		  if($(this).attr("name")=="pDel"||$(this).attr("name") == "cDel"){
-					if (confirm("정말 삭제하시겠습니까??") == true) { //확인
-						cno=$(this).prev().prev().prev().text();
-						$.ajax({
-							type : "post",
-							url : "deleteComment.do",
-							data : "commentNumber="+cno+"&type=board_adoption",
-						});
-					 if($('#commentTable').contents().size()!=0)
-						$(this).parent().parent().remove();
-				 	}else{ //취소
-						return;
+					if(indent!=0){
+						attach+="<img src='${initParam.root }img/reply.jpg'></img>";
 					}
-			} else {
-				//댓글달기 창을 없앤다.
-				$("#commentEditor").remove();
-				//자기 부모의 tr을 알아낸다
-				var parentElement = $(this).parent().parent();                                    
-				//부모의 하단에 댓글달기 창을 삽입
-				var commentEditor = '<tr id="commentEditor">'
-				    		          + '<td style="width:1%"> </td>'
-								      + '<td>'
-									  + '<span class="form-inline" role="form">'
-									  + '<p>'
-								      + '<div class="form-group">'
-								      + '<input type="hidden" id="commentGroup" name="commentGroup" value='+cno+'>'
-									  + '<input type="text" id="memberNickName" value="${sessionScope.loginVo.memberNickName }" readonly name="memberNickName" class="form-control col-lg-2" data-rule-required="true" placeholder="이름" maxlength="10">'
-									  + '</div>'
-									  + '<div class="form-group">'
-									  + '<button type="button" id="commentChildSubmit" class="btn btn-default">확인</button>'
-									  + '</div>'
-									  + '</p>'
-									  + '<textarea id="commentContent" name="commentContent" class="form-control" style="width:98%" rows="4"></textarea>'
-									  + '</span>' + '</td>' + '</tr>';
-									parentElement.after(commentEditor);
-				} 
-
-	});	   
-		                 
-  	//댓글의 댓글을 다는 이벤트
-  $(document).on("click","#commentChildSubmit", function(){
-       var cName=$("#memberNickName");
-       var cText = $("#commentContent");   
-       var cgroup=$("#commentGroup");
-
-       var replyForm=$("this").parent().parent().parent()
-       if($.trim(cText.val())==""){
-           alert("내용을 입력하세요.");
-           cText.focus();   
-           return;
-          }
-    $("#commentTable td").remove();  
- 
-		   	$.ajax({
-				type : "post",
-				url : "commentReply.do",
-				data : "memberNickName="+cName.val()+"&commentContent="+cText.val()+ "&commentGroup="+cgroup.val()+ "&commentBoardNumber=${requestScope.bvo.boardNumber }"+"&commentDate='0'&type=board_adoption",
-				dataType : "json",
-				success : function(data) {
-					 $.each(data, function(i, value) {
-						 
-						indent=value.commentIndent;
-						var attach="";
-						for(var i = 0 ; i<indent;i++){
-							attach+=" &nbsp; &nbsp; ";
-						}
-						if(indent!=0){
-							attach+="<img src='${initParam.root }img/reply.jpg'></img>";
-						}
-						comment = attach + value.commentContent;
-						 var commentParentText = 
-										'<tr id="r1" name="commentParentCode">'+
-										'<td colspan=2>'+
-				                    	"<a style='display: none;' id='commentNumber'>"+value.commentNumber+"</a>"+
-				                        '<strong>'+value.memberNickName+" "+value.commentDate+'</strong> '+' <a style="cursor:pointer;" name="pAdd">댓글</a> | <a style="cursor:pointer;" name="pDel">삭제</a><p>'+comment+'</p>'+
-				                        '</td>'+
-				                   		 '</tr>';
-						 if($('#commentTable').contents().size()==0){
-                              $('#commentTable').append(commentParentText);
-                 		   }else{
-                              $('#commentTable tr:last').after(commentParentText);
-                 		   }
-						});
+					comment = attach + value.commentContent;
+					 var commentParentText = 
+									'<tr id="r1" name="commentParentCode">'+
+									'<td colspan=2>'+
+			                    	"<a style='display: none;' id='commentNumber'>"+value.commentNumber+"</a>"+
+			                        '<strong>'+value.memberNickName+" "+value.commentDate+'</strong> '+' <a style="cursor:pointer;" name="pAdd">댓글</a> | <a style="cursor:pointer;" name="pDel">삭제</a><p>'+comment+'</p>'+
+			                        '</td>'+
+			                   		 '</tr>';
+					 if($('#commentTable').contents().size()==0){
+                          $('#commentTable').append(commentParentText);
+             		   }else{
+                          $('#commentTable tr:last').after(commentParentText);
+             		   } 
 					
+					});
+				}
+			});
+
+
+		//댓글달기
+$("#commentParentSubmit").click(function(){
+		var now = new Date();
+		var nowAll = (now.getMonth()+1)+
+		"/"+now.getDate()+" "+ 
+		now.getHours()+":"+ 
+		now.getMinutes()+
+		":"+now.getSeconds()+" ";
+		var cno="";
+        var pName = $("#memberNickName");
+        var pText = $("#PcommentContent");
+        
+		if($(":input[name=PcommentContent]").val() == ""){
+			alert("댓글을 입력하세요");
+			$(":input[name=PcommentContent]").focus();
+		}else{
+			$.ajax({
+					type : "post",
+					url : "postingComment.do",
+					data : $("#commentForm").serialize()+"&commentBoardNumber=${requestScope.bvo.boardNumber }"+"&type=board_adoption",
+					dataType :"json",
+					success : function(data) {
+							cno=data.cno;
+						if(data.updateGrade != "notUpdate"){
+							alert("등급이 "+data.updateGrade+"가 되었습니다.");
+
+						}
 					}
-		   	})
-		});
+				}).done(function(){
+					 var commentParentText = '<tr id="r1" name="commentParentCode">'+
+					 '<td colspan=2>'+"<a style='display: none;' id='commentNumber'>"+cno+"</a>"+
+	                 '<strong>'+pName.val()+" "+nowAll+'</strong>'+' <a style="cursor:pointer;" name="pAdd">답글</a> | <a style="cursor:pointer;" name="pDel">삭제</a><p>'+pText.val()+'</p>'+
+	                 '</td>'+
+	             	'</tr>';
+	             	
+					 if($('#commentTable').contents().size()==0){
+	                     $('#commentTable').append(commentParentText);
+	                 }else{
+	                     $('#commentTable tr:last').after(commentParentText);
+	                 }
+						$("#PcommentContent").val("");		
+				})
+			}
+	});	 
+	})
+
+$(document).on("click","table#commentTable a", function(){//동적으로 버튼이 생긴 경우 처리 방식      
+ var cno=$(this).prev().prev().text();
+	  if($(this).attr("name")=="pDel"||$(this).attr("name") == "cDel"){
+				if (confirm("정말 삭제하시겠습니까??") == true) { //확인
+					cno=$(this).prev().prev().prev().text();
+					$.ajax({
+						type : "post",
+						url : "deleteComment.do",
+						data : "commentNumber="+cno+"&type=board_adoption",
+					});
+				 if($('#commentTable').contents().size()!=0)
+					$(this).parent().parent().remove();
+			 	}else{ //취소
+					return;
+				}
+		} else {
+			//댓글달기 창을 없앤다.
+			$("#commentEditor").remove();
+			//자기 부모의 tr을 알아낸다
+			var parentElement = $(this).parent().parent();                                    
+			//부모의 하단에 댓글달기 창을 삽입
+			var commentEditor = '<tr id="commentEditor">'
+			    		          + '<td style="width:1%"> </td>'
+							      + '<td>'
+								  + '<span class="form-inline" role="form">'
+								  + '<p>'
+							      + '<div class="form-group">'
+							      + '<input type="hidden" id="commentGroup" name="commentGroup" value='+cno+'>'
+								  + '<input type="text" id="memberNickName" value="${sessionScope.loginVo.memberNickName }" readonly name="memberNickName" class="form-control col-lg-2" data-rule-required="true" placeholder="이름" maxlength="10">'
+								  + '</div>'
+								  + '<div class="form-group">'
+								  + '<button type="button" id="commentChildSubmit" class="btn btn-default">확인</button>'
+								  + '</div>'
+								  + '</p>'
+								  + '<textarea id="commentContent" name="commentContent" class="form-control" style="width:98%" rows="4"></textarea>'
+								  + '</span>' + '</td>' + '</tr>';
+								parentElement.after(commentEditor);
+			} 
+
+});	   
+	                 
+	//댓글의 댓글을 다는 이벤트
+$(document).on("click","#commentChildSubmit", function(){
+   var cName=$("#memberNickName");
+   var cText = $("#commentContent");   
+   var cgroup=$("#commentGroup");
+
+   var replyForm=$("this").parent().parent().parent()
+   if($.trim(cText.val())==""){
+       alert("내용을 입력하세요.");
+       cText.focus();   
+       return;
+      }
+$("#commentTable td").remove();  
+
+	   	$.ajax({
+			type : "post",
+			url : "commentReply.do",
+			data : "memberNickName="+cName.val()+"&commentContent="+cText.val()+ "&commentGroup="+cgroup.val()+ "&commentBoardNumber=${requestScope.bvo.boardNumber }"+"&commentDate='0'&type=board_adoption",
+			dataType : "json",
+			success : function(data) {
+				 $.each(data, function(i, value) {
+					 
+					indent=value.commentIndent;
+					var attach="";
+					for(var i = 0 ; i<indent;i++){
+						attach+=" &nbsp; &nbsp; ";
+					}
+					if(indent!=0){
+						attach+="<img src='${initParam.root }img/reply.jpg'></img>";
+					}
+					comment = attach + value.commentContent;
+					 var commentParentText = 
+									'<tr id="r1" name="commentParentCode">'+
+									'<td colspan=2>'+
+			                    	"<a style='display: none;' id='commentNumber'>"+value.commentNumber+"</a>"+
+			                        '<strong>'+value.memberNickName+" "+value.commentDate+'</strong> '+' <a style="cursor:pointer;" name="pAdd">댓글</a> | <a style="cursor:pointer;" name="pDel">삭제</a><p>'+comment+'</p>'+
+			                        '</td>'+
+			                   		 '</tr>';
+					 if($('#commentTable').contents().size()==0){
+                          $('#commentTable').append(commentParentText);
+             		   }else{
+                          $('#commentTable tr:last').after(commentParentText);
+             		   }
+					});
+				
+				}
+	   	})
+	});
  
 
 </script>
@@ -421,13 +425,7 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
 		</tr>
 		<tr><td colspan="3">애견크기 : ${requestScope.bvo.petVO.petSize}</td></tr>
 		<tr>
-			<td colspan="3">
-			<pre style="white-space: pre-wrap;">${requestScope.bvo.boardContent}
-			<c:if test="${fn:length(requestScope.bvo.fileNameList) != 0 }">
-			<c:forEach begin="1" end="${fn:length(requestScope.bvo.fileNameList)}" var="i">
-			<img src="${initParam.root}upload/${requestScope.bvo.fileNameList[i-1]}" width="300px" height="200px">
-			</c:forEach>
-			</c:if>
+			<td colspan="3"><pre style="white-space: pre-wrap;">${requestScope.bvo.boardContent}
 			</pre>
 			</td>
 		</tr>

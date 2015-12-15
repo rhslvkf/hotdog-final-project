@@ -3,15 +3,82 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script type="text/javascript">
     $(document).ready(function(){
+    	var file0 = document.querySelector('#file0');
+    	var file1 = document.querySelector('#file1');
+    	var file2 = document.querySelector('#file2');
+    	$("#boardContent").keyup(function(){
+    		if(!($("#img0").length > 0)){
+    			$("#file0").val("");
+	    		$("#fileInfo0").html("");
+    		}
+    		if(!($("#img1").length > 0)){
+    			$("#file1").val("");
+	    		$("#fileInfo1").html("");
+    		}
+    		if(!($("#img2").length > 0)){
+    			$("#file2").val("");
+	    		$("#fileInfo2").html("");
+    		}
+    	});
+    	$("#boardContent").keydown(function(e){
+    		if (e.keyCode === 13) {
+   		      document.execCommand('insertHTML', false, "<br><br>");
+   		      return false;
+   		    }
+    	});
+    	file0.onchange = function () { 
+    	    var fileList = file0.files;
+    	    var reader = new FileReader();
+    	    if(fileList[0] instanceof Blob){
+	    	    reader.readAsDataURL(fileList[0]);
+	    	    reader.onload = function  () {
+	    	    	$("#img0").remove();
+	    	    	$("#boardContent").html($("#boardContent").html()+"<img class='hotdogimg' id='img0' width='300' src='"+reader.result+"'></img>");
+	    	    }; 
+    	    }else{
+    	    	$("#img0").remove();
+    	    }
+    	};
+    	file1.onchange = function () { 
+    	    var fileList = file1.files;
+    	    var reader = new FileReader();
+    	    if(fileList[0] instanceof Blob){
+	    	    reader.readAsDataURL(fileList[0]);
+	    	    reader.onload = function  () {
+	    	    	$("#img1").remove();
+	    	    	$("#boardContent").html($("#boardContent").html()+"<img class='hotdogimg' id='img1' width='300' src='"+reader.result+"'></img>");
+	    	    }; 
+    	    }else{
+    	    	$("#img1").remove();
+    	    }
+    	};
+    	file2.onchange = function () { 
+    	    var fileList = file2.files;
+    	    var reader = new FileReader();
+    	    if(fileList[0] instanceof Blob){
+	    	    reader.readAsDataURL(fileList[0]);
+	    	    reader.onload = function  () {
+	    	    	$("#img2").remove();
+	    	    	$("#boardContent").html($("#boardContent").html()+"<img class='hotdogimg' id='img2' width='300' src='"+reader.result+"'></img>");
+	    	    }; 
+    	    }else{
+    	    	$("#img2").remove();
+    	    }
+    	};
     	$("#writeBtn").click(function(){
     		if($("#boardTitle").val() == ""){
     			alert("글 제목을 입력하세요!");
     			$("#boardTitle").focus();
     			return;
     		}
-    		if($("#boardContent").val() == ""){
+    		if($("#boardContent").text() == ""){
     			alert("글 내용을 입력하세요!");
     			$("#boardContent").focus();
+    			return;
+    		}
+    		if($("#boardTitle").val().length > 30){
+    			alert("글 제목이 너무 깁니다.\n30자 이내로 입력해주시기 바랍니다!");
+    			$("#boardTitle").focus();
     			return;
     		}
     		for(var i=0;i<3;i++){
@@ -29,6 +96,7 @@
     				return;
     			}
     		}
+    		$("#boardContentHidden").val($("#boardContent").html());
     		$("#write_form").submit();
     	});
     	$("#file0").change(function(){
@@ -40,6 +108,7 @@
     	$("#file2").change(function(){
     		checkFileSize(2);
     	});
+    	
     	function checkFileSize(index){
     		if($("#file"+index).val() == ""){
     			$("#fileInfo"+index).html(""); 
@@ -93,7 +162,8 @@
     <tr>
      <td colspan="4" align="left">
      &nbsp;&nbsp;
-     <textarea cols="53" rows="15" name="boardContent" id="boardContent"></textarea>
+     <input type = "hidden" name = "boardContent" id = "boardContentHidden" value = "">
+     <div id="boardContent" contenteditable="true"></div>
                  <div class="form-group">
     <label for="exampleInputFile">파일 업로드</label>
     <input type="file" name="file[0]" id="file0"><div id="fileInfo0"></div><br>
@@ -117,7 +187,3 @@
  <input type="hidden" name="relevel" value="${requestScope.bvo.relevel }">
  <input type="hidden" name="no" value="${requestScope.bvo.boardNumber}">
   </form>
-
-
-
-

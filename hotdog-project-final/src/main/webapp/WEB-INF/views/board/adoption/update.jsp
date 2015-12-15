@@ -25,68 +25,99 @@
           	
           	
           	
-          	var countOfFile = ${fn:length(bvo.fileNameList)};
-        	var file0 = document.querySelector('#file0');
+          	var file0 = document.querySelector('#file0');
+        	var file1 = document.querySelector('#file1');
+        	var file2 = document.querySelector('#file2');
+        	var flag0 = true;
+        	var flag1 = true;
+        	var flag2 = true;
+        	$("#boardContent").keyup(function(){
+        		if(!($("#img3").length > 0)){
+        			$("#file0").val("");
+    	    		$("#fileInfo0").html("");
+        		}
+        		if(!($("#img4").length > 0)){
+        			$("#file1").val("");
+    	    		$("#fileInfo1").html("");
+        		}
+        		if(!($("#img5").length > 0)){
+        			$("#file2").val("");
+    	    		$("#fileInfo2").html("");
+        		}
+        	});
         	file0.onchange = function () { 
         	    var fileList = file0.files;
         	    var reader = new FileReader();
         	    if(fileList[0] instanceof Blob){
     	    	    reader.readAsDataURL(fileList[0]);
     	    	    reader.onload = function  () {
-    	    	    	countOfFile++;
-    	    	    	if(countOfFile > 3){
-    	    	    		alert("이미지 파일은 3개까지 업로드 가능합니다.");
-    	    	    		countOfFile--;
-    	    	    		$("#file0").val("");
-    	    	    		$("#fileInfo0").html(""); 
+    	    	    	if(flag0){
+    		    	    	if($(".hotdogimg").length > 2){
+    		    	    		alert("이미지 파일은 3개까지 업로드 가능합니다.");
+    		    	    		$("#file0").val("");
+    		    	    		$("#fileInfo0").html("");
+    		    	    	}else{
+    		    	    		flag0 = false;
+    		    	    		$("#boardContent").html($("#boardContent").html()+"<img class='hotdogimg' id='img3' width='300' src='"+reader.result+"'></img>");
+    		    	    	}
     	    	    	}else{
-    	    	    		$("#boardContent").html($("#boardContent").html()+"<img width='300' src='"+reader.result+"'></img>");
+    	    	    		$("#img3").remove();
+    	    	    		$("#boardContent").html($("#boardContent").html()+"<img class='hotdogimg' id='img3' width='300' src='"+reader.result+"'></img>");
     	    	    	}
     	    	    }; 
         	    }else{
-        	    	$("#boardContent").html("");
+        	    	$("#img3").remove();
+        	    	flag0 = true;
         	    }
         	};
-        	var file1 = document.querySelector('#file1');
         	file1.onchange = function () { 
         	    var fileList = file1.files;
         	    var reader = new FileReader();
         	    if(fileList[0] instanceof Blob){
     	    	    reader.readAsDataURL(fileList[0]);
     	    	    reader.onload = function  () {
-    	    	    	countOfFile++;
-    	    	    	if(countOfFile > 3){
-    	    	    		alert("이미지 파일은 3개까지 업로드 가능합니다.");
-    	    	    		countOfFile--;
-    	    	    		$("#file1").val("");
-    	    	    		$("#fileInfo1").html("");
+    	    	    	if(flag1){
+    	    	    		if($(".hotdogimg").length > 2){
+    		    	    		alert("이미지 파일은 3개까지 업로드 가능합니다.");
+    		    	    		$("#file1").val("");
+    		    	    		$("#fileInfo1").html("");
+    		    	    	}else{
+    		    	    		flag1 = false;
+    		    	    		$("#boardContent").html($("#boardContent").html()+"<img class='hotdogimg' id='img4' width='300' src='"+reader.result+"'></img>");
+    		    	    	}
     	    	    	}else{
-    	    	    		$("#boardContent").html($("#boardContent").html()+"<img width='300' src='"+reader.result+"'></img>");
+    	    	    		$("#img4").remove();
+    	    	    		$("#boardContent").html($("#boardContent").html()+"<img class='hotdogimg' id='img4' width='300' src='"+reader.result+"'></img>");
     	    	    	}
     	    	    }; 
         	    }else{
-        	    	document.querySelector('#preview1').src = "";
+        	    	$("#img4").remove();
+        	    	flag1 = true;
         	    }
         	};
-        	var file2 = document.querySelector('#file2');
         	file2.onchange = function () { 
         	    var fileList = file2.files;
         	    var reader = new FileReader();
         	    if(fileList[0] instanceof Blob){
     	    	    reader.readAsDataURL(fileList[0]);
     	    	    reader.onload = function  () {
-    	    	    	countOfFile++;
-    	    	    	if(countOfFile > 3){
-    	    	    		alert("이미지 파일은 3개까지 업로드 가능합니다.");
-    	    	    		countOfFile--;
-    	    	    		$("#file2").val("");
-    	    	    		$("#fileInfo2").html("");
+    	    	    	if(flag2){
+    	    	    		if($(".hotdogimg").length > 2){
+    		    	    		alert("이미지 파일은 3개까지 업로드 가능합니다.");
+    		    	    		$("#file2").val("");
+    		    	    		$("#fileInfo2").html("");
+    		    	    	}else{
+    		    	    		flag0 = false;
+    		    	    		$("#boardContent").html($("#boardContent").html()+"<img class='hotdogimg' id='img5' width='300' src='"+reader.result+"'></img>");
+    		    	    	}
     	    	    	}else{
-    	    	    		$("#boardContent").html($("#boardContent").html()+"<img width='300' src='"+reader.result+"'></img>");
+    	    	    		$("#img5").remove();
+    	    	    		$("#boardContent").html($("#boardContent").html()+"<img class='hotdogimg' id='img5' width='300' src='"+reader.result+"'></img>");
     	    	    	}
     	    	    }; 
         	    }else{
-        	    	document.querySelector('#preview2').src = "";
+        	    	$("#img5").remove();
+        	    	flag2 = true;
         	    }
         	};
         	
@@ -116,7 +147,7 @@
         				return false;
         			}
         		}
-    			$("#boardContentHidden").val($("#boardContent").text());
+    			$("#boardContentHidden").val($("#boardContent").html());
     			$("#updatePostingForm").submit();
         	});
         	$("#file0").change(function(){
@@ -168,10 +199,8 @@
 
     
     
-<body>
-
-<form method=post action="${initParam.root}auth_updatePosting.do?type=board_adoption"  enctype="multipart/form-data">
-
+<form id="updatePostingForm" method=post action="${initParam.root}auth_updatePosting.do?type=board_adoption" enctype="multipart/form-data">
+<input type = "hidden" name = "boardNumber" value = "${bvo.boardNumber}">
 	<table class="content">
 	
 		<tr>		
@@ -259,8 +288,8 @@
 					
 					
 					
-<input type = "hidden" name = "boardContent" id = "boardContentHidden" value = "">
-<div id="boardContent" contenteditable="true">${bvo.boardContent }<c:if test="${fn:length(bvo.fileNameList) != 0 }"><c:forEach begin="1" end="${fn:length(bvo.fileNameList)}" var="i"><img id="imgReadonly" src="${initParam.root}upload/${bvo.fileNameList[i-1]}" width="300"></c:forEach></c:if></div>
+					<input type = "hidden" name = "boardContent" id = "boardContentHidden" value = "">
+     				<div id="boardContent" contenteditable="true">${bvo.boardContent}</div>
 					<div class="form-group">
 				    <label for="exampleInputFile">파일 업로드</label>
 				    <input type="file" name="file[0]" id="file0" accept="image/*"><div id="fileInfo0"></div><br>
@@ -289,7 +318,3 @@
 	</table>
 
 </form>
-
-
-</body>
-</html>

@@ -1,3 +1,4 @@
+
 package org.hotdog.projectVer1.model;
 
 import java.util.List;

@@ -5,24 +5,37 @@
     font-family: 'Malgun Gothic' !important;
 }
 </style>
-    <div id="messages" class="bs-callout">
-        <h3>Server-Sent Events 기반 미니 채팅방</h3>
-        <p>&nbsp;</p>
-    </div>
+        <h4 align="center">HotDog 채팅방</h4>
+    <div id="messages" class="bs-callout" style="overflow-y:auto; height: 250px;"></div>
     <div class="bs-callout">
         <form>
             <div class="form-group">
-                <input id="userName" class="form-control" type="text" placeholder="이름">
+                <input id="userName" class="form-control" type="text" placeholder="닉네임" value="${sessionScope.loginVo.memberNickName}" readonly="readonly">
             </div>
             <div class="form-group">
+            	<c:choose>
+            	<c:when test="${sessionScope.loginVo != null }">
                 <textarea id="message" class="form-control" rows="3" placeholder="메시지"></textarea>
+                </c:when>
+                <c:otherwise>
+                <textarea id="message" class="form-control" rows="3" placeholder="메시지" readonly="readonly"></textarea>
+                </c:otherwise>
+                </c:choose>
             </div>
             <div class="form-group">
+            <c:choose>
+            <c:when test="${sessionScope.loginVo != null }">
                 <button id="sendMessage" class="btn btn-primary btn-lg btn-block" type="button">메시지 전송</button>
+            </c:when>
+            <c:otherwise>
+            	<button id="sendMessage" class="btn btn-primary btn-lg btn-block" type="button" disabled="disabled">메시지 전송</button>
+            </c:otherwise>
+            </c:choose>
             </div>
         </form>
     </div>
     <script>
+    
         var contextpath = '${pageContext.request.contextPath}';
         var getNewMessages = function() {
             if (typeof (EventSource) == 'undefined') {
@@ -33,11 +46,13 @@
                 var newMessageList = JSON.parse(event.data);
                 newMessageList
                         .forEach(function(newMessage) {
-                            var messageTemplate = '<h4><strong>:userName</strong></h4><div class="alert alert-info"><strong>:message</strong>&nbsp;<span class="badge">:dateCreated</span></div>';
+                            var messageTemplate = '<strong>:userName</strong><div class="alert alert-info"><strong>:message</strong>&nbsp;<span class="badge">:dateCreated</span></div>';
                             $('#messages').append(
                                     messageTemplate.replace(':userName', newMessage.userName).replace(':message', newMessage.message).replace(':dateCreated',
                                             Date.create(newMessage.dateCreated.iMillis).utc().format('{HH}:{mm}')));
-                            window.scrollTo(0, document.body.scrollHeight);
+						    var objDiv = document.getElementById("messages");
+						    objDiv.scrollTop = objDiv.scrollHeight;
+                            /* window.scrollTo(0, document.body.scrollHeight); */
                         });
             }
         };

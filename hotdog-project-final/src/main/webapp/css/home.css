@@ -1,5 +1,5 @@
 	#container{
-		width: 100%; /* container 경계선 1 , left  200 padding 5+5 ,
+		width: auto; /* container 경계선 1 , left  200 padding 5+5 ,
 		                           main 600 padding 5+5 ,  border-left: 1   */
 		/* border: 1px solid black; */
 		margin-left: auto;
@@ -7,19 +7,19 @@
 	}
 	#header{
 		padding: 5px;
-		height: 120px;
+		height: 70px;
 		/* border-bottom: 1px solid black; */
 	}
 	#left{
 		padding: 5px;
-		height:500px;
-		width:10%;
+		height:auto;
+		width:20%;
 		float: left; /* left로 부유위치를 지정해 left와 main이 수평 배치하도록 한다    */
 	}
 	#main{
 		padding: 5px;
-		width:900px;
-		height: 90%;		
+		width:80%;
+		height: auto;		
 		float: left; /* left로 부유위치를 지정해 left와 main이 수평 배치하도록 한다    */
 		/* border-left: 1px solid black; */
 	}

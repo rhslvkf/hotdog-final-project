@@ -1,3 +1,4 @@
+
 update hotdog_member set member_attendance = '9' where member_id = 'gonipal1@gmail.com';
 update hotdog_member set member_grade = 'BRONZE' where member_id = 'baba9024@gmail.com';
 update hotdog_member set member_grade = 'GOLD' where member_id = 'baba9024@gmail.com';
