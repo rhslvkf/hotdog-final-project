@@ -17,7 +17,6 @@ public class BoardServiceImpl implements BoardService{
 	public String posting(BoardVO vo, String type, ArrayList<String> fileName) {
 			boardDAO.posting(vo, type);
 
-		System.out.println(vo);
 		if(!fileName.isEmpty()){
 			for(int i=0;i<fileName.size();i++){
 				vo.setFileName(fileName.get(i));

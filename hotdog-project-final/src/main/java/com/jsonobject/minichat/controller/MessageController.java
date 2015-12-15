@@ -80,7 +80,7 @@ public class MessageController extends HttpServlet {
                 writer.flush();
                 logger.info("===== readNewMessages(): send new messages to client, message={}", newMessageList.toString());
             }
-            Thread.sleep(2500);
+            Thread.sleep(100);
         }
     }
 

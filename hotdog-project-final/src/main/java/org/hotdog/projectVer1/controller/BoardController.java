@@ -71,7 +71,6 @@ public class BoardController {
 			}
 
 		}
-		System.out.println(vo);
 
 		//파일 업로드
 		List<MultipartFile> list = fvo.getFile();
@@ -125,7 +124,6 @@ public class BoardController {
 				vo.setMemberVO(mvo);
 			}
 		}
-		System.out.println(vo);
 		//파일 업로드
 		List<MultipartFile> list = fvo.getFile();
 		ArrayList<String> nameList = new ArrayList<String>();

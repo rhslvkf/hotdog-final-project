@@ -15,10 +15,10 @@
             <div class="form-group">
             	<c:choose>
             	<c:when test="${sessionScope.loginVo != null }">
-                <textarea id="message" class="form-control" rows="3" placeholder="메시지"></textarea>
+                <textarea id="message" class="form-control" rows="3" placeholder="메시지" maxlength="200" style="resize:none;"></textarea>
                 </c:when>
                 <c:otherwise>
-                <textarea id="message" class="form-control" rows="3" placeholder="메시지" readonly="readonly"></textarea>
+                <textarea id="message" class="form-control" rows="3" placeholder="메시지" readonly="readonly" style="resize:none;"></textarea>
                 </c:otherwise>
                 </c:choose>
             </div>
@@ -36,6 +36,16 @@
     </div>
     <script>
     
+    $(document).ready(function(){
+		/* $.ajax({
+			type:"POST",
+			url:"showPostingList.do",
+			data:"memberId=gonipal@naver.com",
+			success:function(result){ 
+				$("#messages").html(result.board_abandoned[0].boardType);
+			}
+		}); */
+	});
         var contextpath = '${pageContext.request.contextPath}';
         var getNewMessages = function() {
             if (typeof (EventSource) == 'undefined') {
