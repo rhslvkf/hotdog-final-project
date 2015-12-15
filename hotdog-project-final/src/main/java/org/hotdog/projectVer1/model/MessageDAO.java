@@ -1,3 +1,4 @@
+
 package org.hotdog.projectVer1.model;
 
 import java.util.List;
@@ -13,4 +14,8 @@ public interface MessageDAO {
 	public abstract MessageVO messageContent(MessageVO mevo);
 
 	public abstract void readUpdate(MessageVO mevo);
+
+	public abstract void deleteMessage(MessageVO mevo);
+	public abstract void redeleteMessage(MessageVO mevo);
+	
 }
