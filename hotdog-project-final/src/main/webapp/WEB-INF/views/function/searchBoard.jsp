@@ -5,7 +5,7 @@
 		<h4>* 검색된 게시판 리스트(${fn:length(requestScope.lvo.map.allList)}개의 게시판,  ${requestScope.lvo.map.allNum}개의게시글)</h4><br><br> 
 	
 <c:if test="${fn:length(requestScope.lvo.map.abandonedList)!=0}">
-<a href="${initParam.root}searchBoardPosting.do?type=board_abandoned&word=${requestScope.lvo.map.word}">유기견 게시판</a>(${fn:length(requestScope.lvo.map.abandonedList)})<br><br>
+<a href="${initParam.root}searchBoardPosting.do?type=board_abandoned&word=${requestScope.lvo.map.word}">유기견정보</a>(${fn:length(requestScope.lvo.map.abandonedList)})<br><br>
 </c:if>
 <c:if test="${fn:length(requestScope.lvo.map.adoptionList)!=0}">
 <a href="${initParam.root}searchBoardPosting.do?type=board_adoption&word=${requestScope.lvo.map.word}">분양게시판</a>(${fn:length(requestScope.lvo.map.adoptionList)})<br><br>
@@ -20,15 +20,15 @@
 </c:if>
 
 <c:if test="${fn:length(requestScope.lvo.map.petInfoList)!=0}">
-<a href="${initParam.root}searchBoardPosting.do?type=board_petInfo&word=${requestScope.lvo.map.word}">애견정보 게시판</a>(${fn:length(requestScope.lvo.map.petInfoList)})<br><br>
+<a href="${initParam.root}searchBoardPosting.do?type=board_petInfo&word=${requestScope.lvo.map.word}">애견정보</a>(${fn:length(requestScope.lvo.map.petInfoList)})<br><br>
 </c:if>
 
 <c:if test="${fn:length(requestScope.lvo.map.petPictureList)!=0}">
-<a href="${initParam.root}searchBoardPosting.do?type=board_petPicture&word=${requestScope.lvo.map.word}">애견사진 게시판</a>(${fn:length(requestScope.lvo.map.petPictureList)})<br><br>
+<a href="${initParam.root}searchBoardPosting.do?type=board_petPicture&word=${requestScope.lvo.map.word}">애견사진</a>(${fn:length(requestScope.lvo.map.petPictureList)})<br><br>
 </c:if>
 
 <c:if test="${fn:length(requestScope.lvo.map.qnAList)!=0}">
-<a href="${initParam.root}searchBoardPosting.do?type=board_QnA&word=${requestScope.lvo.map.word}">Q&A 게시판</a>(${fn:length(requestScope.lvo.map.qnAList)})<br><br>
+<a href="${initParam.root}searchBoardPosting.do?type=board_QnA&word=${requestScope.lvo.map.word}">Q&A</a>(${fn:length(requestScope.lvo.map.qnAList)})<br><br>
 </c:if>
 
 <hr>
@@ -36,7 +36,7 @@
 <c:forEach items="${requestScope.lvo.list}" var="bvo">
 <c:choose>
 <c:when test="${bvo.boardType =='유기견정보'}">
-	<strong>유기견 게시판</strong><br>
+	<strong>${bvo.boardType}</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
 	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_abandoned">${bvo.boardTitle}</a></u><br>
@@ -92,7 +92,7 @@
 </c:when>
 
 <c:when test="${bvo.boardType =='애견정보'}">
-<strong>애견정보 게시판</strong><br>
+<strong>${bvo.boardType}</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
 	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_petInfo">${bvo.boardTitle}</a></u><br>
@@ -105,8 +105,8 @@
 	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
-<c:when test="${bvo.boardType =='애견 사진'}">
-<strong>애견사진 게시판</strong><br>
+<c:when test="${bvo.boardType =='애견사진'}">
+<strong>${bvo.boardType}</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
 	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_petPicture">${bvo.boardTitle}</a></u><br>
@@ -120,7 +120,7 @@
 </c:when>
 
 <c:when test="${bvo.boardType =='Q&A'}">
-<strong>Q&A 게시판</strong><br>
+<strong>${bvo.boardType}</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
 	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_QnA">${bvo.boardTitle}</a></u><br>
