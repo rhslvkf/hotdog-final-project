@@ -195,3 +195,7 @@ textarea.tx { border:1px solid #9A9A9A; border-right:1px solid #D8D8D8; border-b
 		border: 1px solid #ccc;
 	}
 	
+	.messageList th{
+		text-align: center;
+	}
+	

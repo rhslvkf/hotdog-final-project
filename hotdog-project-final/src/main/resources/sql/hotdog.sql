@@ -20,7 +20,7 @@ update hotdog_member set member_grade = 'GOLD' where member_id = 'baba9024@gmail
 update hotdog_member set member_latestdate = '20151214' where member_id = 'gonipal1@gmail.com';
 update hotdog_member set member_grade = 'GOLD';
 select petpicture_number, petpicture_title, petpicture_content from board_petpicture where rownum < 13 order by petpicture_number desc;
-
+select petpicture_number, petpicture_title, petpicture_content from board_petpicture where 13 > rownum order by petpicture_number desc
 select * from hotdog_member;
 select * from board_abandoned_comment;
 select b.petpicture_number, b.petpicture_title, f.file_name as file_name from(
@@ -514,6 +514,7 @@ create table board_petPicture(
 )
 
 -- 애견사진 게시판 테이블 시퀀스
+
 
 create sequence petPicture_seq nocache;
 

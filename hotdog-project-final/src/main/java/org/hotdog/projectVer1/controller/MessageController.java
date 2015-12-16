@@ -23,7 +23,7 @@ public class MessageController {
 		@ResponseBody
 		@RequestMapping("sendMessage.do")
 		public void sendMessage(MessageVO mevo) {
-			System.out.println(mevo);
+			System.out.println("보낼내용!"+mevo);
 			messageService.sendMessage(mevo);
 			System.out.println("전송완료");
 		}

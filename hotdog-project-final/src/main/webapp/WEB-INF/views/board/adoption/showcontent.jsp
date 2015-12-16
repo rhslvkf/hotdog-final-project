@@ -193,7 +193,8 @@ function getAbsPos(e) {
 }
 
 //마우스 레이어 (show, hide)제어
-function layerControl(event, flag){
+function layerControl(event, flag,nick){
+	$("#nickname").text(nick);
 	var eventObj = document.getElementById('Layer'+flag);
 	if(!event) event = window.Event;
 	var position = getAbsPos(event);
@@ -202,6 +203,34 @@ function layerControl(event, flag){
 	eventObj.style.display = eventObj.style.display =='none'?'':'none';
 	allLayerClose(flag);
 }
+
+//쪽지 보내기
+function SendMessage(){
+	var receiver=$("#nickname").text();
+	var sender=$("#sender").text();
+	var messageContent=$("#messageContents").val();
+	var messageTitle=$("#title1").val();
+	if(messageTitle.length==0){
+		alert("제목이 비었습니다.")
+		return false;
+	}
+	else if(messageContent.length==0){
+		alert("내용이 비었습니다.")
+		return false;
+	}else{
+		$.ajax({
+						type : "post",
+						url : "sendMessage.do",
+						data : "receiver="+receiver+"&sender="+sender+"&messageContent="+messageContent+"&messageTitle="+messageTitle,
+						dataType :"json",
+						success : function(data) {
+							}
+						})
+					
+	}
+	}
+
+
 </script>
 
 <script type="text/javascript">
@@ -401,11 +430,11 @@ $("#commentTable td").remove();
 				<td>작성자 : ${requestScope.bvo.memberVO.memberNickName }</td>
 				</c:when>
 				<c:when test="${sessionScope.loginVo.memberId == requestScope.bvo.memberVO.memberId }">
-				<td>작성자 : <a href="#" onclick="layerControl(event,true);">
+				<td>작성자 : <a href="#" onclick="layerControl(event,true,null);">
 				${requestScope.bvo.memberVO.memberNickName }</a></td>
 				</c:when>
 				<c:otherwise>
-				<td>작성자 : <a href="#" onclick="layerControl(event,false);">
+				<td>작성자 : <a href="#" onclick="layerControl(event,false,'${requestScope.bvo.memberVO.memberNickName }');">
 				${requestScope.bvo.memberVO.memberNickName }</a></td>
 				</c:otherwise>
 				</c:choose>
@@ -484,9 +513,10 @@ $("#commentTable td").remove();
   <tr>
    <td><a href = "#" onclick="showPostingList('${requestScope.bvo.memberVO.memberId}')"><font color="blue">게시글 보기</font></a></td>
   </tr>
-  <tr>
-   <td><a href = "#"><font color="blue">쪽지 보내기</font></a></td>
-  </tr>
+<tr>
+   <td><a data-toggle="modal" href= "#messagePostingList"><font color="blue">쪽지 보내기</font></a></td>
+ </tr>
+
 </table>
 </div>
 
@@ -509,6 +539,7 @@ $("#commentTable td").remove();
     </div>
 <!--  게시글보기 모달 끝 -->
 
+
 <!-- 쪽지보내기 모달 시작 -->
 <div class="modal fade" id="messagePostingList">
       <div class="modal-dialog">
@@ -518,11 +549,15 @@ $("#commentTable td").remove();
             <h4 class="modal-title">쪽지보내기</h4>
           </div>
           <div class="modal-body">
-            <h5>도르에게쪽지보내기</h5>
-            <textarea class="form-control" rows="7" style="resize: none;"></textarea>
+        	<a style='display: none;' id="sender">${sessionScope.loginVo.memberNickName}</a>
+            <a id="nickname"><h5></h5></a>
+         	<input type="text" class="form-control" id="title1" placeholder="제목"></input>
+            <textarea class="form-control" id="messageContents" placeholder="내용"  rows="7" style="resize: none;"></textarea>
           </div>
+          
           <div class="modal-footer">
-            <a class="btn btn-default" href="">쪽지보내기</a>
+            <a class="btn btn-default" onclick="SendMessage()" 
+            	href="">쪽지보내기</a>
             <a class="btn btn-default" data-dismiss="modal">닫기</a>
           </div>
         </div>
