@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+    
 		<h4>* 검색된 게시판 리스트(${fn:length(requestScope.lvo.map.allList)}개의 게시판,  ${requestScope.lvo.map.allNum}개의게시글)</h4><br><br> 
 	
 <c:if test="${fn:length(requestScope.lvo.map.abandonedList)!=0}">
@@ -32,8 +33,8 @@
 </c:if>
 
 <hr>
-<body>	
 <c:forEach items="${requestScope.lvo.list}" var="bvo">
+
 <c:choose>
 <c:when test="${bvo.boardType =='유기견정보'}">
 	<strong>${bvo.boardType}</strong><br>
@@ -45,7 +46,10 @@
 	<u>${bvo.boardTitle}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${bvo.boardContent} <br><br>
+	 <c:set var="changeWord">
+     <font color="red">${requestScope.lvo.map.word}</font>
+     </c:set>
+     ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
 	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>	
 </c:when>
 
@@ -59,7 +63,10 @@
 	<u>${bvo.boardTitle}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${bvo.boardContent} <br><br>
+	<c:set var="changeWord">
+     <font color="red">${requestScope.lvo.map.word}</font>
+     </c:set>
+     ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
 	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
@@ -73,7 +80,10 @@
 	<u>${bvo.boardTitle}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${bvo.boardContent} <br><br>
+	<c:set var="changeWord">
+     <font color="red">${requestScope.lvo.map.word}</font>
+     </c:set>
+     ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
 	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
@@ -87,7 +97,10 @@
 	<u>${bvo.boardTitle}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${bvo.boardContent} <br><br>
+	<c:set var="changeWord">
+     <font color="red">${requestScope.lvo.map.word}</font>
+     </c:set>
+     ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
 	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
@@ -101,7 +114,10 @@
 	<u>${bvo.boardTitle}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${bvo.boardContent} <br><br>
+	<c:set var="changeWord">
+     <font color="red">${requestScope.lvo.map.word}</font>
+     </c:set>
+     ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
 	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
@@ -115,7 +131,10 @@
 	<u>${bvo.boardTitle}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${bvo.boardContent} <br><br>
+	<c:set var="changeWord">
+     <font color="red">${requestScope.lvo.map.word}</font>
+     </c:set>
+     ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
 	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
@@ -129,12 +148,17 @@
 	<u>${bvo.boardTitle}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${bvo.boardContent} <br><br>
+	<c:set var="changeWord">
+     <font color="red">${requestScope.lvo.map.word}</font>
+     </c:set>
+     ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
 	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 </c:choose>
 </c:forEach>
-</body>
+
+
+
 <p class="paging">
 	<c:set var="pb" value="${requestScope.lvo.pagingBean}"></c:set>
 <div class="col-md-12 text-center">
