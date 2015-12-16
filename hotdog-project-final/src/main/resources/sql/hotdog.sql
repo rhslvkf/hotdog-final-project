@@ -1,4 +1,7 @@
 select to_char(sysdate,'YYYYMMDD hh24:mi:ss') from dual;
+select chat_id,user_name,chat_message,to_char(date_created,'mi:ss') as date_created from chat
+		where '690' < chat_id order by chat_id asc
+select * from chat
 -- 채팅 테이블하고 시퀀스 생성하기!!!
 create table chat(
 	chat_id number primary key,
@@ -8,6 +11,8 @@ create table chat(
 )
 create sequence chat_seq nocache;
 select * from chat;
+drop table chat;
+drop sequence chat_seq;
 
 update hotdog_member set member_attendance = '9' where member_id = 'gonipal1@gmail.com';
 update hotdog_member set member_grade = 'BRONZE' where member_id = 'baba9024@gmail.com';
