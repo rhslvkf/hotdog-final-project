@@ -10,9 +10,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="org.hotdog.projectVer1.model.CommentVO" alias="cvo"/>		
 		<typeAlias type="org.hotdog.projectVer1.model.MemberVO" alias="mvo"/>
 		<typeAlias type="org.hotdog.projectVer1.model.PetVO" alias="pvo"/>
-
 		<typeAlias type="org.hotdog.projectVer1.model.MessageVO" alias="mevo"/>
-	
+		<typeAlias type="org.hotdog.projectVer1.model.ChatVO" alias="chatvo"/>
 	</typeAliases>	
     <!-- mybatis sql 정의 xml을 mapping  -->
 	<mappers>
@@ -26,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="mybatis/config/board_QnA.xml"></mapper>
 		<mapper resource="mybatis/config/message.xml"></mapper>
 		<mapper resource="mybatis/config/searchBoard.xml"></mapper>
-	
+		<mapper resource="mybatis/config/chat.xml"></mapper>
 	</mappers>
 </configuration>
 

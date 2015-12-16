@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 		
+ <mapper namespace="chat">
+ 
+ 	<resultMap type="chatvo" id="chatvo">
+	 	<result column="chat_id" property="chatId" />
+	 	<result column="user_name" property="userName" />
+	 	<result column="chat_message" property="chatMessage" />
+	 	<result column="date_created" property="dateCreated" />
+ 	</resultMap>
+ 
+	<insert id="insertChat">
+		<selectKey keyProperty="chatId" resultType="int" order="BEFORE">
+			select chat_seq.nextval from dual
+		</selectKey>
+		insert into chat(chat_id,user_name,chat_message,date_created) values(#{chatId},#{userName},#{chatMessage},sysdate)
+	</insert>
+	
+	<select id="getLastChatId" resultType="int">
+		select max(chat_id) from chat
+	</select>
+	
+	<select id="readById" resultMap="chatvo">
+		select chat_id,user_name,chat_message,to_char(date_created,'mi:ss') as date_created from chat
+		where chat_id > #{lastChatId} order by chat_id asc
+	</select>
+	
+	<select id="getChatList" resultMap="chatvo">
+		select chat_id,user_name,chat_message,to_char(date_created,'mi:ss') as date_created from chat
+		where to_char(date_created,'YYYYMMDD hh24:mi:ss') > #{loginTime}
+	</select>
+	
+ </mapper> 	

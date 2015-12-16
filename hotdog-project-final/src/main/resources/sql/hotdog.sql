@@ -1,3 +1,13 @@
+select to_char(sysdate,'YYYYMMDD hh24:mi:ss') from dual;
+-- 채팅 테이블하고 시퀀스 생성하기!!!
+create table chat(
+	chat_id number primary key,
+	user_name varchar2(20) not null,
+	chat_message varchar2(1000) not null,
+	date_created date not null
+)
+create sequence chat_seq nocache;
+select * from chat;
 
 update hotdog_member set member_attendance = '9' where member_id = 'gonipal1@gmail.com';
 update hotdog_member set member_grade = 'BRONZE' where member_id = 'baba9024@gmail.com';
