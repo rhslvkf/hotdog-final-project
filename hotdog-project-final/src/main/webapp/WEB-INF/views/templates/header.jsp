@@ -296,6 +296,8 @@ function showMessageList(){
 	}); //ajax
 } //function
 
+
+
 //보낸 쪽지함
 function sendMessageList(){
 	$.ajax({
@@ -324,6 +326,7 @@ function sendMessageList(){
 } //function
 
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
  $(document).on("click","#pickRe", function(){    //받은 메시지함 상세 보기
 		var sender=$(this).parent().prev().text();
@@ -334,7 +337,6 @@ function sendMessageList(){
 		var flag="받은쪽지함"
 		if($("#ListName").text()=="보낸쪽지함")
 			flag="보낸쪽지함";
-			
 		$.ajax({
 			type:"POST",
 			url:"messageContent.do",
@@ -347,14 +349,38 @@ function sendMessageList(){
 					title+="<td>받는사람:</td><td>"+result.receiver+"</td>";
 					title+="<td>날짜:</td><td>"+result.messageDate+"</td></tr>";
 					title+="<tr><td>제목:</td><td>"+result.messageTitle+"</td></tr>";
-					title+="<tr><td>내용:"+result.messageContent+"</td></tr>";	
-					title+="<tr><td id='redelBtn'><a><h3>삭제</h3></a><td></tr>"
+					title+="<tr><td>내용:"+result.messageContent+"</td></tr>";		
 				}
 				title += "</table>";
+				title+="<button type='button' class='close' id='redelBtn' data-dismiss='modal' aria-hidden='true' onclick='UpdateSendMessageList()'>끄지라</button>";
+					
 				$("#showContentMessage").html(title);
 				$("#messageContent").modal();
-	
 			} 
+		}).done(function(){
+			$.ajax({
+				type:"POST",
+				url:"showMessageList.do",
+				data:"receiver=${sessionScope.loginVo.memberNickName}",
+				success:function(result){ 
+					var title = "<table class='messageList'>";
+					if(result.length != 0){
+						title += "<tr><th>보낸이</th><th>제목</th><th>작성일</th><th>조회</th><th>받는이</th></tr>";
+						for(var i=0;i<result.length;i++){
+							title += "<tr><td>"+result[i].sender		
+									+"</td><td><a id='pickRe' href='#'>"+result[i].messageTitle+"</a>"
+									+"</td><td>"+result[i].messageDate
+									+"</td><td>"+result[i].messageReaded
+									+"</td><td>"+result[i].receiver
+									+"</td></tr>";
+						}
+					}
+					title += "</table>"; 
+					$("#listMessage").html(title); 
+				} //success
+			}); //ajax
+			
+			
 		}); 
 	});	   
 	
@@ -379,19 +405,18 @@ function sendMessageList(){
 					title+="<td>받는사람:</td><td>"+result.receiver+"</td>";
 					title+="<td>날짜:</td><td>"+result.messageDate+"</td></tr>";
 					title+="<tr><td>제목:</td><td>"+result.messageTitle+"</td></tr>";
-					title+="<tr><td>내용:"+result.messageContent+"</td></tr>";	
-					title+="<tr><td id='delBtn'><a><h3>삭제</h3></a><td></tr>"
+					title+="<tr><td>내용:"+result.messageContent+"</td></tr>";			
 				}
 				title += "</table>";
+				title+="<tr><td><button type='button' class='close' id='delBtn' data-dismiss='modal' aria-hidden='true' onclick='UpdateShowMessageList()'>끄지라</button></td></tr>"
 				$("#showContentMessage").html(title);
 				$("#messageContent").modal();
-			
 			} 
 		}); 
 	});	   
  
+ 
  $(document).on("click","#delBtn", function(){ //보낸 메시지함 삭제  
-	 var receiver="";
 		receiver=$(".messageList1").children().children().children().eq(1).text();
 		sender=$(".messageList1").children().children().children().eq(3).text();
 		messageDate=$(".messageList1").children().children().children().eq(5).text();
@@ -402,12 +427,33 @@ function sendMessageList(){
 				data : "sender="+receiver+"&receiver="+sender+"&messageDate="+messageDate,
 				dataType :"json"
 				}).done(function(){
-					$("#messageList").modal();
-				}) 	  
+			 		$.ajax({
+						type:"POST",
+						url:"sendMessageList.do",
+						data:"sender=${sessionScope.loginVo.memberNickName}",
+						success:function(result){ 
+							var title = "<table class='messageList'>";
+							if(result.length != 0){
+								title += "<tr><th>보낸이</th><th>제목</th><th>작성일</th><th>조회</th><th>받는이</th></tr>";
+								for(var i=0;i<result.length;i++){
+									title += "<tr><td>"+result[i].sender		
+									+"</td><td><a id='pick' href='#'>"+result[i].messageTitle+"</a>"
+									+"</td><td>"+result[i].messageDate
+									+"</td><td>"+result[i].messageReaded
+									+"</td><td>"+result[i].receiver
+									+"</td></tr>";
+								}
+							}
+							title += "</table>"; 
+							$("#listMessage").html(title); 
+						} //success
+					}); //ajax
+				
+
+				})  
  });
  
  $(document).on("click","#redelBtn", function(){//받은 메시지함 삭제     
-	 var receiver="";
 		receiver=$(".messageList1").children().children().children().eq(1).text();
 		sender=$(".messageList1").children().children().children().eq(3).text();
 		messageDate=$(".messageList1").children().children().children().eq(5).text();
@@ -418,8 +464,30 @@ function sendMessageList(){
 				data : "sender="+receiver+"&receiver="+sender+"&messageDate="+messageDate,
 				dataType :"json"
 			}).done(function(){
-				reload();
-			})  
+				$.ajax({
+					type:"POST",
+					url:"showMessageList.do",
+					data:"receiver=${sessionScope.loginVo.memberNickName}",
+					success:function(result){ 
+						var title = "<table class='messageList'>";
+						if(result.length != 0){
+							title += "<tr><th>보낸이</th><th>제목</th><th>작성일</th><th>조회</th><th>받는이</th></tr>";
+							for(var i=0;i<result.length;i++){
+								title += "<tr><td>"+result[i].sender		
+										+"</td><td><a id='pickRe' href='#'>"+result[i].messageTitle+"</a>"
+										+"</td><td>"+result[i].messageDate
+										+"</td><td>"+result[i].messageReaded
+										+"</td><td>"+result[i].receiver
+										+"</td></tr>";
+							}
+						}
+						title += "</table>"; 
+						$("#listMessage").html(title); 
+					} //success
+				}); //ajax
+				
+				
+			})
  });
  
  $(document).on("click","#replyMesssage", function(){ //답장 모달    
@@ -436,7 +504,14 @@ function sendMessageList(){
 		var sender=$(this).parent().prev().children().eq(2).text() 
 		var messageContent=$("#replyMessageContent").val();
 		var messageTitle=$("#replyTitle").val();	
- 		 $.ajax({
+		if(messageTitle.length==0){
+			alert("제목이 비었습니다.")
+			return false;
+		}
+		else if(messageContent.length==0){
+			alert("내용이 비었습니다.")
+			return false;
+		}else{$.ajax({
 			type : "post",
 			url : "sendMessage.do",
 			data : "sender="+receiver+"&receiver="+sender+"&messageContent="+messageContent+"&messageTitle="+messageTitle,
@@ -448,6 +523,7 @@ function sendMessageList(){
 				$("#replyMessageContent").val("");
 				
 			})  
+		}
 	});
  
 
@@ -1843,6 +1919,7 @@ body {
 </div>
 
 <!-- 쪽지리스트 모달 끝-->
+
 
 <!-- 보낸쪽지상세보기 모달 시작 -->
 <div class="modal fade" id="messageContent">

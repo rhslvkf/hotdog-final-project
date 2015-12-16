@@ -202,16 +202,23 @@ function SendMessage(){
 	var sender=$("#sender").text();
 	var messageContent=$("#messageContents").val();
 	var messageTitle=$("#title").val();
-	alert(messageContent);
+	if(messageTitle.length==0){
+		alert("제목이 비었습니다.")
+		return false;
+	}
+	else if(messageContent.length==0){
+		alert("내용이 비었습니다.")
+		return false;
+	}else{
 		$.ajax({
-						type : "post",
-						url : "sendMessage.do",
-						data : "receiver="+receiver+"&sender="+sender+"&messageContent="+messageContent+"&messageTitle="+messageTitle,
-						dataType :"json",
-						success : function(data) {
-							}
-						})
-					
+				type : "post",
+				url : "sendMessage.do",
+				data : "receiver="+receiver+"&sender="+sender+"&messageContent="+messageContent+"&messageTitle="+messageTitle,
+				dataType :"json",
+				success : function(data) {
+				}
+					})
+	}
 	
 	}
 
