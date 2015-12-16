@@ -337,8 +337,8 @@ function SendMessage(){
           <div class="modal-body">
         	<a style='display: none;' id="sender">${sessionScope.loginVo.memberNickName}</a>
             <a id="nickname"><h5></h5></a>
-         	<input type="text" class="form-control" id="title" value="제목"></input>
-            <textarea class="form-control" id="messageContents" rows="7" style="resize: none;"></textarea>
+         	<input type="text" class="form-control" id="title"  placeholder="제목"></input>
+            <textarea class="form-control" id="messageContents" rows="7" placeholder="내용"  style="resize: none;"></textarea>
           </div>
           
           <div class="modal-footer">

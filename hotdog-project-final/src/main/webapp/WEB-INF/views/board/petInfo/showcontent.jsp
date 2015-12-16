@@ -477,8 +477,8 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
           <div class="modal-body">
         	<a style='display: none;' id="sender">${sessionScope.loginVo.memberNickName}</a>
             <a id="nickname"><h5></h5></a>
-         	<input type="text" class="form-control" id="title" value="제목"></input>
-            <textarea class="form-control" id="messageContents" rows="7" style="resize: none;"></textarea>
+         	<input type="text" class="form-control" id="title"  placeholder="제목"></input>
+            <textarea class="form-control" id="messageContents"  placeholder="내용" rows="7" style="resize: none;"></textarea>
           </div>
           
           <div class="modal-footer">
