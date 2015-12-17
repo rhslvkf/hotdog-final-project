@@ -58,10 +58,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where b.member_id=m.member_id and b.adoption_number=#{value}
 	</select>
 	<select id="getPostingList" resultMap="boardRM">
-		select b.adoption_number,b.adoption_title,b.adoption_date,b.adoption_hits,b.member_id,m.member_nickname from (
-			select adoption_number,adoption_title,adoption_date,adoption_hits,ceil(rownum/8) as page,member_id from (
+		select b.adoption_number,b.adoption_title,b.adoption_date,b.adoption_hits,b.member_id,m.member_nickname,adoption_content from (
+			select adoption_number,adoption_title,adoption_date,adoption_hits,ceil(rownum/8) as page,member_id,adoption_content from (
 					select adoption_number,adoption_title,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,
-					adoption_hits,member_id from board_adoption  order by adoption_number desc
+					adoption_hits,member_id,adoption_content from board_adoption  order by adoption_number desc
 		     )
        ) b,hotdog_member m where b.member_id=m.member_id and page=#{value}
 	</select>

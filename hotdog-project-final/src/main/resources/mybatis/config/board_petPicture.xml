@@ -46,10 +46,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where b.member_id=m.member_id and b.petPicture_number=#{value}
 	</select>
 	<select id="getPostingList" resultMap="boardRM">
-		select b.petPicture_number,b.petPicture_title,b.petPicture_date,b.petPicture_hits,b.member_id,m.member_nickname from (
-			select petPicture_number,petPicture_title,petPicture_date,petPicture_hits,ceil(rownum/8) as page,member_id from (
+		select b.petPicture_number,b.petPicture_title,b.petPicture_date,b.petPicture_hits,b.member_id,m.member_nickname,petpicture_content from (
+			select petPicture_number,petPicture_title,petPicture_date,petPicture_hits,ceil(rownum/8) as page,member_id,petpicture_content from (
 					select petPicture_number,petPicture_title,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date,
-					petPicture_hits,member_id from board_petPicture  order by petPicture_number desc
+					petPicture_hits,member_id,petpicture_content from board_petPicture  order by petPicture_number desc
 		     )
        ) b,hotdog_member m where b.member_id=m.member_id and page=#{value}
 	</select>

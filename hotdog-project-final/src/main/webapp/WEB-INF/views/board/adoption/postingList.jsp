@@ -177,6 +177,7 @@ function SendMessage(){
         <thead>
           <tr>
             <th>번호</th>
+            <th>사진</th>
             <th>제목</th>
             <th>닉네임</th>
             <th>작성일</th>
@@ -187,7 +188,8 @@ function SendMessage(){
         	<c:choose>	
         		<c:when test="${sessionScope.loginVo.memberGrade =='GOLD'}">
 					<tr>
-					    <td>${bvo.boardNumber }</td>				
+					    <td>${bvo.boardNumber }</td>	
+					    <td width="110"><img src="${bvo.fileName}" width="100"></td>			
 						<td>
 						<c:choose>
 						<c:when test="${sessionScope.loginVo!=null}">
@@ -220,7 +222,8 @@ function SendMessage(){
 					</c:when>
 			<c:otherwise>
 					<tr>
-					    <td>${bvo.boardNumber }</td>				
+					    <td>${bvo.boardNumber }</td>			
+					    <td width="110"><img src="${bvo.fileName}" width="100"></td>				
 						<td>${bvo.boardTitle}</td>
 						<td>${bvo.memberVO.memberNickName}</td>
 						<td>${bvo.boardDate }</td>

@@ -175,6 +175,7 @@ function SendMessage(){
         <thead>
           <tr>
             <th>번호</th>
+            <th>사진</th>
             <th>제목</th>
             <th>닉네임</th>
             <th>작성일</th>
@@ -184,6 +185,7 @@ function SendMessage(){
         <c:forEach var="bvo" items="${requestScope.lvo.list}" varStatus="status">				
 			<tr>
 			    <td>${bvo.boardNumber }</td>				
+			    <td width="110"><img src="${bvo.fileName}" width="100"></td>
 				<td>
 				<c:choose>
 				<c:when test="${sessionScope.loginVo!=null}">

@@ -76,6 +76,11 @@ public class BoardServiceImpl implements BoardService{
 		if(pageNo==null||pageNo=="") 
 			pageNo="1";
 		List<BoardVO> list= boardDAO.getPostingList(pageNo, type);
+		for(int i=0;i<list.size();i++){
+			if(list.get(i).getBoardContent() != null && list.get(i).getBoardContent().contains("data:image")){
+				list.get(i).setFileName(list.get(i).getBoardContent().substring(list.get(i).getBoardContent().indexOf("data:image"), list.get(i).getBoardContent().indexOf("\">")-1));
+			}
+		}
 		int total=boardDAO.totalContent(type);
 		PagingBean paging=new PagingBean(total,Integer.parseInt(pageNo));
 		ListVO lvo= new ListVO(list,paging);
@@ -266,7 +271,9 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<BoardVO> latestPetPicturePosting() {
 		ArrayList<BoardVO> list = boardDAO.latestPetPicturePosting();
 		for(int i=0;i<list.size();i++){
-			list.get(i).setFileName(list.get(i).getBoardContent().substring(list.get(i).getBoardContent().indexOf("data:image"), list.get(i).getBoardContent().indexOf(">")-1));
+			if(list.get(i).getBoardContent().contains("data:image")){
+				list.get(i).setFileName(list.get(i).getBoardContent().substring(list.get(i).getBoardContent().indexOf("data:image"), list.get(i).getBoardContent().indexOf("\">")-1));
+			}
 		}
 		return list;
 	}
