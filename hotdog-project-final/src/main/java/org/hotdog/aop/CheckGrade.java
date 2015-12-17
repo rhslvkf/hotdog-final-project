@@ -28,6 +28,9 @@ public class CheckGrade {
 			String memberId = retValue.getMemberId();
 			String grade = memberService.confirmGrade(memberId).getMemberGrade();
 			System.out.println("등급"+grade);
+			if(grade.equals("ADMIN")){
+				return retValue;
+			}
 			if(!grade.equals("GOLD")){
 				int attendance = retValue.getMemberAttendance();
 				System.out.println("attendance : "+attendance);
@@ -118,6 +121,9 @@ public class CheckGrade {
 		}
 		String grade = memberService.confirmGrade(memberId).getMemberGrade();
 		System.out.println(grade);
+		if(grade.equals("ADMIN")){
+			return retValue;
+		}
 		if(!grade.equals("GOLD")){
 			int attendance = 0;
 			int countOfPosting = 0;
@@ -206,6 +212,9 @@ public class CheckGrade {
 		}
 		String grade = memberService.confirmGrade(memberId).getMemberGrade();
 		System.out.println(grade);
+		if(grade.equals("ADMIN")){
+			return retValue;
+		}
 		if(!grade.equals("GOLD")){
 			int attendance = 0;
 			int countOfPosting = 0;

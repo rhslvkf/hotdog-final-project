@@ -1228,17 +1228,17 @@ $(document).ready(function(){
 							data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false">유기견 <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="getPostingList.do?type=board_abandoned">유기견정보</a></li>
-							<li><a href="getPostingList.do?type=board_adoption">유기견분양</a></li>
+								<li style="background-color: white;"><a href="getPostingList.do?type=board_abandoned">유기견정보</a></li>
+							<li style="background-color: white;"><a href="getPostingList.do?type=board_adoption">유기견분양</a></li>
 							</ul></li>
 
 						<li class=" dropdown"><a href="#" class="dropdown-toggle js-activated"
 							data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false">커뮤니티 <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-							<li><a href="getPostingList.do?type=board_notice">공지사항</a></li>
-							<li><a href="getPostingList.do?type=board_petInfo">애견정보</a></li>
-							<li><a href="getPostingList.do?type=board_community">자유게시판</a></li>
+							<li style="background-color: white;"><a href="getPostingList.do?type=board_notice">공지사항</a></li>
+							<li style="background-color: white;"><a href="getPostingList.do?type=board_petInfo">애견정보</a></li>
+							<li style="background-color: white;"><a href="getPostingList.do?type=board_community">자유게시판</a></li>
 							</ul></li>
 
 					<li><a href="getPostingList.do?type=board_petPicture">애견사진</a></li>

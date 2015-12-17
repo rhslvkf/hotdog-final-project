@@ -3,6 +3,8 @@ update hotdog_member set member_grade = 'BRONZE' where member_id = 'baba9024@gma
 update hotdog_member set member_grade = 'GOLD' where member_id = 'baba9024@gmail.com';
 update hotdog_member set member_latestdate = '20151214' where member_id = 'gonipal1@gmail.com';
 update hotdog_member set member_grade = 'GOLD';
+update hotdog_member set member_grade = 'ADMIN' where member_id = 'gonipal@naver.com';
+select * from hotdog_member where member_id = 'gonipal@naver.com';
 select petpicture_number, petpicture_title, petpicture_content from board_petpicture where rownum < 13 order by petpicture_number desc;
 select petpicture_number, petpicture_title, petpicture_content from board_petpicture where 13 > rownum order by petpicture_number desc
 select * from hotdog_member;
