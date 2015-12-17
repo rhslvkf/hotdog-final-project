@@ -28,9 +28,7 @@ function showPostingList(memberId){
 					+"</td><td>"+result.board_abandoned[i].boardTitle+
 					"</td><td>"+result.board_abandoned[i].memberVO.memberNickName
 					+"</td><td>"+result.board_abandoned[i].boardDate
-					+"</td><td>"+result.board_abandoned[i].boardHits+"</td></tr>";
-					
-					
+					+"</td><td>"+result.board_abandoned[i].boardHits+"</td></tr>";	
 				}
 				}
 			}
@@ -56,7 +54,6 @@ function showPostingList(memberId){
 				}
 				}
 			}
-			
 			if(result.board_community.length != 0){
 				title += "<tr><td colspan='5'><h3>"+result.board_community[0].boardType+"</h3></td></tr>";
 				title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
@@ -275,11 +272,7 @@ function SendMessage(){
 				</c:otherwise>
 				</c:choose>
 <!-- 				/////////////////////////////////////////////////////////////////////////////////////////////////// -->
-				
-				
-				
-				
-				
+
 				<td>${bvo.boardDate }</td>
 				<td>${bvo.boardHits }</td>
 			</tr>	
@@ -310,6 +303,8 @@ function SendMessage(){
 		<button type="submit" class="btn btn-default">검색</button>
 	</form>
 	<br><br>
+	
+	
 <p class="paging">
 	<c:set var="pb" value="${requestScope.lvo.pagingBean}"></c:set>
 <div class="col-md-12 text-center">
