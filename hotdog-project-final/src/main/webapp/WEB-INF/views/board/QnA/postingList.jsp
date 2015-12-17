@@ -52,28 +52,162 @@ function allLayerClose(idx,length,flag) {
 	  }
  }
 }
+//---------------------------------------------------------------------------------------------------------------
+
+function showPostingList(memberId){
+	var grade = "${sessionScope.loginVo.memberGrade}";
+	$.ajax({
+		type:"POST",
+		url:"showPostingList.do",
+		data:"memberId="+memberId,
+		success:function(result){ 
+			var title = "<table class='showListPosting'>";
+			if(result.board_abandoned.length != 0){
+				title += "<tr><td colspan='5'><h3>"+result.board_abandoned[0].boardType+"</h3></td></tr>";
+				title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
+				for(var i=0;i<result.board_abandoned.length;i++){
+				if(grade !="BRONZE"){
+					title += "<tr><td>"+result.board_abandoned[i].boardNumber
+							+"</td><td><a href = '${initParam.root}showContent.do?no="
+							+result.board_abandoned[i].boardNumber
+							+"&type=board_abandoned'>"
+							+result.board_abandoned[i].boardTitle+
+							"</a></td><td>"+result.board_abandoned[i].memberVO.memberNickName
+							+"</td><td>"+result.board_abandoned[i].boardDate
+							+"</td><td>"+result.board_abandoned[i].boardHits+"</td></tr>";
+				}else{
+					title += "<tr><td>"+result.board_abandoned[i].boardNumber
+					+"</td><td>"+result.board_abandoned[i].boardTitle+
+					"</td><td>"+result.board_abandoned[i].memberVO.memberNickName
+					+"</td><td>"+result.board_abandoned[i].boardDate
+					+"</td><td>"+result.board_abandoned[i].boardHits+"</td></tr>";
+					
+					
+				}
+				}
+			}
+			if(result.board_adoption.length != 0){
+				title += "<tr><td colspan='5'><h3>"+result.board_adoption[0].boardType+"</h3></td></tr>";
+				title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
+				for(var i=0;i<result.board_adoption.length;i++){
+					if(grade !="BRONZE"){
+					title += "<tr><td>"+result.board_adoption[i].boardNumber
+							+"</td><td><a href = '${initParam.root}showContent.do?no="
+							+result.board_adoption[i].boardNumber
+							+"&type=board_adoption'>"
+							+result.board_adoption[i].boardTitle+
+							"</a></td><td>"+result.board_adoption[i].memberVO.memberNickName
+							+"</td><td>"+result.board_adoption[i].boardDate
+							+"</td><td>"+result.board_adoption[i].boardHits+"</td></tr>";
+				}else{
+					title += "<tr><td>"+result.board_adoption[i].boardNumber
+					+"</td><td>"+result.board_adoption[i].boardTitle+
+					"</td><td>"+result.board_adoption[i].memberVO.memberNickName
+					+"</td><td>"+result.board_adoption[i].boardDate
+					+"</td><td>"+result.board_adoption[i].boardHits+"</td></tr>";
+				}
+				}
+			}
+			
+			if(result.board_community.length != 0){
+				title += "<tr><td colspan='5'><h3>"+result.board_community[0].boardType+"</h3></td></tr>";
+				title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
+				for(var i=0;i<result.board_community.length;i++){
+					title += "<tr><td>"+result.board_community[i].boardNumber
+							+"</td><td><a href = '${initParam.root}showContent.do?no="
+							+result.board_community[i].boardNumber
+							+"&type=board_community'>"
+							+result.board_community[i].boardTitle+
+							"</a></td><td>"+result.board_community[i].memberVO.memberNickName
+							+"</td><td>"+result.board_community[i].boardDate
+							+"</td><td>"+result.board_community[i].boardHits+"</td></tr>";
+				}
+			}
+			if(result.board_petInfo.length != 0){
+				title += "<tr><td colspan='5'><h3>"+result.board_petInfo[0].boardType+"</h3></td></tr>";
+				title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
+				
+				for(var i=0;i<result.board_petInfo.length;i++){
+					if(grade !="BRONZE"){
+					title += "<tr><td>"+result.board_petInfo[i].boardNumber
+							+"</td><td><a href = '${initParam.root}showContent.do?no="
+							+result.board_petInfo[i].boardNumber
+							+"&type=board_petInfo'>"
+							+result.board_petInfo[i].boardTitle+
+							"</a></td><td>"+result.board_petInfo[i].memberVO.memberNickName
+							+"</td><td>"+result.board_petInfo[i].boardDate
+							+"</td><td>"+result.board_petInfo[i].boardHits+"</td></tr>";
+				}else{
+					title += "<tr><td>"+result.board_petInfo[i].boardNumber
+					+"</td><td>"+result.board_petInfo[i].boardTitle+
+					"</td><td>"+result.board_petInfo[i].memberVO.memberNickName
+					+"</td><td>"+result.board_petInfo[i].boardDate
+					+"</td><td>"+result.board_petInfo[i].boardHits+"</td></tr>";
+					
+				}
+				}
+			}
+			if(result.board_petPicture.length != 0){
+				title += "<tr><td colspan='5'><h3>"+result.board_petPicture[0].boardType+"</h3></td></tr>";
+				title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
+				for(var i=0;i<result.board_petPicture.length;i++){
+					if(grade !="BRONZE"){
+					title += "<tr><td>"+result.board_petPicture[i].boardNumber
+							+"</td><td><a href = '${initParam.root}showContent.do?no="
+							+result.board_petPicture[i].boardNumber
+							+"&type=board_petPicture'>"
+							+result.board_petPicture[i].boardTitle+
+							"</a></td><td>"+result.board_petPicture[i].memberVO.memberNickName
+							+"</td><td>"+result.board_petPicture[i].boardDate
+							+"</td><td>"+result.board_petPicture[i].boardHits+"</td></tr>";
+				}else{
+					title += "<tr><td>"+result.board_petPicture[i].boardNumber
+					+"</td><td>"+result.board_petPicture[i].boardTitle+
+					"</td><td>"+result.board_petPicture[i].memberVO.memberNickName
+					+"</td><td>"+result.board_petPicture[i].boardDate
+					+"</td><td>"+result.board_petPicture[i].boardHits+"</td></tr>";
+			
+				}
+				}
+			}
+			title += "</table>";
+			$("#boardTitle").html(title);
+			$("#showPostingList").modal();
+		}
+	});
+}
 
 </script>	
-	<div class="panel panel-default">
-      <!-- Default panel contents -->
-      <div class="panel-heading">Q&A</div>
-      <!-- Table -->
-      <table class="list">
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>닉네임</th>
-            <th>작성일</th>
-            <th>조회수</th>
-          </tr>
-        </thead>
-        <c:forEach var="bvo" items="${requestScope.lvo.list}">				
+
+
+
+
+
+
+
+
+
+   	      <h1>Q & A</h1>
+    <div class="showListPosting">
+      <div class="col-md-12">
+        <table class="table table-striped custab">
+          <thead>
+            <tr>
+              <th width="80">번 호</th>
+              <th width="300">제 목</th>
+              <th width="150">닉네임</th>
+              <th width="150">작성일</th>
+              <th width="100">조회수</th>
+              <th class="text-center" width="150">수정/삭제</th>
+            </tr>
+          </thead>
+          				<c:forEach var="bvo" items="${requestScope.lvo.list}" varStatus="status">				
+          <tbody>
 			<tr>
-			    <td>${bvo.boardNumber }</td>	
+			    <td>${bvo.boardNumber }</td>		
 				<c:choose>
-				<c:when test="${sessionScope.loginVo!=null}">
-					<td class="titleView">
+				<c:when test="${sessionScope.loginVo !=null}">
+						<td class="titleView">
 					<c:if test="${bvo.relevel!=0}">
 					<c:forEach begin="0" end="${bvo.relevel}" step="1">&nbsp;&nbsp;</c:forEach>
 					<img src="${initParam.root }img/reply.jpg">
@@ -106,11 +240,45 @@ function allLayerClose(idx,length,flag) {
 				</c:choose>
 				<td>${bvo.boardDate }</td>
 				<td>${bvo.boardHits }</td>
-			</tr>	
+
+						<td class="text-center"><c:if
+								test="${bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
+								<a class="btn btn-info btn-xs"
+									href="updateView.do?no=${bvo.boardNumber}&type=board_QnA"
+									onclick="return confirm('수정하시겠습니까?')"> <span
+									class="glyphicon glyphicon-edit"></span> 수정
+								</a>
+								<a
+									href="auth_deletePosting.do?no=${bvo.boardNumber }&type=board_QnA"
+									onclick="return confirm('삭제하시겠습니까?')"
+									class="btn btn-danger btn-xs"> <span
+									class="glyphicon glyphicon-remove"></span> 삭제
+								</a>
+							</c:if></td>
+					</tr>	
 			</c:forEach>
 		</tbody>
       </table>
     </div>
+    </div>
+
+
+
+     <style>
+      .custab{
+          border: 1px solid #ccc;
+          padding: 5px;
+          margin: 5% 0;
+          box-shadow: 3px 3px 2px #ccc;
+          transition: 0.5s;
+          }
+      .custab:hover{
+          box-shadow: 3px 3px 0px transparent;
+          transition: 0.5s;
+          }
+    </style>
+
+    
 	<form class="navbar-form navbar-left" role="search"
 		action="${initParam.root}searchPosting.do">
 		<input type="hidden" name="type" value="board_QnA">
@@ -162,7 +330,74 @@ function allLayerClose(idx,length,flag) {
 
 
 
+<c:forEach begin="1" end="${fn:length(requestScope.lvo.list)}" var="i">
+<div class="_popup" id="Layer${i}true" style="position:absolute; display:none;">
+<table class="memberInfo">
+  <tr>
+   <td><a href = "#" onclick="showPostingList('${requestScope.lvo.list[i-1].memberVO.memberId}')"><font color="blue">게시글 보기</font></a></td>
+  </tr>
+</table>
+</div>
+</c:forEach>
+
+<c:forEach begin="1" end="${fn:length(requestScope.lvo.list)}" var="i">
+<div class="_popup" id="Layer${i}false" style="position:absolute; display:none;">
+<table class="memberInfo">
+  <tr>
+   <td><a href = "#" onclick="showPostingList('${requestScope.lvo.list[i-1].memberVO.memberId}')"><font color="blue">게시글 보기</font></a></td>
+  </tr>
+  <tr>
+   <td><a data-toggle="modal" href= "#messagePostingList"><font color="blue">쪽지 보내기</font></a></td>
+  </tr>
+</table>
+</div>
+</c:forEach>
 
 
 
+<!-- 게시글보기 모달 시작 -->
+    <div class="modal fade" id="showPostingList">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">게시글보기</h4>
+          </div>
+			<div class="modal-body">
+            <div id="boardTitle"></div>
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-default" data-dismiss="modal">Close</a>
+          </div>
+        </div>
+      </div>
+    </div>
+<!--  게시글보기 모달 끝 -->
 
+
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- 쪽지보내기 모달 시작 -->
+<div class="modal fade" id="messagePostingList">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">쪽지보내기</h4>
+          </div>
+          <div class="modal-body">
+        	<a style='display: none;' id="sender">${sessionScope.loginVo.memberNickName}</a>
+            <a id="nickname"><h5></h5></a>
+         	<input type="text" class="form-control" id="title" value="제목"></input>
+            <textarea class="form-control" id="messageContents" rows="7" style="resize: none;"></textarea>
+          </div>
+          
+          <div class="modal-footer">
+            <a class="btn btn-default" onclick="SendMessage()" 
+            	href="">쪽지보내기</a>
+            <a class="btn btn-default" data-dismiss="modal">닫기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- 쪽지보내기 모달 끝 -->

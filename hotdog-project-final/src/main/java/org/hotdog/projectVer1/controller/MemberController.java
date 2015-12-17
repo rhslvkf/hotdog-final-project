@@ -4,6 +4,8 @@ package org.hotdog.projectVer1.controller;
  * sysout test 후에 꼭 지워주삼 -웅
  */
 
+
+
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +45,12 @@ public class MemberController {
 		}else{
 			return "deletefail";
 		}
+	}
+	
+	//전체회원보기
+	@RequestMapping("allMemberInfo.do")
+	public ModelAndView allMemberInfo(String pageNo) {
+		return new ModelAndView("admin_allMemberInfo","mvo",memberService.allMemberInfo(pageNo));
 	}
 	
 	//회원 탈퇴시 비밀번호 확인 ajax - login 활용
@@ -111,6 +119,8 @@ public class MemberController {
 			session.setAttribute("loginVo", vo);
 		return "redirect:home.do?update=success";
 	}
+	
+
 	
 	
 	/** 
@@ -186,5 +196,6 @@ public class MemberController {
 		}
 		return path;
 	}
+
 	
 }

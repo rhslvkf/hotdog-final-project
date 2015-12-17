@@ -6,6 +6,10 @@ update hotdog_member set member_grade = 'GOLD';
 select petpicture_number, petpicture_title, petpicture_content from board_petpicture where rownum < 13 order by petpicture_number desc;
 
 select * from hotdog_member;
+
+select * from hotdog_member where member_nickname ='관리자'
+
+
 select * from board_abandoned_comment;
 select b.petpicture_number, b.petpicture_title, f.file_name as file_name from(
 	select petpicture_number, petpicture_title from board_petpicture 
@@ -75,7 +79,13 @@ drop table board_petPicture cascade constraints;
 drop table board_QnA cascade constraints;
 drop table hotdog_member cascade constraints
 
-
+create table chat(
+   chat_id number primary key,
+   user_name varchar2(20) not null,
+   chat_message varchar2(1000) not null,
+   date_created date not null
+)
+create sequence chat_seq nocache;
 
 -- select, drop 모음    
 select * from hotdog_member;
@@ -139,12 +149,13 @@ select * from hotdog_member
 
 		insert into
 		hotdog_member(member_id,member_name,member_password,member_nickname,member_grade,member_tel,member_status)
-		values('nabkbk@naver.com','김보규','1111','김보규','GOLD','01040897835','active')
+		values('admin@hotdog.com','관리자','1111','관리자','ADMIN','01040897835','active')
 		insert into
 		hotdog_member(member_id,member_name,member_password,member_nickname,member_grade,member_tel,member_status)
 		values('wayneboney@nate.com','김보규','1111','골드보규','GOLD','01040897835','active')
 
-
+		select member_id,member_name,member_nickname,member_grade from hotdog_member;
+		
 create table hotdog_member(
 	member_id varchar2(100) primary key,
 	member_name varchar2(100) not null,
@@ -827,4 +838,41 @@ create table mail()
 		select message_title, sender, message_post_date, message_readed from message_box 
  		where receiver='꺼져' and message_to_del='1'
 		
+ 		
+ 		
+ 		create table hotdog_member(
+	member_id varchar2(100) primary key,
+	member_name varchar2(100) not null,
+	member_password varchar2(100) not null,
+	member_nickname varchar2(100) not null,
+	member_grade varchar2(100) not null,
+	member_attendance number default 0,
+	member_tel varchar2(100) not null,
+	member_status varchar2(100) not null,
+	member_latestdate varchar2(100) default '0',
+	pass_period date default sysdate
+)
+
+ 		 				
+
+			select member_id,member_name,member_nickname,member_grade,member_attendance,member_tel,member_status,
+			member_latestdate from(
+			select member_id,member_name,member_nickname,member_grade,member_attendance,member_tel,ceil(rownum/5) as page,
+			member_status,member_latestdate from(
+			select member_id,member_name,member_nickname,member_grade,member_attendance,member_tel,member_status,
+			member_latestdate from hotdog_member order by member_id desc
+			)
+			)where page='1'
+			
+
+     
+       
+       		select b.notice_number,b.notice_title,b.notice_date,b.notice_hits,b.member_id,m.member_nickname from (
+			select notice_number,notice_title,notice_date,notice_hits,ceil(rownum/8) as page,member_id from (
+					select notice_number,notice_title,to_char(notice_date,'YYYY.MM.DD') as notice_date,
+					notice_hits,member_id from board_notice  order by notice_number desc
+		     )
+       ) b,hotdog_member m where b.member_id=m.member_id and page=#{value}
+ 		
+ 		
 

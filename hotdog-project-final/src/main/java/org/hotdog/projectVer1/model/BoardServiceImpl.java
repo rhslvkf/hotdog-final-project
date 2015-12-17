@@ -80,6 +80,7 @@ public class BoardServiceImpl implements BoardService{
 		int total=boardDAO.totalContent(type);
 		PagingBean paging=new PagingBean(total,Integer.parseInt(pageNo));
 		ListVO lvo= new ListVO(list,paging);
+
 		return lvo;
 	}
 

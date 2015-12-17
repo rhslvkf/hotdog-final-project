@@ -10,7 +10,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="org.hotdog.projectVer1.model.CommentVO" alias="cvo"/>		
 		<typeAlias type="org.hotdog.projectVer1.model.MemberVO" alias="mvo"/>
 		<typeAlias type="org.hotdog.projectVer1.model.PetVO" alias="pvo"/>
-
 		<typeAlias type="org.hotdog.projectVer1.model.MessageVO" alias="mevo"/>
 	
 	</typeAliases>	

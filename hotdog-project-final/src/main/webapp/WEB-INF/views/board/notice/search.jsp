@@ -1,26 +1,27 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<div class="panel panel-default">
-      <!-- Default panel contents -->
-      <div class="panel-heading">공지사항</div>
-      <!-- Table -->
-      <table class="list">
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>닉네임</th>
-            <th>작성일</th>
-            <th>조회수</th>
-          </tr>
-        </thead>
-        <c:forEach var="bvo" items="${requestScope.lvo.list}">				
-			<tr>
-			    <td>${bvo.boardNumber }</td>				
-				<td>
-				<c:choose>
-				<c:when test="${sessionScope.loginVo!=null}">
-				<a href="${initParam.root}showContent.do?no=${bvo.boardNumber }&type=board_notice">
+  <h1>공지사항</h1>
+    <div class="showListPosting">
+      <div class="col-md-12">
+        <table class="table table-striped custab">
+          <thead>
+            <tr>
+              <th width="80">번 호</th>
+              <th width="300">제 목</th>
+              <th width="150">닉네임</th>
+              <th width="150">작성일</th>
+              <th width="100">조회수</th>
+              <th class="text-center" width="150">수정/삭제</th>
+            </tr>
+          </thead>
+          		<c:forEach var="bvo" items="${requestScope.lvo.list}">				
+          <tbody>
+            <tr>
+              <td>${bvo.boardNumber }</td>
+              <td>
+              <c:choose>        
+				<c:when test="${sessionScope.loginVo !=null || sessionScope.loginVo.memberGrade=='ADMIN'}">
+				<a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_notice">
 				${bvo.boardTitle }</a>
 				</c:when>
 				<c:otherwise>
@@ -31,18 +32,48 @@
 				<td>${bvo.memberVO.memberNickName }</td>
 				<td>${bvo.boardDate }</td>
 				<td>${bvo.boardHits }</td>
-			</tr>	
-			</c:forEach>
-		</tbody>
-      </table>
+				
+						<td class="text-center">   
+							<c:if test="${bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
+								<a class="btn btn-info btn-xs"
+									href="updateView.do?no=${bvo.boardNumber}&type=board_notice" onclick="return confirm('수정하시겠습니까?')">
+									<span class="glyphicon glyphicon-edit"></span>
+									 수정
+								</a>
+								<a
+									href="auth_deletePosting.do?no=${bvo.boardNumber }&type=board_notice" onclick="return confirm('삭제하시겠습니까?')"
+									class="btn btn-danger btn-xs"> <span
+									class="glyphicon glyphicon-remove"></span> 삭제
+								</a>
+                               </c:if>
+							</td>
+							
+					</tr>
+          </tbody>
+          </c:forEach>
+        </table>
+      </div>
     </div>
+    <style>
+      .custab{
+          border: 1px solid #ccc;
+          padding: 5px;
+          margin: 5% 0;
+          box-shadow: 3px 3px 2px #ccc;
+          transition: 0.5s;
+          }
+      .custab:hover{
+          box-shadow: 3px 3px 0px transparent;
+          transition: 0.5s;
+          }
+    </style>
 	<form class="navbar-form navbar-left" role="search"
 		action="${initParam.root}searchPosting.do">
 		<input type="hidden" name="type" value="board_notice">
 		<div class="form-group">
 		<c:choose>
-			<c:when test="${sessionScope.loginVo!=null}">
-			<a class="btn btn-default" href="${initParam.root}write.do?type=board_notice">글쓰기</a>
+			<c:when test="${sessionScope.loginVo.memberGrade =='ADMIN'}">
+			<a class="btn btn-default" href="${initParam.root}auth_write.do?type=board_notice">글쓰기</a>
 			</c:when>
 			<c:otherwise>
 			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;

@@ -54,26 +54,27 @@ function allLayerClose(idx,length,flag) {
 }
 
 </script>
-	<div class="panel panel-default">
-      <!-- Default panel contents -->
-      <div class="panel-heading">Q&A</div>
-      <!-- Table -->
-      <table class="list">
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>닉네임</th>
-            <th>작성일</th>
-            <th>조회수</th>
-          </tr>
-              </thead>
-        <c:forEach var="bvo" items="${requestScope.lvo.list}" varStatus="status">				
+   	      <h1>Q & A</h1>
+    <div class="showListPosting">
+      <div class="col-md-12">
+        <table class="table table-striped custab">
+          <thead>
+            <tr>
+              <th width="80">번 호</th>
+              <th width="300">제 목</th>
+              <th width="150">닉네임</th>
+              <th width="150">작성일</th>
+              <th width="100">조회수</th>
+              <th class="text-center" width="150">수정/삭제</th>
+            </tr>
+          </thead>
+          				<c:forEach var="bvo" items="${requestScope.lvo.list}" varStatus="status">				
+          <tbody>
 			<tr>
-			    <td>${bvo.boardNumber }</td>				
+			    <td>${bvo.boardNumber }</td>		
 				<c:choose>
-				<c:when test="${sessionScope.loginVo!=null}">
-					<td class="titleView">
+				<c:when test="${sessionScope.loginVo !=null}">
+						<td class="titleView">
 					<c:if test="${bvo.relevel!=0}">
 					<c:forEach begin="0" end="${bvo.relevel}" step="1">&nbsp;&nbsp;</c:forEach>
 					<img src="${initParam.root }img/reply.jpg">
@@ -89,10 +90,10 @@ function allLayerClose(idx,length,flag) {
 				</c:if>
 				${bvo.boardTitle}
 				</td>
-			</c:otherwise>
+				</c:otherwise>
 				</c:choose>
-			    <c:choose>
- 				<c:when test="${sessionScope.loginVo == null }">
+				<c:choose>
+				<c:when test="${sessionScope.loginVo == null }">
 				<td>${bvo.memberVO.memberNickName}</td>
 				</c:when>
 				<c:when test="${sessionScope.loginVo.memberId == bvo.memberVO.memberId }">
@@ -106,18 +107,52 @@ function allLayerClose(idx,length,flag) {
 				</c:choose>
 				<td>${bvo.boardDate }</td>
 				<td>${bvo.boardHits }</td>
-			     </tr>		
+
+						<td class="text-center"><c:if
+								test="${bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
+								<a class="btn btn-info btn-xs"
+									href="updateView.do?no=${bvo.boardNumber}&type=board_QnA"
+									onclick="return confirm('수정하시겠습니까?')"> <span
+									class="glyphicon glyphicon-edit"></span> 수정
+								</a>
+								<a
+									href="auth_deletePosting.do?no=${bvo.boardNumber }&type=board_QnA"
+									onclick="return confirm('삭제하시겠습니까?')"
+									class="btn btn-danger btn-xs"> <span
+									class="glyphicon glyphicon-remove"></span> 삭제
+								</a>
+							</c:if></td>
+					</tr>	
 			</c:forEach>
 		</tbody>
       </table>
     </div>
+    </div>
+
+
+
+     <style>
+      .custab{
+          border: 1px solid #ccc;
+          padding: 5px;
+          margin: 5% 0;
+          box-shadow: 3px 3px 2px #ccc;
+          transition: 0.5s;
+          }
+      .custab:hover{
+          box-shadow: 3px 3px 0px transparent;
+          transition: 0.5s;
+          }
+    </style>
+    
+    
 	<form class="navbar-form navbar-left" role="search"
 		action="${initParam.root}searchPosting.do">
 		<input type="hidden" name="type" value="board_QnA">
 		<div class="form-group">
 		<c:choose>
 			<c:when test="${sessionScope.loginVo!=null}">
-			<a class="btn btn-default" href="${initParam.root}write.do?type=board_QnA">글쓰기</a>
+			<a class="btn btn-default" href="${initParam.root}auth_write.do?type=board_QnA">글쓰기</a>
 			</c:when>
 			<c:otherwise>
 			<a class="btn btn-default">글쓰기</a>

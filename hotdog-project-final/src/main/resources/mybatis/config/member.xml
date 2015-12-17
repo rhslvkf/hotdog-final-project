@@ -16,7 +16,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	<result column="member_tel" property="memberTel" />
  	<result column="member_status" property="memberStatus"/>
  	<result column="pass_period" property="passPeriod"/>
+ 	<result column="member_latestdate" property="memberLatestdate"/>
  </resultMap>
+<!-- 회원전체보기 -->
+<select id="allMemberInfo" resultMap="membervo">
+			select member_id,member_name,member_nickname,member_grade,member_attendance,member_tel,member_status,
+			member_latestdate from(
+			select member_id,member_name,member_nickname,member_grade,member_attendance,member_tel,ceil(rownum/8) as page,
+			member_status,member_latestdate from(
+			select member_id,member_name,member_nickname,member_grade,member_attendance,member_tel,member_status,
+			member_latestdate from hotdog_member order by member_id desc
+			)
+			)where page=#{value}
+</select>
+
+	<select id="totalContent" resultType="int">
+	select count(*) from hotdog_member
+	</select>
+ 
  <!-- 로그인 -->
 	<select id="login" parameterType="mvo" resultMap="membervo">
 		select member_id,member_name,member_password,member_nickname,member_grade,member_attendance,member_tel,member_status,member_latestdate,TO_DATE(sysdate)-TO_DATE(pass_period) as pass_period from hotdog_member

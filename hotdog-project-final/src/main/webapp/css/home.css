@@ -13,7 +13,7 @@
 	#left{
 		padding: 5px;
 		height:500px;
-		width:10%;
+		width:300px;
 		float: left; /* left로 부유위치를 지정해 left와 main이 수평 배치하도록 한다    */
 	}
 	#main{

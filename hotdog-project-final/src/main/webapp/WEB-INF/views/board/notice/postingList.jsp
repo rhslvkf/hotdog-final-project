@@ -24,7 +24,7 @@
               <td>${bvo.boardNumber }</td>
               <td>
               <c:choose>        
-				<c:when test="${sessionScope.loginVo !=null}">
+				<c:when test="${sessionScope.loginVo !=null || sessionScope.loginVo.memberGrade=='ADMIN'}">
 				<a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_notice">
 				${bvo.boardTitle }</a>
 				</c:when>
@@ -37,15 +37,15 @@
 				<td>${bvo.boardDate }</td>
 				<td>${bvo.boardHits }</td>
 				
-						<td class="text-center">
-							<c:if test="${bvo.memberVO.memberId==sessionScope.loginVo.memberId}">
+						<td class="text-center">   
+							<c:if test="${bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
 								<a class="btn btn-info btn-xs"
-									href="updateView.do?no=${bvo.boardNumber}&type=board_notice" >
+									href="updateView.do?no=${bvo.boardNumber}&type=board_notice" onclick="return confirm('수정하시겠습니까?')">
 									<span class="glyphicon glyphicon-edit"></span>
 									 수정
 								</a>
 								<a
-									href="auth_deletePosting.do?no=${bvo.boardNumber }&type=board_notice"
+									href="auth_deletePosting.do?no=${bvo.boardNumber }&type=board_notice" onclick="return confirm('삭제하시겠습니까?')"
 									class="btn btn-danger btn-xs"> <span
 									class="glyphicon glyphicon-remove"></span> 삭제
 								</a>
@@ -78,7 +78,7 @@
 		<input type="hidden" name="type" value="board_notice">
 		<div class="form-group">
 			<c:choose>
-			<c:when test="${sessionScope.loginVo !=null}">
+			<c:when test="${sessionScope.loginVo.memberGrade =='ADMIN'}">
 			<a class="btn btn-default" href="${initParam.root}auth_write.do?type=board_notice">글쓰기</a>
 			</c:when>
 			

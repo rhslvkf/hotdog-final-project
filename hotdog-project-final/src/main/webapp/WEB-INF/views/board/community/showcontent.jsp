@@ -360,7 +360,7 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
 		<tr>
 			<td valign="middle" align="center" colspan="3">
 			 <img id="listImg" class="action" src="${initParam.root}img/list_btn.jpg">
-			 <c:if test="${requestScope.bvo.memberVO.memberId==sessionScope.loginVo.memberId}">
+			 <c:if test="${requestScope.bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
 			 <img id="deleteImg" class="action"  onclick="deleteBoard()" src="${initParam.root}img/delete_btn.jpg" > 
 			 <img id="updateImg" class="action"  onclick="updateBoard()" src="${initParam.root}img/modify_btn.jpg" >
 			 </c:if>

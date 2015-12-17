@@ -218,27 +218,28 @@ function SendMessage(){
 
 
 </script>
-
-	<div class="panel panel-default">
-      <!-- Default panel contents -->
-      <div class="panel-heading">자유게시판</div>
-      <!-- Table -->
-      <table class="list">
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>닉네임</th>
-            <th>작성일</th>
-            <th>조회수</th>
-          </tr>
-        </thead>		
-		<c:forEach var="bvo" items="${requestScope.lvo.list}" varStatus="status">				
+    
+    	      <h1>자유게시판</h1>
+    <div class="showListPosting">
+      <div class="col-md-12">
+        <table class="table table-striped custab">
+          <thead>
+            <tr>
+              <th width="80">번 호</th>
+              <th width="300">제 목</th>
+              <th width="150">닉네임</th>
+              <th width="150">작성일</th>
+              <th width="100">조회수</th>
+              <th class="text-center" width="150">수정/삭제</th>
+            </tr>
+          </thead>
+          				<c:forEach var="bvo" items="${requestScope.lvo.list}" varStatus="status">				
+          <tbody>
 			<tr>
 			    <td>${bvo.boardNumber }</td>				
 				<td>
 				<c:choose>
-				<c:when test="${sessionScope.loginVo !=null || sessionScope.adminLoginVo!=null}">
+				<c:when test="${sessionScope.loginVo !=null}">
 				<a href="${initParam.root}showContent.do?no=${bvo.boardNumber }&type=board_community">
 				${bvo.boardTitle }</a>
 				</c:when>
@@ -251,11 +252,9 @@ function SendMessage(){
 				<c:when test="${sessionScope.loginVo ==null}">
 				<td>${bvo.memberVO.memberNickName}</td>
 				</c:when>
-				<c:when test="${sessionScope.loginVo.memberId == bvo.memberVO.memberId }">
+				<c:when test="${sessionScope.loginVo.memberId == bvo.memberVO.memberId}">
 				
-				
-				
-				
+
 <!-- 				/////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	
 				<td><a href="#" onclick="layerControl(event, ${status.count},${fn:length(requestScope.lvo.list)},true,null)">
@@ -270,22 +269,62 @@ function SendMessage(){
 <!-- 				/////////////////////////////////////////////////////////////////////////////////////////////////// -->
 				
 				
-				
-				
-				
 				<td>${bvo.boardDate }</td>
 				<td>${bvo.boardHits }</td>
+							<td class="text-center">   
+							<c:if test="${bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
+								<a class="btn btn-info btn-xs"
+									href="updateView.do?no=${bvo.boardNumber}&type=board_community" onclick="return confirm('수정하시겠습니까?')">
+									<span class="glyphicon glyphicon-edit"></span>
+									 수정
+								</a>
+								<a
+									href="auth_deletePosting.do?no=${bvo.boardNumber }&type=board_community" onclick="return confirm('삭제하시겠습니까?')"
+									class="btn btn-danger btn-xs"> <span
+									class="glyphicon glyphicon-remove"></span> 삭제
+								</a>
+                               </c:if>
+							</td>
 			</tr>	
+			</tbody>
 			</c:forEach>
-		</tbody>
-      </table>
+        </table>
+      </div>
     </div>
+    
+    
+    
+    
+    
+    
+    
+     <style>
+      .custab{
+          border: 1px solid #ccc;
+          padding: 5px;
+          margin: 5% 0;
+          box-shadow: 3px 3px 2px #ccc;
+          transition: 0.5s;
+          }
+      .custab:hover{
+          box-shadow: 3px 3px 0px transparent;
+          transition: 0.5s;
+          }
+    </style>
+    
+    
+    
+    
+    
+    
+    
+    
 	<form class="navbar-form navbar-left" role="search"
 		action="${initParam.root}searchPosting.do">
 		<input type="hidden" name="type" value="board_community">
 		<div class="form-group">
 		<c:choose>
-			<c:when test="${sessionScope.loginVo !=null || sessionScope.adminLoginVo!=null}">
+			<c:when test="${sessionScope.loginVo !=null}">
 			<a class="btn btn-default" href="${initParam.root}auth_write.do?type=board_community">글쓰기</a>
 			</c:when>
 			<c:otherwise>
@@ -303,6 +342,7 @@ function SendMessage(){
 		<button type="submit" class="btn btn-default">검색</button>
 	</form>
 	<br><br>
+	
 <p class="paging">
 	<c:set var="pb" value="${requestScope.lvo.pagingBean}"></c:set>
 <div class="col-md-12 text-center">
@@ -340,6 +380,7 @@ function SendMessage(){
 </div>
 </c:forEach>
 
+
 <c:forEach begin="1" end="${fn:length(requestScope.lvo.list)}" var="i">
 <div class="_popup" id="Layer${i}false" style="position:absolute; display:none;">
 <table class="memberInfo">
@@ -349,7 +390,15 @@ function SendMessage(){
   <tr>
    <td><a data-toggle="modal" href= "#messagePostingList"><font color="blue">쪽지 보내기</font></a></td>
   </tr>
+  
+  <c:if test="${sessionScope.loginVo.memberGrade=='ADMIN'}">
+        <tr>
+   <td><a data-toggle="modal" href= "#mypagemodal"><font color="blue">회원정보보기</font></a></td>
+  </tr>
+  </c:if>
+
 </table>
+
 </div>
 </c:forEach>
 
@@ -400,3 +449,82 @@ function SendMessage(){
     </div>
 <!-- 쪽지보내기 모달 끝 -->
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+
+<!-- 관리자모드 회원정보보기 -->
+
+
+
+<div class="modal fade" id="mypagemodal">
+	<div class="modal-dialog">
+				<form class="form-horizontal" role="form">
+          <div class="panel panel-warning">
+            <div class="panel-heading">
+            <button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+              <h3 class="panel-title">회원정보보기</h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center">
+                  <img alt="User Pic" src="${initParam.root}image/dog1.jpg" width="140px" height="180px">
+                </div>
+                <div class=" col-md-9 col-lg-9 ">
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td>아이디</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>이름</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>별명</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>전화번호</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>회원등급</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                      <td>출석일수</td>
+                        <td></td>
+                        </tr>
+                      <tr>
+                        <td>작성한 게시글</td>
+                       <td><a href="#" onclick="showMyPostingList('${sessionScope.loginVo.memberId}')" ><span id="countOfMyPosting"></span></a></td>
+                      </tr>
+                      <tr>
+                        <td>작성한 댓글</td>
+                       <td><a href="#" onclick="showMyCommentList('${sessionScope.loginVo.memberNickName}')" ><span id="countOfMyComment"></span></a></td>
+                      </tr>
+                      <tr>
+                        <td>스크랩한 게시글</td>
+                        <td><a href="#" onclick="showMyScrapeList('${sessionScope.loginVo.memberId}')"><span id="countOfMyScrape"></span></a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                			<div class="modal-footer">
+				<ul class="nav navbar-nav navbar-right">
+
+
+				<li><a data-dismiss="modal">닫기</a></li>
+
+				</ul>
+			</div>
+              </div>
+            </div>
+          </div>
+				</form>
+
+	</div>
+</div>
+<!--  관리자 정보 회원정보보기 끝 -->

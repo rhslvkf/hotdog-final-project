@@ -36,6 +36,8 @@ $(document).ready(function(){
 	}
 }); 
 
+
+
 $(function () {
 	$('[data-toggle="tooltip"]').tooltip()
 })
@@ -126,6 +128,25 @@ function showMyPostingList(memberId){
 		}
 	});
 }
+
+/*function allMemberInfo(memberVO){
+	$.ajax({
+		type:"POST",
+		url:"allMemberInfo.do",
+		data:,
+		success:function(result){
+				var title = "<table class='showListPosting'>";
+					title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr></table>";
+
+				$("#allMemberList").html(title);
+				$("#allMemberInfo").modal();
+					}
+				
+				
+	
+              	});
+			} */
+
 
 //스크랩 리스트
 function showMyScrapeList(memberId){
@@ -1067,7 +1088,19 @@ $(document).ready(function(){
         	
 
 							<ul class="nav navbar-nav pull-right">
-								<li class=""><a href="logout.do" class="">로그아웃</a></li>
+							<c:choose>
+							<c:when test="${sessionScope.loginVo.memberGrade=='ADMIN' }">
+							<li><a data-toggle="modal" data-target="#allEmailSendmodal"
+						    id="" data-dismiss="modal">전체회원에게 E-mail 보내기</a></li>
+				        	  <li class=""><a href="logout.do" class="">로그아웃</a></li>
+						
+							</c:when>
+							<c:otherwise>
+					    	<li class=""><a href="logout.do" class="">로그아웃</a></li>
+							
+							</c:otherwise>
+							</c:choose>
+
 
 							</ul>
 							<form class="navbar-form navbar-right text-left" role="search" action="searchBoard.do" id="searchLogWordForm">
@@ -1411,9 +1444,11 @@ body {
 							<label for="inputEmail3" class="control-label">아이디</label>
 						</div>
 						<div class="col-sm-10">
-							<input type="email" class="form-control" id="inputEmail3"
+
+								<input type="email" class="form-control" id="inputEmail3"
 								name="memberId" readonly="readonly"
 								value="${sessionScope.loginVo.memberId}" placeholder="Email">
+
 						</div>
 					</div>
 
@@ -1598,7 +1633,9 @@ body {
             <div class="panel-body">
               <div class="row">
                 <div class="col-md-3 col-lg-3 " align="center">
-                  <img alt="User Pic" src="${initParam.root}image/dog1.jpg" width="140px" height="180px">
+                  <img alt="User Pic" src="${initParam.root}image/로고.jpg" width="140px" height="180px">
+                 <img src="${initParam.root}image/글자로고.png" class="img-responsive" alt="">
+                  
                 </div>
                 <div class=" col-md-9 col-lg-9 ">
                   <table class="table table-user-information">
@@ -1644,11 +1681,21 @@ body {
                 </div>
                 			<div class="modal-footer">
 				<ul class="nav navbar-nav navbar-right">
+												<!-- <li><a data-toggle="modal" data-target="#allEmailSendmodal"
+						id="" data-dismiss="modal">전체회원에게 E-mail 보내기</a></li> -->
+				<c:choose>
+				<c:when test="${sessionScope.loginVo.memberGrade=='ADMIN' }">
+				<li><a href="allMemberInfo.do">전체회원목록보기</a></li>
+				<li><a data-dismiss="modal">닫기</a></li>
+				</c:when>
+				<c:otherwise>
 					<li><a data-toggle="modal" data-target="#deletemodal"
 						id="deleteMemBtn" data-dismiss="modal">회원탈퇴</a></li>
 					<li><a data-toggle="modal" data-target="#updatemodal"
 						id="updateMemBtn" data-dismiss="modal">회원정보수정</a></li>
 					<li><a data-dismiss="modal">닫기</a></li>
+				</c:otherwise>
+				</c:choose>
 				</ul>
 			</div>
               </div>
@@ -1769,3 +1816,46 @@ body {
 	</div>
 </div>
 <!-- 쪽지상세보기 모달 끝-->
+
+<!-- 전체 E-mail보내기 -->
+
+<div class="modal fade" id="allEmailSendmodal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">E-mail 보내기</h4>
+          </div>
+          <div class="modal-body">
+            <h5>전체회원에게 E-mail 보내기</h5>
+            <textarea class="form-control" rows="7" style="resize: none;"></textarea>
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-default" href="">E-mail 보내기</a>
+            <a class="btn btn-default" data-dismiss="modal">닫기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 전체 E-mail 보내기 끝 -->
+    
+    
+    <!-- 전체회원보기 -->
+     <div class="modal fade" id="allMemberInfo">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">전체회원</h4>
+          </div>
+          <div class="modal-body">
+          <div id="allMemberList"></div>
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-default" data-dismiss="modal">닫기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 전체회원보기 끝 -->

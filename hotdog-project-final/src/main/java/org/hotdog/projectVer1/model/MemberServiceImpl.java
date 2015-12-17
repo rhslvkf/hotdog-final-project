@@ -1,5 +1,8 @@
 package org.hotdog.projectVer1.model;
 
+
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -104,5 +107,24 @@ public class MemberServiceImpl implements MemberService{
 	public String getMemberNickName(String memberId) {
 		return memberDAO.getMemberNickName(memberId);
 	}
+
+	@Override
+	public MemberListVO allMemberInfo(String pageNo) {
+		if(pageNo==null||pageNo=="")
+			pageNo="1";
+			List<MemberVO> list = memberDAO.allMemberInfo(pageNo);
+			int total=memberDAO.totalContent();
+			PagingBean paging=new PagingBean(total,Integer.parseInt(pageNo));
+			MemberListVO lvo= new MemberListVO(list,paging);
+			return lvo;
+			
+	}
+
+
+
+
+
+
+
 
 }

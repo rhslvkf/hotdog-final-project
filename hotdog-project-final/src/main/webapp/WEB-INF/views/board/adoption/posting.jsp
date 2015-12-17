@@ -203,7 +203,6 @@
 				</div>
 				<div class="col-sm-4">
 				<select class="selectpicker" data-style="btn-info" name="residence">
-				<option value="">-------</option>		
 				<option value="서울">서울</option>
 				<option value="경기도">경기도</option>
 				<option value="강원도">강원도</option>
@@ -223,7 +222,6 @@
 				</div>
 				<div class="col-sm-4">
 				<select class="selectpicker" data-style="btn-info" name="petType">
-				<option value="">-------</option>		
 				<option value="삽살개">삽살개</option>
 				<option value="진돗개">진돗개</option>
 				<option value="풍산개">풍산개</option>
@@ -245,7 +243,6 @@
 			<div class="col-sm-4">
 			
 				<select class="selectpicker" data-style="btn-info" name="petAge">
-				<option value="">-------</option>		
 				<c:forEach var="i" begin="1" end="15">
 				<option value="${i}">${i}</option>
 			    </c:forEach>
@@ -339,4 +336,3 @@
 			</div>
 		</form>
 	</div>
-</div>
