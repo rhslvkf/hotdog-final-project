@@ -153,16 +153,14 @@ drop table board_QnA_comment;
 select * from hotdog_member
 
 
-
+delete from hotdog_member where member_id='nabkbk@naver.com'
 
 
 
 		insert into
 		hotdog_member(member_id,member_name,member_password,member_nickname,member_grade,member_tel,member_status)
 		values('nabkbk@naver.com','김보규','1111','김보규','GOLD','01040897835','active')
-		insert into
-		hotdog_member(member_id,member_name,member_password,member_nickname,member_grade,member_tel,member_status)
-		values('wayneboney@nate.com','김보규','1111','골드보규','GOLD','01040897835','active')
+
 
 
 create table hotdog_member(
