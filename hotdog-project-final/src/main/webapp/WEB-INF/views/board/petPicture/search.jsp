@@ -67,6 +67,9 @@ function allLayerClose(idx,length,flag) {
             <th>닉네임</th>
             <th>작성일</th>
             <th>조회수</th>
+                <c:if test="${sessionScope.loginVo.memberGrade=='ADMIN'}">
+              <th class="text-center" width="150">삭제</th>
+            </c:if>
           </tr>
         </thead>
         <c:forEach var="bvo" items="${requestScope.lvo.list}" varStatus="status">				
@@ -98,6 +101,15 @@ function allLayerClose(idx,length,flag) {
 				</c:choose>
 				<td>${bvo.boardDate }</td>
 				<td>${bvo.boardHits }</td>
+							<c:if test="${sessionScope.loginVo.memberGrade=='ADMIN'}">
+											<td class="text-center">   
+								<a
+									href="auth_deletePosting.do?no=${bvo.boardNumber }&type=board_petPicture" onclick="return confirm('삭제하시겠습니까?')"
+									class="btn btn-danger btn-xs"> <span
+									class="glyphicon glyphicon-remove"></span> 삭제
+								</a>
+							</td>
+                               </c:if>
 			</tr>	
 			</c:forEach>
 		</tbody>
@@ -106,16 +118,19 @@ function allLayerClose(idx,length,flag) {
 	<form class="navbar-form navbar-left" role="search"
 		action="${initParam.root}searchPosting.do">
 		<input type="hidden" name="type" value="board_petPicture">
+		<br>
 		<div class="form-group">
 		<c:choose>
 			<c:when test="${sessionScope.loginVo!=null}">
 			<a class="btn btn-default" href="${initParam.root}write.do?type=board_petPicture">글쓰기</a>
 			</c:when>
 			<c:otherwise>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 			</c:otherwise>
 		</c:choose>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 			<select class="selectpicker" data-style="btn-info" name="category">
 				<option value="title">제목</option>
 				<option value="content">내용</option>

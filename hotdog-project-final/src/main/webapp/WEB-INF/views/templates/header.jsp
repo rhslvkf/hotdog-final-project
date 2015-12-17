@@ -1849,8 +1849,7 @@ body {
 
 				<c:choose>
 				<c:when test="${sessionScope.loginVo.memberGrade=='ADMIN' }">
-				<li><a data-toggle="modal" data-target="#allEmailSendmodal"
-				 id="">전체회원에게 E-mail 보내기</a></li>
+
 				<li><a href="allMemberInfo.do">전체회원목록보기</a></li>
 				<li><a data-dismiss="modal">닫기</a></li>
 				</c:when>
@@ -2011,28 +2010,7 @@ body {
     </div>
 <!-- 쪽지보내기 모달 끝 -->
 
-<!-- 전체 E-mail보내기 -->
 
-<div class="modal fade" id="allEmailSendmodal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">E-mail 보내기</h4>
-          </div>
-          <div class="modal-body">
-            <input type="text" name="mailTitle" placeholder="제목" class="form-control">
-            <textarea class="form-control" rows="7" style="resize: none;" name="mailContent" placeholder="내용을 입력하세요"></textarea>
-          </div>
-          <div class="modal-footer">
-            <a class="btn btn-default" href="sendMailToMember.do">E-mail 보내기</a>
-            <a class="btn btn-default" data-dismiss="modal">닫기</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- 전체 E-mail 보내기 끝 -->
     
     
     <!-- 전체회원보기 -->

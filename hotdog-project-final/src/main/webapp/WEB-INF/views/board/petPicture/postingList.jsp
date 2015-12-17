@@ -235,16 +235,19 @@ function SendMessage(){
 	<form class="navbar-form navbar-left" role="search"
 		action="${initParam.root}searchPosting.do">
 		<input type="hidden" name="type" value="board_petPicture">
+		<br>
 		<div class="form-group">
 		<c:choose>
 			<c:when test="${sessionScope.loginVo!=null}">
 			<a class="btn btn-default" href="${initParam.root}auth_write.do?type=board_petPicture">글쓰기</a>
 			</c:when>
 			<c:otherwise>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 			</c:otherwise>
 		</c:choose>
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 			<select class="selectpicker" data-style="btn-info" name="category">
 				<option value="title">제목</option>
 				<option value="content">내용</option>

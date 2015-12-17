@@ -60,6 +60,7 @@
 	<form class="navbar-form navbar-left" role="search"
 		action="${initParam.root}searchPosting.do">
 		<input type="hidden" name="type" value="board_notice">
+		<br>
 		<div class="form-group">
 			<c:choose>
 			<c:when test="${sessionScope.loginVo.memberGrade =='ADMIN'}">
@@ -67,12 +68,12 @@
 			</c:when>
 			
 			<c:otherwise>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+			
 			</c:otherwise>
 		</c:choose>
-		</div>
-		
-		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 			<select class="selectpicker" data-style="btn-info" name="category">
 				<option value="title">제목</option>
 				<option value="content">내용</option>
@@ -80,6 +81,7 @@
 			</select>
 			<input type="text" class="form-control" placeholder="Search" name="word">
 		<button type="submit" class="btn btn-default">검색</button>
+		</div>
 	</form>
 </c:if>
 	<br><br>
