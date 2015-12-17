@@ -15,8 +15,8 @@
     		if(confirm("게시물을 수정하시겠습니까?"))
     			location.href="updateView.do?no=${requestScope.bvo.boardNumber}&type=board_petInfo";
     	});
-    	if(${requestScope.bvo.memberVO.updateGrade != null}){
-	    	if(${requestScope.bvo.memberVO.updateGrade != "notUpdate"}){
+    	if("${requestScope.bvo.memberVO.updateGrade}" != ""){
+	    	if("${requestScope.bvo.memberVO.updateGrade}" != "notUpdate"){
 	    		alert("등급이 ${requestScope.bvo.memberVO.updateGrade}가 되었습니다.");
 	    		location.href="${initParam.root}showContentNoHit.do?no=${requestScope.bvo.boardNumber}&type=board_petInfo";
 	    	}
