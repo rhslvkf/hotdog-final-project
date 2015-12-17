@@ -151,6 +151,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where member_id = #{memberId}
 	</select>
 	
+	<!-- 로그인 시간 -->
+	<select id="loginTime" resultType="String">
+		select to_char(sysdate,'YYYYMMDD hh24:mi:ss') from dual
+	</select>
+	
  </mapper> 	
  
  

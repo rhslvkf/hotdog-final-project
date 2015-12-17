@@ -15,8 +15,8 @@
     		if(confirm("게시물을 수정하시겠습니까?"))
     			location.href="updateView.do?no=${requestScope.bvo.boardNumber}&type=board_petPicture";
     	});
-    	if(${requestScope.bvo.memberVO.updateGrade != null}){
-	    	if(${requestScope.bvo.memberVO.updateGrade != "notUpdate"}){
+    	if("${requestScope.bvo.memberVO.updateGrade}" != null){
+	    	if("${requestScope.bvo.memberVO.updateGrade}" != "notUpdate"){
 	    		alert("등급이 ${requestScope.bvo.memberVO.updateGrade}가 되었습니다.");
 	    		location.href="${initParam.root}showContentNoHit.do?no=${requestScope.bvo.boardNumber}&type=board_petPicture";
 	    	}
@@ -136,7 +136,8 @@ function getAbsPos(e) {
 }
 
 //마우스 레이어 (show, hide)제어
-function layerControl(event, flag){
+function layerControl(event, flag,nick){
+	$("#nickname").text(nick);
 	var eventObj = document.getElementById('Layer'+flag);
 	if(!event) event = window.Event;
 	var position = getAbsPos(event);
@@ -145,6 +146,34 @@ function layerControl(event, flag){
 	eventObj.style.display = eventObj.style.display =='none'?'':'none';
 	allLayerClose(flag);
 }
+
+//쪽지 보내기
+function SendMessage(){
+	var receiver=$("#nickname").text();
+	var sender=$("#sender").text();
+	var messageContent=$("#messageContents").val();
+	var messageTitle=$("#title").val();
+	if(messageTitle.length==0){
+		alert("제목이 비었습니다.")
+		return false;
+	}
+	else if(messageContent.length==0){
+		alert("내용이 비었습니다.")
+		return false;
+	}else{
+		$.ajax({
+						type : "post",
+						url : "sendMessage.do",
+						data : "receiver="+receiver+"&sender="+sender+"&messageContent="+messageContent+"&messageTitle="+messageTitle,
+						dataType :"json",
+						success : function(data) {
+							}
+						})
+					
+	}
+	}
+
+
 </script>
 
 <!--댓글 script  -->
@@ -342,11 +371,11 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
 				<td>작성자 : ${requestScope.bvo.memberVO.memberNickName }</td>
 				</c:when>
 				<c:when test="${sessionScope.loginVo.memberId == requestScope.bvo.memberVO.memberId }">
-				<td>작성자 : <a href="#" onclick="layerControl(event,true);">
+				<td>작성자 : <a href="#" onclick="layerControl(event,true,null);">
 				${requestScope.bvo.memberVO.memberNickName }</a></td>
 				</c:when>
 				<c:otherwise>
-				<td>작성자 : <a href="#" onclick="layerControl(event,false);">
+				<td>작성자 : <a href="#" onclick="layerControl(event,false,'${requestScope.bvo.memberVO.memberNickName }');">
 				${requestScope.bvo.memberVO.memberNickName }</a></td>
 				</c:otherwise>
 				</c:choose>
@@ -409,9 +438,10 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
   <tr>
    <td><a href = "#" onclick="showPostingList('${requestScope.bvo.memberVO.memberId}')"><font color="blue">게시글 보기</font></a></td>
   </tr>
-  <tr>
-   <td><a href = "#"><font color="blue">쪽지 보내기</font></a></td>
-  </tr>
+<tr>
+   <td><a data-toggle="modal" href= "#messagePostingList"><font color="blue">쪽지 보내기</font></a></td>
+ </tr>
+
 </table>
 </div>
 
@@ -440,15 +470,18 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4
-             class="modal-title">쪽지보내기</h4>
+            <h4 class="modal-title">쪽지보내기</h4>
           </div>
           <div class="modal-body">
-            <h5>도르에게쪽지보내기</h5>
-            <textarea class="form-control" rows="7" style="resize: none;"></textarea>
+        	<a style='display: none;' id="sender">${sessionScope.loginVo.memberNickName}</a>
+            <a id="nickname"><h5></h5></a>
+         	<input type="text" class="form-control" id="title" placeholder="제목"></input>
+            <textarea class="form-control" id="messageContents" placeholder="내용" rows="7" style="resize: none;"></textarea>
           </div>
+          
           <div class="modal-footer">
-            <a class="btn btn-default" href="">쪽지보내기</a>
+            <a class="btn btn-default" onclick="SendMessage()" 
+            	href="">쪽지보내기</a>
             <a class="btn btn-default" data-dismiss="modal">닫기</a>
           </div>
         </div>

@@ -34,7 +34,7 @@ public class EmailController implements Runnable{
         	body = "<h4>회원님의 패스워드는 <font color='red'>[ "+ memberInfo[1] +" ]</font> 입니다.</h4>";
         }else if(memberInfo.length == 1){
         	subject = "핫도그 커뮤니티 이메일 인증 안내 메일";
-        	body = "<h3><a href = 'http://localhost:8889/projectVer1/certification.do?memberId="+recipient+"'>이메일 인증 링크</a></h3>";
+        	body = "<h3><a href = 'http://192.168.0.107:8889/projectVer1/certification.do?memberId="+recipient+"'>이메일 인증 링크</a></h3>";
         }
          
         //properties 설정

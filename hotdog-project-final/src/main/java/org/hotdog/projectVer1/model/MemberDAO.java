@@ -45,9 +45,8 @@ public interface MemberDAO {
 
 	public abstract List<MemberVO> allMemberInfo(String pageNo);
 
-	int totalContent();
+	public abstract int totalContent();
 
-
-
+	public abstract String loginTime();
 
 }

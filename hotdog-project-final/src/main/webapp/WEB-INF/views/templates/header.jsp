@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -5,7 +6,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$('.js-activated').dropdownHover().dropdown();
-	if(${sessionScope.loginVo != null}){
+	if("${sessionScope.loginVo}" != null){
 		$.ajax({
 			type:"POST",
 			url:"showPostingList.do",
@@ -35,8 +36,6 @@ $(document).ready(function(){
 		});
 	}
 }); 
-
-
 
 $(function () {
 	$('[data-toggle="tooltip"]').tooltip()
@@ -128,25 +127,6 @@ function showMyPostingList(memberId){
 		}
 	});
 }
-
-/*function allMemberInfo(memberVO){
-	$.ajax({
-		type:"POST",
-		url:"allMemberInfo.do",
-		data:,
-		success:function(result){
-				var title = "<table class='showListPosting'>";
-					title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr></table>";
-
-				$("#allMemberList").html(title);
-				$("#allMemberInfo").modal();
-					}
-				
-				
-	
-              	});
-			} */
-
 
 //스크랩 리스트
 function showMyScrapeList(memberId){
@@ -296,16 +276,22 @@ function showMessageList(){
 		url:"showMessageList.do",
 		data:"receiver=${sessionScope.loginVo.memberNickName}",
 		success:function(result){ 
+			var readed="";
 			var title = "<table class='messageList'>";
 			if(result.length != 0){
-				title += "<tr><th>보낸이</th><th>제목</th><th>작성일</th><th>조회</th><th>받는이></th></tr>";
+				title += "<tr><th></th><th>보낸이</th><th>제목</th><th>작성일</th><th> 받는이</th></tr>";
 				for(var i=0;i<result.length;i++){
-					title += "<tr><td>"+result[i].sender		
-							+"</td><td><a id='pick' href='#'>"+result[i].messageTitle+"</a>"
-							+"</td><td>"+result[i].messageDate
-							+"</td><td>"+result[i].messageReaded
-							+"</td><td>"+result[i].receiver
-							+"</td></tr>";
+					if(result[i].messageReaded==1){
+						readed="<img src='${initParam.root }image/unread.jpg'></img>";
+					}else{
+						readed="<img src=${initParam.root }image/read.jpg></img>";
+					}
+					title +="<tr><td>"+readed
+					+"</td><td>"+result[i].sender		
+					+"</td><td><a id='pickRe' href='#'>"+result[i].messageTitle+"</a>"
+					+"</td><td>"+result[i].messageDate
+					+"</td><td>"+result[i].receiver
+					+"</td></tr>";
 				}
 			}
 			title += "</table>";
@@ -316,6 +302,8 @@ function showMessageList(){
 	}); //ajax
 } //function
 
+
+
 //보낸 쪽지함
 function sendMessageList(){
 	$.ajax({
@@ -323,14 +311,20 @@ function sendMessageList(){
 		url:"sendMessageList.do",
 		data:"sender=${sessionScope.loginVo.memberNickName}",
 		success:function(result){ 
+			var readed="";
 			var title = "<table class='messageList'>";
 			if(result.length != 0){
-				title += "<tr><th>보낸이</th><th>제목</th><th>작성일</th><th>조회</th><th>받는이></th></tr>";
+				title += "<tr><th></th><th>보낸이</th><th>제목</th><th>작성일</th><th> 받는이</th></tr>";
 				for(var i=0;i<result.length;i++){
-					title += "<tr><td>"+result[i].sender		
+					if(result[i].messageReaded==1){
+						readed="<img src='${initParam.root }image/unread.jpg'></img>";
+					}else{
+						readed="<img src=${initParam.root }image/read.jpg></img>";
+					}
+					title +="<tr><td>"+readed
+					+"</td><td>"+result[i].sender		
 					+"</td><td><a id='pick' href='#'>"+result[i].messageTitle+"</a>"
 					+"</td><td>"+result[i].messageDate
-					+"</td><td>"+result[i].messageReaded
 					+"</td><td>"+result[i].receiver
 					+"</td></tr>";
 				}
@@ -344,35 +338,220 @@ function sendMessageList(){
 } //function
 
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
- $(document).on("click","#pick", function(){//동적으로 버튼이 생긴 경우 처리 방식      
+ $(document).on("click","#pickRe", function(){    //받은 메시지함 상세 보기
 		var sender=$(this).parent().prev().text();
 		var messageDate=$(this).parent().next().text();
-		var reciever=$(this).parent().next().next().next().text();
+		var receiver=$(this).parent().next().next().text();
 		var messageTitle=$(this).text();
+		var type="received";
 		var flag="받은쪽지함"
 		if($("#ListName").text()=="보낸쪽지함")
-			flag="보낸쪽지함"
+			flag="보낸쪽지함";
+		$.ajax({
+			type:"POST",
+			url:"messageContent.do",
+			data:"receiver="+receiver+"&sender="+sender+"&messageDate="+messageDate+"&type="+flag,
+			success:function(result){ 
+				var title="<a id='replyMesssage' href='#'><h3>답장하기</h3></a>";
+				 title+="<table class='messageList1'>";
+				if(result.length != 0){
+					title+="<tr><td>보낸사람:</td><td>"+result.sender+"</td>";
+					title+="<td>받는사람:</td><td>"+result.receiver+"</td>";
+					title+="<td>날짜:</td><td>"+result.messageDate+"</td></tr>";
+					title+="<tr><td>제목:</td><td>"+result.messageTitle+"</td></tr>";
+					title+="<tr><td>내용:"+result.messageContent+"</td></tr>";		
+				}
+				title += "</table>";
+				title+="<button type='button' class='close' id='redelBtn' data-dismiss='modal' aria-hidden='true' onclick='UpdateSendMessageList()'>끄지라</button>";	
+				$("#showContentMessage").html(title);
+				$("#messageContent").modal();
+			} 
+		}).done(function(){
+			$.ajax({
+				type:"POST",
+				url:"showMessageList.do",
+				data:"receiver=${sessionScope.loginVo.memberNickName}",
+				success:function(result){ 
+					var readed="";
+					var title = "<table class='messageList'>";
+					if(result.length != 0){
+						title += "<tr><th></th><th>보낸이</th><th>제목</th><th>작성일</th><th> 받는이</th></tr>";
+						for(var i=0;i<result.length;i++){
+							if(result[i].messageReaded==1){
+								readed="<img src='${initParam.root }image/unread.jpg'></img>";
+							}else{
+								readed="<img src=${initParam.root }image/read.jpg></img>";
+							}
+							title +="<tr><td>"+readed
+							+"</td><td>"+result[i].sender		
+							+"</td><td><a id='pickRe' href='#'>"+result[i].messageTitle+"</a>"
+							+"</td><td>"+result[i].messageDate
+							+"</td><td>"+result[i].receiver
+							+"</td></tr>";
+						}
+					}
+					title += "</table>";
+					$("#listMessage").html(title);
+				} //success
+			});
+		})
+	});	   
+	
+ $(document).on("click","#pick", function(){//보낸 메시지 함 상세보기    
+		var sender=$(this).parent().prev().text();
+		var messageDate=$(this).parent().next().text();
+		var receiver=$(this).parent().next().next().text();
+		var messageTitle=$(this).text();
+	
+		var flag="받은쪽지함"
+		if($("#ListName").text()=="보낸쪽지함")
+			flag="보낸쪽지함";
 			
 		$.ajax({
 			type:"POST",
 			url:"messageContent.do",
-			data:"receiver="+reciever+"&sender="+sender+"&messageTitle="+messageTitle+"&type="+flag,
+			data:"receiver="+receiver+"&sender="+sender+"&messageDate="+messageDate+"&type="+flag,
 			success:function(result){ 
-				var title = "<table class='messageList'>";
+				var title = "<table class='messageList1'>";
 				if(result.length != 0){
 					title+="<tr><td>보낸사람:</td><td>"+result.sender+"</td>";
-					title+="<tr><td>받는사람:</td><td>"+result.receiver+"</td>";
-					title+="<td>제목:</td><td>"+result.messageTitle+"</td><tr>";
-					title+="<tr><td>내용:"+result.messageContent+"</td><tr>";		
+					title+="<td>받는사람:</td><td>"+result.receiver+"</td>";
+					title+="<td>날짜:</td><td>"+result.messageDate+"</td></tr>";
+					title+="<tr><td>제목:</td><td>"+result.messageTitle+"</td></tr>";
+					title+="<tr><td>내용:"+result.messageContent+"</td></tr>";			
 				}
 				title += "</table>";
+				title+="<tr><td><button type='button' class='close' id='delBtn' data-dismiss='modal' aria-hidden='true' onclick='UpdateShowMessageList()'>끄지라</button></td></tr>"
 				$("#showContentMessage").html(title);
 				$("#messageContent").modal();
 			} 
 		}); 
 	});	   
+ 
+ 
+ $(document).on("click","#delBtn", function(){ //보낸 메시지함 삭제  
+		receiver=$(".messageList1").children().children().children().eq(1).text();
+		sender=$(".messageList1").children().children().children().eq(3).text();
+		messageDate=$(".messageList1").children().children().children().eq(5).text();
+		 $.ajax({
+				type : "post",
+				url : "deleteMessage.do",
+				data : "sender="+receiver+"&receiver="+sender+"&messageDate="+messageDate,
+				dataType :"json"
+				}).done(function(){
+					$.ajax({
+						type:"POST",
+						url:"sendMessageList.do",
+						data:"sender=${sessionScope.loginVo.memberNickName}",
+						success:function(result){ 
+							var readed="";
+							var title = "<table class='messageList'>";
+							if(result.length != 0){
+								title += "<tr><th></th><th>보낸이</th><th>제목</th><th>작성일</th><th> 받는이</th></tr>";
+								for(var i=0;i<result.length;i++){
+									if(result[i].messageReaded==1){
+										readed="<img src='${initParam.root }image/unread.jpg'></img>";
+									}else{
+										readed="<img src=${initParam.root }image/read.jpg></img>";
+									}
+									title +="<tr><td>"+readed
+									+"</td><td>"+result[i].sender		
+									+"</td><td><a id='pick' href='#'>"+result[i].messageTitle+"</a>"
+									+"</td><td>"+result[i].messageDate
+									+"</td><td>"+result[i].receiver
+									+"</td></tr>";
+								}
+							}
+							title += "</table>"; 
+							$("#listMessage").html(title); 
+						} //success
+					}); //ajax
+				
 
+				})  
+ });
+ 
+ $(document).on("click","#redelBtn", function(){//받은 메시지함 삭제     
+		receiver=$(".messageList1").children().children().children().eq(1).text();
+		sender=$(".messageList1").children().children().children().eq(3).text();
+		messageDate=$(".messageList1").children().children().children().eq(5).text();
+		
+		 $.ajax({
+				type : "post",
+				url : "redeleteMessage.do",
+				data : "sender="+receiver+"&receiver="+sender+"&messageDate="+messageDate,
+				dataType :"json"
+			}).done(function(){
+				$.ajax({
+					type:"POST",
+					url:"showMessageList.do",
+					data:"receiver=${sessionScope.loginVo.memberNickName}",
+					success:function(result){ 
+						var readed="";
+						var title = "<table class='messageList'>";
+						if(result.length != 0){
+							title += "<tr><th></th><th>보낸이</th><th>제목</th><th>작성일</th><th> 받는이</th></tr>";
+							for(var i=0;i<result.length;i++){
+								if(result[i].messageReaded==1){
+									readed="<img src='${initParam.root }image/unread.jpg'></img>";
+								}else{
+									readed="<img src=${initParam.root }image/read.jpg></img>";
+								}
+								title +="<tr><td>"+readed
+								+"</td><td>"+result[i].sender		
+								+"</td><td><a id='pickRe' href='#'>"+result[i].messageTitle+"</a>"
+								+"</td><td>"+result[i].messageDate
+								+"</td><td>"+result[i].receiver
+								+"</td></tr>";
+							}
+						}
+						title += "</table>"; 
+						$("#listMessage").html(title); 
+					} //success
+				}); //ajax
+				
+				
+			})
+ });
+ 
+ $(document).on("click","#replyMesssage", function(){ //답장 모달    
+		var receiver=$(this).next().children().children().children().eq(1).text();
+ 		var sender=$(this).next().children().children().children().eq(3).text();
+ 		$("#Resender").text(sender)
+ 		$("#Rereceiver").text(receiver)
+ 		$("#messageReply").modal();
+	});	   
+ 
+ 
+ $(document).on("click","#replyClick", function(){//     답장 보내기
+	 	var receiver=$(this).parent().prev().children().eq(0).text()
+		var sender=$(this).parent().prev().children().eq(2).text() 
+		var messageContent=$("#replyMessageContent").val();
+		var messageTitle=$("#replyTitle").val();	
+		if(messageTitle.length==0){
+			alert("제목이 비었습니다.")
+			return false;
+		}
+		else if(messageContent.length==0){
+			alert("내용이 비었습니다.")
+			return false;
+		}else{$.ajax({
+			type : "post",
+			url : "sendMessage.do",
+			data : "sender="+receiver+"&receiver="+sender+"&messageContent="+messageContent+"&messageTitle="+messageTitle,
+			dataType :"json",
+			success : function(data) {
+				}
+			}).done(function(){
+				$("#replyTitle").val("");
+				$("#replyMessageContent").val("");
+				
+			})  
+		}
+	});
+ 
 
 
 //개인정보 이용약관 txt 파일 읽어오기
@@ -1088,19 +1267,7 @@ $(document).ready(function(){
         	
 
 							<ul class="nav navbar-nav pull-right">
-							<c:choose>
-							<c:when test="${sessionScope.loginVo.memberGrade=='ADMIN' }">
-							<li><a data-toggle="modal" data-target="#allEmailSendmodal"
-						    id="" data-dismiss="modal">전체회원에게 E-mail 보내기</a></li>
-				        	  <li class=""><a href="logout.do" class="">로그아웃</a></li>
-						
-							</c:when>
-							<c:otherwise>
-					    	<li class=""><a href="logout.do" class="">로그아웃</a></li>
-							
-							</c:otherwise>
-							</c:choose>
-
+								<li class=""><a href="logout.do" class="">로그아웃</a></li>
 
 							</ul>
 							<form class="navbar-form navbar-right text-left" role="search" action="searchBoard.do" id="searchLogWordForm">
@@ -1444,11 +1611,9 @@ body {
 							<label for="inputEmail3" class="control-label">아이디</label>
 						</div>
 						<div class="col-sm-10">
-
-								<input type="email" class="form-control" id="inputEmail3"
+							<input type="email" class="form-control" id="inputEmail3"
 								name="memberId" readonly="readonly"
 								value="${sessionScope.loginVo.memberId}" placeholder="Email">
-
 						</div>
 					</div>
 
@@ -1633,9 +1798,7 @@ body {
             <div class="panel-body">
               <div class="row">
                 <div class="col-md-3 col-lg-3 " align="center">
-                  <img alt="User Pic" src="${initParam.root}image/로고.jpg" width="140px" height="180px">
-                 <img src="${initParam.root}image/글자로고.png" class="img-responsive" alt="">
-                  
+                  <img alt="User Pic" src="${initParam.root}image/dog1.jpg" width="140px" height="180px">
                 </div>
                 <div class=" col-md-9 col-lg-9 ">
                   <table class="table table-user-information">
@@ -1681,21 +1844,11 @@ body {
                 </div>
                 			<div class="modal-footer">
 				<ul class="nav navbar-nav navbar-right">
-												<!-- <li><a data-toggle="modal" data-target="#allEmailSendmodal"
-						id="" data-dismiss="modal">전체회원에게 E-mail 보내기</a></li> -->
-				<c:choose>
-				<c:when test="${sessionScope.loginVo.memberGrade=='ADMIN' }">
-				<li><a href="allMemberInfo.do">전체회원목록보기</a></li>
-				<li><a data-dismiss="modal">닫기</a></li>
-				</c:when>
-				<c:otherwise>
 					<li><a data-toggle="modal" data-target="#deletemodal"
 						id="deleteMemBtn" data-dismiss="modal">회원탈퇴</a></li>
 					<li><a data-toggle="modal" data-target="#updatemodal"
 						id="updateMemBtn" data-dismiss="modal">회원정보수정</a></li>
 					<li><a data-dismiss="modal">닫기</a></li>
-				</c:otherwise>
-				</c:choose>
 				</ul>
 			</div>
               </div>
@@ -1793,7 +1946,8 @@ body {
 
 <!-- 쪽지리스트 모달 끝-->
 
-<!-- 쪽지상세보기 모달 시작 -->
+
+<!-- 보낸쪽지상세보기 모달 시작 -->
 <div class="modal fade" id="messageContent">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -1816,6 +1970,33 @@ body {
 	</div>
 </div>
 <!-- 쪽지상세보기 모달 끝-->
+
+
+<!-- 쪽지보내기 모달 시작 -->
+<div class="modal fade" id="messageReply">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">쪽지보내기</h4>
+          </div>
+          <div class="modal-body">
+            <a id="Resender"><h5></h5></a>
+            <a>-></a>
+            <a id="Rereceiver"><h5></h5></a>
+         	<input type="text" class="form-control" id="replyTitle" placeholder="제목"></input>
+            <textarea class="form-control" id="replyMessageContent"  placeholder="내용" rows="7" style="resize: none;"></textarea>
+          </div>
+          
+          <div class="modal-footer">
+            <a class="btn btn-default" id="replyClick" 
+            	href="">쪽지보내기</a>
+            <a class="btn btn-default" data-dismiss="modal">닫기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- 쪽지보내기 모달 끝 -->
 
 <!-- 전체 E-mail보내기 -->
 

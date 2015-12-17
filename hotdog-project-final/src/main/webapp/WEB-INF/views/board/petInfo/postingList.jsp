@@ -114,7 +114,8 @@ function getAbsPos(e) {
 }
 
 // 마우스 레이어 (show, hide)제어
-function layerControl(event, idx, length, flag){
+function layerControl(event, idx, length, flag,nick){
+	$("#nickname").text(nick)
     var eventObj = document.getElementById('Layer' + idx+flag);
     if(!event) event = window.Event;
     var position = getAbsPos(event);
@@ -136,6 +137,36 @@ function allLayerClose(idx,length,flag) {
 	  }
  }
 }
+
+function SendMessage(){
+	var receiver=$("#nickname").text();
+	var sender=$("#sender").text();
+	var messageContent=$("#messageContents").val();
+	var messageTitle=$("#title").val();
+	if(messageTitle.length==0){
+		alert("제목이 비었습니다.")
+		return false;
+	}
+	else if(messageContent.length==0){
+		alert("내용이 비었습니다.")
+		return false;
+	}else{
+		$.ajax({
+						type : "post",
+						url : "sendMessage.do",
+						data : "receiver="+receiver+"&sender="+sender+"&messageContent="+messageContent+"&messageTitle="+messageTitle,
+						dataType :"json",
+						success : function(data) {
+							}
+						})
+	}	
+	
+	}
+
+
+
+
+
 
 </script>
 	
@@ -183,11 +214,7 @@ function allLayerClose(idx,length,flag) {
 				<c:when test="${sessionScope.loginVo ==null}">
 				<td>${bvo.memberVO.memberNickName}</td>
 				</c:when>
-				<c:when test="${sessionScope.loginVo.memberId == bvo.memberVO.memberId}">
-				
-
-<!-- 				/////////////////////////////////////////////////////////////////////////////////////////////////// -->
-	
+				<c:when test="${sessionScope.loginVo.memberId == bvo.memberVO.memberId }">
 				<td><a href="#" onclick="layerControl(event, ${status.count},${fn:length(requestScope.lvo.list)},true,null)">
 				${bvo.memberVO.memberNickName }</a></td>
 				
@@ -197,9 +224,6 @@ function allLayerClose(idx,length,flag) {
 				${bvo.memberVO.memberNickName }</a></td>
 				</c:otherwise>
 				</c:choose>
-<!-- 				/////////////////////////////////////////////////////////////////////////////////////////////////// -->
-				
-				
 				<td>${bvo.boardDate }</td>
 				<td>${bvo.boardHits }</td>
 							<td class="text-center">   
@@ -315,9 +339,10 @@ function allLayerClose(idx,length,flag) {
   <tr>
    <td><a href = "#" onclick="showPostingList('${requestScope.lvo.list[i-1].memberVO.memberId}')"><font color="blue">게시글 보기</font></a></td>
   </tr>
-  <tr>
-   <td><a href = "#"><font color="blue">쪽지 보내기</font></a></td>
-  </tr>
+ <tr>
+   <td><a data-toggle="modal" href= "#messagePostingList"><font color="blue">쪽지 보내기</font></a></td>
+ </tr>
+
 </table>
 </div>
 </c:forEach>
@@ -350,17 +375,20 @@ function allLayerClose(idx,length,flag) {
             <h4 class="modal-title">쪽지보내기</h4>
           </div>
           <div class="modal-body">
-            <h5>도르에게쪽지보내기</h5>
-            <textarea class="form-control" rows="7" style="resize: none;"></textarea>
+        	<a style='display: none;' id="sender">${sessionScope.loginVo.memberNickName}</a>
+            <a id="nickname"><h5></h5></a>
+         	<input type="text" class="form-control" id="title" placeholder="제목"></input>
+            <textarea class="form-control" id="messageContents"  placeholder="내용" rows="7" style="resize: none;"></textarea>
           </div>
+          
           <div class="modal-footer">
-            <a class="btn btn-default" href="">쪽지보내기</a>
+            <a class="btn btn-default" onclick="SendMessage()" 
+            	href="">쪽지보내기</a>
             <a class="btn btn-default" data-dismiss="modal">닫기</a>
           </div>
         </div>
       </div>
     </div>
 <!-- 쪽지보내기 모달 끝 -->
-
 
 

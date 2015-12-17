@@ -15,68 +15,12 @@
     		if(confirm("게시물을 수정하시겠습니까?"))
     			location.href="updateView.do?no=${requestScope.bvo.boardNumber}&type=board_abandoned";
     	});
-    	$("#scrapeImg").click(function(){  
-    		if(confirm("게시물을 스크랩하시겠습니까?")){
-	    		$.ajax({
-					type:"POST",
-					url:"scrape.do",
-					data:"no=${requestScope.bvo.boardNumber}&type=board_abandoned",
-					success:function(result){ 
-						if(result.isScrape == "exist"){
-							alert("이미 스크랩하신 게시글입니다.");
-						}else{
-							var title = "<table class='showListPosting'>";
-							if(result.board_abandoned.length != 0){
-								title += "<tr><td colspan='5'><h3>"+result.board_abandoned[0].boardType+"</h3></td></tr>";
-								title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
-								for(var i=0;i<result.board_abandoned.length;i++){
-									title += "<tr><td>"+result.board_abandoned[i].boardNumber
-											+"</td><td><a href = '${initParam.root}showContent.do?no="
-											+result.board_abandoned[i].boardNumber
-											+"&type=board_abandoned'>"
-											+result.board_abandoned[i].boardTitle+
-											"</a></td><td>"+result.board_abandoned[i].memberVO.memberNickName
-											+"</td><td>"+result.board_abandoned[i].boardDate
-											+"</td><td>"+result.board_abandoned[i].boardHits+"</td></tr>";
-								}
-							}
-							if(result.board_adoption.length != 0){
-								title += "<tr><td colspan='5'><h3>"+result.board_adoption[0].boardType+"</h3></td></tr>";
-								title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
-								for(var i=0;i<result.board_adoption.length;i++){
-									title += "<tr><td>"+result.board_adoption[i].boardNumber
-											+"</td><td><a href = '${initParam.root}showContent.do?no="
-											+result.board_adoption[i].boardNumber
-											+"&type=board_adoption'>"
-											+result.board_adoption[i].boardTitle+
-											"</a></td><td>"+result.board_adoption[i].memberVO.memberNickName
-											+"</td><td>"+result.board_adoption[i].boardDate
-											+"</td><td>"+result.board_adoption[i].boardHits+"</td></tr>";
-								}
-							}
-							if(result.board_petInfo.length != 0){
-								title += "<tr><td colspan='5'><h3>"+result.board_petInfo[0].boardType+"</h3></td></tr>";
-								title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
-								for(var i=0;i<result.board_petInfo.length;i++){
-									title += "<tr><td>"+result.board_petInfo[i].boardNumber
-											+"</td><td><a href = '${initParam.root}showContent.do?no="
-											+result.board_petInfo[i].boardNumber
-											+"&type=board_petInfo'>"
-											+result.board_petInfo[i].boardTitle+
-											"</a></td><td>"+result.board_petInfo[i].memberVO.memberNickName
-											+"</td><td>"+result.board_petInfo[i].boardDate
-											+"</td><td>"+result.board_petInfo[i].boardHits+"</td></tr>";
-								}
-							}
-							title += "</table>";
-							$("#title").text("스크랩한 게시글");
-							$("#boardTitle").html(title);
-							$("#showPostingList").modal();
-						} //if else
-					} //success
-				}); //ajax
-    		} //if confirm
-    	}); //scrape
+    	if(${requestScope.bvo.memberVO.updateGrade != null}){
+	    	if(${requestScope.bvo.memberVO.updateGrade != "notUpdate"}){
+	    		alert("등급이 ${requestScope.bvo.memberVO.updateGrade}가 되었습니다.");
+	    		location.href="${initParam.root}showContentNoHit.do?no=${requestScope.bvo.boardNumber}&type=board_abandoned";
+	    	}
+    	}
     }); //ready
 </script>
 <script type="text/javascript">
@@ -158,7 +102,6 @@ function showPostingList(memberId){
 				}
 			}
 			title += "</table>";
-			$("#title").text("작성한 게시글");
 			$("#boardTitle").html(title);
 			$("#showPostingList").modal();
 		}
@@ -193,7 +136,8 @@ function getAbsPos(e) {
 }
 
 //마우스 레이어 (show, hide)제어
-function layerControl(event, flag){
+function layerControl(event, flag,nick){
+	$("#nickname").text(nick)
 	var eventObj = document.getElementById('Layer'+flag);
 	if(!event) event = window.Event;
 	var position = getAbsPos(event);
@@ -202,8 +146,37 @@ function layerControl(event, flag){
 	eventObj.style.display = eventObj.style.display =='none'?'':'none';
 	allLayerClose(flag);
 }
+
+function SendMessage(){
+	var receiver=$("#nickname").text();
+	var sender=$("#sender").text();
+	var messageContent=$("#messageContents").val();
+	var messageTitle=$("#title").val();
+	if(messageTitle.length==0){
+		alert("제목이 비었습니다.")
+		return false;
+	}
+	else if(messageContent.length==0){
+		alert("내용이 비었습니다.")
+		return false;
+	}else{
+		$.ajax({
+						type : "post",
+						url : "sendMessage.do",
+						data : "receiver="+receiver+"&sender="+sender+"&messageContent="+messageContent+"&messageTitle="+messageTitle,
+						dataType :"json",
+						success : function(data) {
+							}
+						})
+					
+	}
+	}
+
+
+
 </script>
 
+<!--댓글 script  -->
 <script type="text/javascript">
   	$(document).ready(function() {
   		var indent="";
@@ -265,8 +238,12 @@ function layerControl(event, flag){
 						data : $("#commentForm").serialize()+"&commentBoardNumber=${requestScope.bvo.boardNumber }"+"&type=board_abandoned",
 						dataType :"json",
 						success : function(data) {
-							cno =data;
+								cno=data.cno;
+							if(data.updateGrade != "notUpdate"){
+								alert("등급이 "+data.updateGrade+"가 되었습니다.");
+
 							}
+						}
 					}).done(function(){
 						 var commentParentText = '<tr id="r1" name="commentParentCode">'+
 						 '<td colspan=2>'+"<a style='display: none;' id='commentNumber'>"+cno+"</a>"+
@@ -378,8 +355,6 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
 
 </script>
 
-
-
 </head>
 <body>
 	<table class="content">
@@ -396,11 +371,11 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
 				<td>작성자 : ${requestScope.bvo.memberVO.memberNickName }</td>
 				</c:when>
 				<c:when test="${sessionScope.loginVo.memberId == requestScope.bvo.memberVO.memberId }">
-				<td>작성자 : <a href="#" onclick="layerControl(event,true);">
+				<td>작성자 : <a href="#" onclick="layerControl(event,true,null);">
 				${requestScope.bvo.memberVO.memberNickName }</a></td>
 				</c:when>
 				<c:otherwise>
-				<td>작성자 : <a href="#" onclick="layerControl(event,false);">
+				<td>작성자 : <a href="#" onclick="layerControl(event,false,'${requestScope.bvo.memberVO.memberNickName }');">
 				${requestScope.bvo.memberVO.memberNickName }</a></td>
 				</c:otherwise>
 				</c:choose>
@@ -408,7 +383,8 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
 			<td>조회수 : ${requestScope.bvo.boardHits }</td>
 		</tr>
 		<tr>
-			<td colspan="3"><pre style="white-space: pre-wrap;">${requestScope.bvo.boardContent}</pre></td>
+			<td colspan="3"><pre style="white-space: pre-wrap;">${requestScope.bvo.boardContent}
+<%-- <c:if test="${fn:length(requestScope.bvo.fileNameList) != 0 }"><c:forEach begin="1" end="${fn:length(requestScope.bvo.fileNameList)}" var="i"><img src="${initParam.root}upload/${requestScope.bvo.fileNameList[i-1]}" width="300"></c:forEach></c:if> --%></pre></td>
 		</tr>
 		<tr>
 			<td valign="middle" align="center" colspan="3">
@@ -417,15 +393,11 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
 			 <img id="deleteImg" class="action"  onclick="deleteBoard()" src="${initParam.root}img/delete_btn.jpg" > 
 			 <img id="updateImg" class="action"  onclick="updateBoard()" src="${initParam.root}img/modify_btn.jpg" >
 			 </c:if>
-			 <c:if test="${requestScope.bvo.memberVO.memberId!=sessionScope.loginVo.memberId}">
-			 <img id="scrapeImg" class="action"  onclick="scrapeBoard()" src="${initParam.root}img/scrapbutn.gif" >
-			 </c:if>
-			 <br><br>				
+			 <br><br>			
 			 </td>
 		</tr>
 	</table>
-	
-			 <table id="commentTable" class="table table-condensed"></table>
+		 <table id="commentTable" class="table table-condensed"></table>
 				 <form id="commentForm">
 					<input type="hidden" name="commentBoardNumber" value="${requestScope.bvo.boardNumber }">
 					<input type="hidden" name="commentDate" value="0">
@@ -466,9 +438,10 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
   <tr>
    <td><a href = "#" onclick="showPostingList('${requestScope.bvo.memberVO.memberId}')"><font color="blue">게시글 보기</font></a></td>
   </tr>
-  <tr>
-   <td><a href = "#"><font color="blue">쪽지 보내기</font></a></td>
-  </tr>
+<tr>
+   <td><a data-toggle="modal" href= "#messagePostingList"><font color="blue">쪽지 보내기</font></a></td>
+ </tr>
+
 </table>
 </div>
 
@@ -478,7 +451,7 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title" id="title"></h4>
+            <h4 class="modal-title">작성한 게시글</h4>
           </div>
 			<div class="modal-body">
             <div id="boardTitle"></div>
@@ -500,11 +473,15 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
             <h4 class="modal-title">쪽지보내기</h4>
           </div>
           <div class="modal-body">
-            <h5>도르에게쪽지보내기</h5>
-            <textarea class="form-control" rows="7" style="resize: none;"></textarea>
+        	<a style='display: none;' id="sender">${sessionScope.loginVo.memberNickName}</a>
+            <a id="nickname"><h5></h5></a>
+         	<input type="text" class="form-control" id="title"  placeholder="제목"></input>
+            <textarea class="form-control" id="messageContents" rows="7"  placeholder="내용" style="resize: none;"></textarea>
           </div>
+          
           <div class="modal-footer">
-            <a class="btn btn-default" href="">쪽지보내기</a>
+            <a class="btn btn-default" onclick="SendMessage()" 
+            	href="">쪽지보내기</a>
             <a class="btn btn-default" data-dismiss="modal">닫기</a>
           </div>
         </div>

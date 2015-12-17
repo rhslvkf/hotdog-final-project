@@ -130,7 +130,7 @@
     <section class="section-white">
       <div class="container">
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel"
-        data-interval="4000">
+        data-interval="2000">
           <!-- Indicators -->
           <ol class="carousel-indicators">
             <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>

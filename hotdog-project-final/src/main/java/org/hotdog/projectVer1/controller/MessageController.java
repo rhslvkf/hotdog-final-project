@@ -1,8 +1,8 @@
+
 package org.hotdog.projectVer1.controller;
 
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 
 
@@ -23,7 +23,7 @@ public class MessageController {
 		@ResponseBody
 		@RequestMapping("sendMessage.do")
 		public void sendMessage(MessageVO mevo) {
-			System.out.println(mevo);
+			System.out.println("보낼내용!"+mevo);
 			messageService.sendMessage(mevo);
 			System.out.println("전송완료");
 		}
@@ -43,8 +43,23 @@ public class MessageController {
 		@ResponseBody
 		@RequestMapping("messageContent.do")
 		public MessageVO messageContent(MessageVO mevo,String type){
-			System.out.println(mevo);
+			System.out.println("____________"+mevo+" "+type);
 			return messageService.messageContent(mevo,type);
 		}
 		
+		@ResponseBody
+		@RequestMapping("deleteMessage.do")
+		public void deleteMessage(MessageVO mevo){
+				messageService.deleteMessage(mevo);
+			
+		}
+		
+		@ResponseBody
+		@RequestMapping("redeleteMessage.do")
+		public void redeleteMessage(MessageVO mevo){
+				messageService.redeleteMessage(mevo);
+			
+		}
+		
 }
+

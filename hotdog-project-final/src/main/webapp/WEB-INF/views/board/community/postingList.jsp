@@ -202,16 +202,23 @@ function SendMessage(){
 	var sender=$("#sender").text();
 	var messageContent=$("#messageContents").val();
 	var messageTitle=$("#title").val();
-	alert(messageContent);
+	if(messageTitle.length==0){
+		alert("제목이 비었습니다.")
+		return false;
+	}
+	else if(messageContent.length==0){
+		alert("내용이 비었습니다.")
+		return false;
+	}else{
 		$.ajax({
-						type : "post",
-						url : "sendMessage.do",
-						data : "receiver="+receiver+"&sender="+sender+"&messageContent="+messageContent+"&messageTitle="+messageTitle,
-						dataType :"json",
-						success : function(data) {
-							}
-						})
-					
+				type : "post",
+				url : "sendMessage.do",
+				data : "receiver="+receiver+"&sender="+sender+"&messageContent="+messageContent+"&messageTitle="+messageTitle,
+				dataType :"json",
+				success : function(data) {
+				}
+					})
+	}
 	
 	}
 
@@ -435,8 +442,8 @@ function SendMessage(){
           <div class="modal-body">
         	<a style='display: none;' id="sender">${sessionScope.loginVo.memberNickName}</a>
             <a id="nickname"><h5></h5></a>
-         	<input type="text" class="form-control" id="title" value="제목"></input>
-            <textarea class="form-control" id="messageContents" rows="7" style="resize: none;"></textarea>
+         	<input type="text" class="form-control" id="title"  placeholder="제목"></input>
+            <textarea class="form-control" id="messageContents" placeholder="내용" rows="7" style="resize: none;"></textarea>
           </div>
           
           <div class="modal-footer">

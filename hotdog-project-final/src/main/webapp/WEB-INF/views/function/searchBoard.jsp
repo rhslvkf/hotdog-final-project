@@ -2,11 +2,11 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-  
+    
 		<h4>* 검색된 게시판 리스트(${fn:length(requestScope.lvo.map.allList)}개의 게시판,  ${requestScope.lvo.map.allNum}개의게시글)</h4><br><br> 
-		
+	
 <c:if test="${fn:length(requestScope.lvo.map.abandonedList)!=0}">
-<a href="${initParam.root}searchBoardPosting.do?type=board_abandoned&word=${requestScope.lvo.map.word}">유기견 게시판</a>(${fn:length(requestScope.lvo.map.abandonedList)})<br><br>
+<a href="${initParam.root}searchBoardPosting.do?type=board_abandoned&word=${requestScope.lvo.map.word}">유기견정보</a>(${fn:length(requestScope.lvo.map.abandonedList)})<br><br>
 </c:if>
 <c:if test="${fn:length(requestScope.lvo.map.adoptionList)!=0}">
 <a href="${initParam.root}searchBoardPosting.do?type=board_adoption&word=${requestScope.lvo.map.word}">분양게시판</a>(${fn:length(requestScope.lvo.map.adoptionList)})<br><br>
@@ -21,120 +21,124 @@
 </c:if>
 
 <c:if test="${fn:length(requestScope.lvo.map.petInfoList)!=0}">
-<a href="${initParam.root}searchBoardPosting.do?type=board_petInfo&word=${requestScope.lvo.map.word}">애견정보 게시판</a>(${fn:length(requestScope.lvo.map.petInfoList)})<br><br>
+<a href="${initParam.root}searchBoardPosting.do?type=board_petInfo&word=${requestScope.lvo.map.word}">애견정보</a>(${fn:length(requestScope.lvo.map.petInfoList)})<br><br>
 </c:if>
 
 <c:if test="${fn:length(requestScope.lvo.map.petPictureList)!=0}">
-<a href="${initParam.root}searchBoardPosting.do?type=board_petPicture&word=${requestScope.lvo.map.word}">애견사진 게시판</a>(${fn:length(requestScope.lvo.map.petPictureList)})<br><br>
+<a href="${initParam.root}searchBoardPosting.do?type=board_petPicture&word=${requestScope.lvo.map.word}">애견사진</a>(${fn:length(requestScope.lvo.map.petPictureList)})<br><br>
 </c:if>
 
 <c:if test="${fn:length(requestScope.lvo.map.qnAList)!=0}">
-<a href="${initParam.root}searchBoardPosting.do?type=board_QnA&word=${requestScope.lvo.map.word}">Q&A 게시판</a>(${fn:length(requestScope.lvo.map.qnAList)})<br><br>
+<a href="${initParam.root}searchBoardPosting.do?type=board_QnA&word=${requestScope.lvo.map.word}">Q&A</a>(${fn:length(requestScope.lvo.map.qnAList)})<br><br>
 </c:if>
 
 <hr>
 <c:forEach items="${requestScope.lvo.list}" var="bvo">
+<c:set var="changeWord">
+<font color="red">${requestScope.lvo.map.word}</font>
+</c:set>
 <c:choose>
 <c:when test="${bvo.boardType =='유기견정보'}">
 	<strong>${bvo.boardType}</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
-	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_abandoned">${bvo.boardTitle}</a></u><br>
+	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_abandoned">${fn:replace(bvo.boardTitle,requestScope.lvo.map.word,changeWord)}</a></u><br>
 	</c:when>
 	<c:otherwise>
-	<u>${bvo.boardTitle}</u><br>
+	<u>${fn:replace(bvo.boardTitle,requestScope.lvo.map.word,changeWord)}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${fn:substring(bvo.boardContent,0,20)}<br>
-	${bvo.boardDate} &nbsp ${bvo.memberVO.memberNickName}<br><br><hr>	
+     ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
+	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>	
 </c:when>
 
 <c:when test="${bvo.boardType =='분양게시판'}">
 <strong>${bvo.boardType}</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
-	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_adoption">${bvo.boardTitle}</a></u><br>
+	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_adoption">${fn:replace(bvo.boardTitle,requestScope.lvo.map.word,changeWord)}</a></u><br>
 	</c:when>
 	<c:otherwise>
-	<u>${bvo.boardTitle}</u><br>
+	<u>${fn:replace(bvo.boardTitle,requestScope.lvo.map.word,changeWord)}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${fn:substring(bvo.boardContent,0,20)}<br>
-	${bvo.boardDate} &nbsp ${bvo.memberVO.memberNickName}<br><br><hr>
-
+     ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
+	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
 <c:when test="${bvo.boardType =='자유게시판'}">
 <strong>${bvo.boardType}</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
-	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_community">${bvo.boardTitle}</a></u><br>
+	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_community">${fn:replace(bvo.boardTitle,requestScope.lvo.map.word,changeWord)}</a></u><br>
 	</c:when>
 	<c:otherwise>
-	<u>${bvo.boardTitle}</u><br>
+	<u>${fn:replace(bvo.boardTitle,requestScope.lvo.map.word,changeWord)}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${fn:substring(bvo.boardContent,0,20)}<br>
-	${bvo.boardDate} &nbsp ${bvo.memberVO.memberNickName}<br><br><hr>
+     ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
+	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
 <c:when test="${bvo.boardType =='공지사항'}">
 <strong>${bvo.boardType}</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
-	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_notice">${bvo.boardTitle}</a></u><br>
+	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_notice">${fn:replace(bvo.boardTitle,requestScope.lvo.map.word,changeWord)}</a></u><br>
 	</c:when>
 	<c:otherwise>
-	<u>${bvo.boardTitle}</u><br>
+	<u>${fn:replace(bvo.boardTitle,requestScope.lvo.map.word,changeWord)}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${fn:substring(bvo.boardContent,0,20)}<br>
-	${bvo.boardDate} &nbsp ${bvo.memberVO.memberNickName}<br><br><hr>
+     ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
+	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
 <c:when test="${bvo.boardType =='애견정보'}">
 <strong>${bvo.boardType}</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
-	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_petInfo">${bvo.boardTitle}</a></u><br>
+	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_petInfo">${fn:replace(bvo.boardTitle,requestScope.lvo.map.word,changeWord)}</a></u><br>
 	</c:when>
 	<c:otherwise>
-	<u>${bvo.boardTitle}</u><br>
+	<u>${fn:replace(bvo.boardTitle,requestScope.lvo.map.word,changeWord)}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${fn:substring(bvo.boardContent,0,20)}<br>
-	${bvo.boardDate} &nbsp ${bvo.memberVO.memberNickName}<br><br><hr>
+     ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
+	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
-<c:when test="${bvo.boardType =='애견 사진'}">
+<c:when test="${bvo.boardType =='애견사진'}">
 <strong>${bvo.boardType}</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
-	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_petPicture">${bvo.boardTitle}</a></u><br>
+	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_petPicture">${fn:replace(bvo.boardTitle,requestScope.lvo.map.word,changeWord)}</a></u><br>
 	</c:when>
 	<c:otherwise>
-	<u>${bvo.boardTitle}</u><br>
+	<u>${fn:replace(bvo.boardTitle,requestScope.lvo.map.word,changeWord)}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${fn:substring(bvo.boardContent,0,20)}<br>
-	${bvo.boardDate} &nbsp ${bvo.memberVO.memberNickName}<br><br><hr>
+     ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
+	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
 <c:when test="${bvo.boardType =='Q&A'}">
 <strong>${bvo.boardType}</strong><br>
 	<c:choose>
 	<c:when test="${sessionScope.loginVo!=null}">
-	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_QnA">${bvo.boardTitle}</a></u><br>
+	<u><a href="${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_QnA">${fn:replace(bvo.boardTitle,requestScope.lvo.map.word,changeWord)}</a></u><br>
 	</c:when>
 	<c:otherwise>
-	<u>${bvo.boardTitle}</u><br>
+	<u>${fn:replace(bvo.boardTitle,requestScope.lvo.map.word,changeWord)}</u><br>
 	</c:otherwise>
 	</c:choose>
-	${fn:substring(bvo.boardContent,0,20)}<br>
-	${bvo.boardDate} &nbsp ${bvo.memberVO.memberNickName}<br><br><hr>
+     ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
+	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 </c:choose>
 </c:forEach>
+
+
 
 <p class="paging">
 	<c:set var="pb" value="${requestScope.lvo.pagingBean}"></c:set>

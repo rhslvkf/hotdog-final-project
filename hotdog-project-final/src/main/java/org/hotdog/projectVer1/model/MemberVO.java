@@ -12,6 +12,7 @@ public class MemberVO {
 	private String memberStatus; //회원의 상태(active/deactive)
 	private String memberLatestdate;
 	private String passPeriod;
+	private String loginTime;
 	public MemberVO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -19,7 +20,7 @@ public class MemberVO {
 	public MemberVO(String memberId, String memberName, String memberPassword,
 			String memberNickName, String memberGrade, int memberAttendance,
 			String updateGrade, String memberTel, String memberStatus,
-			String memberLatestdate, String passPeriod) {
+			String memberLatestdate, String passPeriod, String loginTime) {
 		super();
 		this.memberId = memberId;
 		this.memberName = memberName;
@@ -32,6 +33,7 @@ public class MemberVO {
 		this.memberStatus = memberStatus;
 		this.memberLatestdate = memberLatestdate;
 		this.passPeriod = passPeriod;
+		this.loginTime = loginTime;
 	}
 	public String getMemberId() {
 		return memberId;
@@ -99,6 +101,12 @@ public class MemberVO {
 	public void setPassPeriod(String passPeriod) {
 		this.passPeriod = passPeriod;
 	}
+	public String getLoginTime() {
+		return loginTime;
+	}
+	public void setLoginTime(String loginTime) {
+		this.loginTime = loginTime;
+	}
 	@Override
 	public String toString() {
 		return "MemberVO [memberId=" + memberId + ", memberName=" + memberName
@@ -107,8 +115,8 @@ public class MemberVO {
 				+ ", memberAttendance=" + memberAttendance + ", updateGrade="
 				+ updateGrade + ", memberTel=" + memberTel + ", memberStatus="
 				+ memberStatus + ", memberLatestdate=" + memberLatestdate
-				+ ", passPeriod=" + passPeriod + "]";
+				+ ", passPeriod=" + passPeriod + ", loginTime=" + loginTime
+				+ "]";
 	}
-	
 	
 }
