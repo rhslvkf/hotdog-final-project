@@ -170,28 +170,38 @@ function SendMessage(){
 
 </script>
 	
-	<div class="panel panel-default">
-      <!-- Default panel contents -->
-      <div class="panel-heading">애견정보</div>
-      <!-- Table -->
-      <table class="list">
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>닉네임</th>
-            <th>작성일</th>
-            <th>조회수</th>
-          </tr>
-        </thead>
-        <c:forEach var="bvo" items="${requestScope.lvo.list}" varStatus="status">	
-        	<c:choose>	
-        	<c:when test="${sessionScope.loginVo.memberGrade !='BRONZE'}">		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	    	      <h1>애견정보</h1>
+    <div class="showListPosting">
+      <div class="col-md-12">
+        <table class="table table-striped custab">
+          <thead>
+            <tr>
+              <th width="80">번 호</th>
+              <th width="300">제 목</th>
+              <th width="150">닉네임</th>
+              <th width="150">작성일</th>
+              <th width="100">조회수</th>
+              <th class="text-center" width="150">수정/삭제</th>
+            </tr>
+          </thead>
+          				<c:forEach var="bvo" items="${requestScope.lvo.list}" varStatus="status">				
+          <tbody>
 			<tr>
 			    <td>${bvo.boardNumber }</td>				
 				<td>
 				<c:choose>
-				<c:when test="${sessionScope.loginVo!=null}">
+				<c:when test="${sessionScope.loginVo !=null}">
 				<a href="${initParam.root}showContent.do?no=${bvo.boardNumber }&type=board_petInfo">
 				${bvo.boardTitle }</a>
 				</c:when>
@@ -201,7 +211,7 @@ function SendMessage(){
 				</c:choose>
 				</td>
 				<c:choose>
-				<c:when test="${sessionScope.loginVo == null }">
+				<c:when test="${sessionScope.loginVo ==null}">
 				<td>${bvo.memberVO.memberNickName}</td>
 				</c:when>
 				<c:when test="${sessionScope.loginVo.memberId == bvo.memberVO.memberId }">
@@ -214,27 +224,56 @@ function SendMessage(){
 				${bvo.memberVO.memberNickName }</a></td>
 				</c:otherwise>
 				</c:choose>
-
-				
-				
 				<td>${bvo.boardDate }</td>
 				<td>${bvo.boardHits }</td>
+							<td class="text-center">   
+							<c:if test="${bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
+								<a class="btn btn-info btn-xs"
+									href="updateView.do?no=${bvo.boardNumber}&type=board_petInfo" onclick="return confirm('수정하시겠습니까?')">
+									<span class="glyphicon glyphicon-edit"></span>
+									 수정
+								</a>
+								<a
+									href="auth_deletePosting.do?no=${bvo.boardNumber }&type=board_petInfo" onclick="return confirm('삭제하시겠습니까?')"
+									class="btn btn-danger btn-xs"> <span
+									class="glyphicon glyphicon-remove"></span> 삭제
+								</a>
+                               </c:if>
+							</td>
 			</tr>	
-			</c:when>
-			<c:otherwise>
-					<tr>
-					    <td>${bvo.boardNumber }</td>				
-						<td>${bvo.boardTitle}</td>
-						<td>${bvo.memberVO.memberNickName}</td>
-						<td>${bvo.boardDate }</td>
-						<td>${bvo.boardHits }</td>
-					</tr>
-			</c:otherwise>
-			</c:choose>
+			</tbody>
 			</c:forEach>
-		</tbody>
-      </table>
+        </table>
+      </div>
     </div>
+	
+	
+	
+	
+	
+	 <style>
+      .custab{
+          border: 1px solid #ccc;
+          padding: 5px;
+          margin: 5% 0;
+          box-shadow: 3px 3px 2px #ccc;
+          transition: 0.5s;
+          }
+      .custab:hover{
+          box-shadow: 3px 3px 0px transparent;
+          transition: 0.5s;
+          }
+    </style>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	<form class="navbar-form navbar-left" role="search"
 		action="${initParam.root}searchPosting.do">
 		<input type="hidden" name="type" value="board_petInfo">

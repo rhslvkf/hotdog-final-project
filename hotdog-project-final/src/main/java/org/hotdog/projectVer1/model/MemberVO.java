@@ -10,6 +10,7 @@ public class MemberVO {
 	private String updateGrade;
 	private String memberTel; //0으로 시작되는 전화번호 입력을 위해 tel 데이터 타입을 String으로 변경-1208
 	private String memberStatus; //회원의 상태(active/deactive)
+	private String memberLatestdate;
 	private String passPeriod;
 	private String loginTime;
 	public MemberVO() {
@@ -19,7 +20,7 @@ public class MemberVO {
 	public MemberVO(String memberId, String memberName, String memberPassword,
 			String memberNickName, String memberGrade, int memberAttendance,
 			String updateGrade, String memberTel, String memberStatus,
-			String passPeriod, String loginTime) {
+			String memberLatestdate, String passPeriod, String loginTime) {
 		super();
 		this.memberId = memberId;
 		this.memberName = memberName;
@@ -30,6 +31,7 @@ public class MemberVO {
 		this.updateGrade = updateGrade;
 		this.memberTel = memberTel;
 		this.memberStatus = memberStatus;
+		this.memberLatestdate = memberLatestdate;
 		this.passPeriod = passPeriod;
 		this.loginTime = loginTime;
 	}
@@ -87,6 +89,12 @@ public class MemberVO {
 	public void setMemberStatus(String memberStatus) {
 		this.memberStatus = memberStatus;
 	}
+	public String getMemberLatestdate() {
+		return memberLatestdate;
+	}
+	public void setMemberLatestdate(String memberLatestdate) {
+		this.memberLatestdate = memberLatestdate;
+	}
 	public String getPassPeriod() {
 		return passPeriod;
 	}
@@ -106,8 +114,9 @@ public class MemberVO {
 				+ memberNickName + ", memberGrade=" + memberGrade
 				+ ", memberAttendance=" + memberAttendance + ", updateGrade="
 				+ updateGrade + ", memberTel=" + memberTel + ", memberStatus="
-				+ memberStatus + ", passPeriod=" + passPeriod + ", loginTime="
-				+ loginTime + "]";
+				+ memberStatus + ", memberLatestdate=" + memberLatestdate
+				+ ", passPeriod=" + passPeriod + ", loginTime=" + loginTime
+				+ "]";
 	}
 	
 }

@@ -9,19 +9,19 @@ import java.util.Map;
  * @author inst
  *
  */
-public class ListVO {
-	private List<BoardVO> list;
+public class MemberListVO {
+	private List<MemberVO> list;
 	private PagingBean pagingBean;
 	private String word;
 	private String category;
 	private Map<Object, Object> map;
 
-	public ListVO() {
+	public MemberListVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ListVO(List<BoardVO> list, PagingBean pagingBean,
+	public MemberListVO(List<MemberVO> list, PagingBean pagingBean,
 			Map<Object, Object> map) {
 		super();
 		this.list = list;
@@ -29,17 +29,17 @@ public class ListVO {
 		this.map = map;
 	}
 
-	public ListVO(List<BoardVO> list, PagingBean pagingBean) {
+	public MemberListVO(List<MemberVO> list, PagingBean pagingBean) {
 		super();
 		this.list = list;
 		this.pagingBean = pagingBean;
 	}
 
-	public List<BoardVO> getList() {
+	public List<MemberVO> getList() {
 		return list;
 	}
 
-	public void setList(List<BoardVO> list) {
+	public void setList(List<MemberVO> list) {
 		this.list = list;
 	}
 

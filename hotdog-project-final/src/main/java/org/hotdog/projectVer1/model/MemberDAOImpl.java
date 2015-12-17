@@ -1,5 +1,8 @@
 package org.hotdog.projectVer1.model;
 
+
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -85,6 +88,15 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public String getMemberNickName(String memberId) {
 		return sqlSessionTemplate.selectOne("member.getMemberNickName",memberId);
+	}
+	@Override
+	public List<MemberVO> allMemberInfo(String pageNo) {
+		List<MemberVO> list = sqlSessionTemplate.selectList("member.allMemberInfo", pageNo);
+		return list;
+		}
+	@Override
+	public int totalContent() {
+		return sqlSessionTemplate.selectOne("member.totalContent");
 	}
 	@Override
 	public String loginTime() {

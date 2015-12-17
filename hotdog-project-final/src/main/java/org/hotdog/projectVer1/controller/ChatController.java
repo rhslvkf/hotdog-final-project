@@ -21,18 +21,24 @@ public class ChatController {
 	@Resource
 	ChatService chatService;
 	
+	@ResponseBody
 	@RequestMapping("insertChat.do")
-	public void insertChat(ChatVO chatVO){
+	public void insertChat(ChatVO chatVO, HttpServletResponse response) throws IOException, InterruptedException{
 		chatService.insertChat(chatVO);
+		//getNewMessages(response);
 	}
 	
 	@RequestMapping("getNewMessages.do")
 	public void getNewMessages(HttpServletResponse response) throws IOException, InterruptedException{
+		//System.out.println("start");
         int lastChatId = chatService.getLastChatId();
+        //System.out.println("lastChatId : "+lastChatId);
         while (true) {
             List<ChatVO> newChatList = chatService.readById(lastChatId);
+            //System.out.println("newChatList : "+newChatList);
             if (newChatList.size() > 0) {
                 lastChatId = newChatList.get(newChatList.size() - 1).getChatId();
+                //System.out.println("lastChatId : "+lastChatId);
                 response.setContentType("text/event-stream;charset=UTF-8");
                 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
                 response.setHeader("Pragma", "no-cache");
@@ -41,6 +47,7 @@ public class ChatController {
                 writer.write("event: message\n\n");
                 writer.write("data: " + new Gson().toJson(newChatList) + "\n\n");
                 writer.flush();
+                //System.out.println("end");
             }
             Thread.sleep(300);
         }

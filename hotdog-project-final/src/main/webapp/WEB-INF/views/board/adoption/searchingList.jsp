@@ -103,6 +103,21 @@ function allLayerClose(idx,length,flag) {
 		</tbody>
       </table>
     </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 	<form class="navbar-form navbar-left" role="search"
 		action="${initParam.root}searchPosting.do">
 		<input type="hidden" name="type" value="board_adoption">

@@ -24,8 +24,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="readById" resultMap="chatvo">
+		<![CDATA[
 		select chat_id,user_name,chat_message,to_char(date_created,'mi:ss') as date_created from chat
-		where chat_id > #{lastChatId} order by chat_id asc
+		where #{lastChatId} < chat_id order by chat_id asc
+		]]>
 	</select>
 	
 	<select id="getChatList" resultMap="chatvo">

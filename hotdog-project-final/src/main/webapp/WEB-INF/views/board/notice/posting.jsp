@@ -144,44 +144,69 @@
     });	
 </script>
  <br>
-  <form action="${initParam.root}auth_posting.do?type=board_notice" method="post" id="write_form" enctype="multipart/form-data">
-   <table class="inputForm" >
-    <caption>글쓰기</caption>
-    <tbody>
-    <tr>
-     <td>제목</td>
-     <td colspan="3">
-     <input type="text" name=boardTitle size="48" id="boardTitle">
-     </td>
-    </tr>
-    <tr>
-     <td>닉네임</td>
-     <td>${sessionScope.loginVo.memberNickName}</td>     
-    </tr>
-    <tr>
-     <td colspan="4" align="left">
-     &nbsp;&nbsp;
-     <input type = "hidden" name = "boardContent" id = "boardContentHidden" value = "">
-     <div id="boardContent" contenteditable="true"></div>
-                 <div class="form-group">
-    <label for="exampleInputFile">파일 업로드</label>
-    <input type="file" name="file[0]" id="file0" accept="image/*"><div id="fileInfo0"></div><br>
-    <input type="file" name="file[1]" id="file1" accept="image/*"><div id="fileInfo1"></div><br>
-    <input type="file" name="file[2]" id="file2" accept="image/*"><div id="fileInfo2"></div><br>
-    <font color="red">* 이미지 파일만 업로드 가능합니다.<br>
-    * 용량 제한은 5MB입니다.</font> 
-  </div>
-     </td>
-    </tr> 
-    <tr>
-     <td colspan="4" align="center" >
-      <img id="writeBtn" class="action" src="${initParam.root}img/write_btn.jpg" alt="글입력">
-      <img id="resetBtn" class="action" src="${initParam.root}img/cancel.gif" onclick="cancel()">      
-     </td>  
-    </tr>
-    </tbody>
-   </table>
-  </form>
+
+  
+  
+    <h1>공지사항</h1>
+<div class="section">
+		<form class="form-horizontal" role="form" action="${initParam.root}auth_posting.do?type=board_notice"
+			id="write_form" method="post" enctype="multipart/form-data">
+			
+	<div class="container">
+			<div class="form-group">
+			
+				<div class="col-sm-1">
+					<label for="inputEmail3" class="control-label">제목</label>
+				</div>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="boardTitle"
+						placeholder="글 제목을 입력하세요" name="boardTitle" onfocus="this.select()"
+						required="">
+				</div>
+			</div>
+						<div class="form-group">
+				<div class="col-sm-1">
+					<label for="inputEmail3" class="control-label">닉네임</label>
+				</div>
+				<div class="col-sm-4">
+					<label for="inputEmail3" class="control-label">${sessionScope.loginVo.memberNickName}</label>
+
+				</div>
+			</div>
+
+			
+			<div class="form-group">
+				<div class="col-sm-1">
+					<label for="inputEmail3" class="control-label">내용</label>
+				</div>
+				<div class="col-sm-4">
+					<input type = "hidden" name = "boardContent" id = "boardContentHidden" value = "">
+     				<div id="boardContent" contenteditable="true"></div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-12">
+					<label for="exampleInputFile">파일 업로드</label>
+				    <input type="file" name="file[0]" id="file0" accept="image/*"><div id="fileInfo0"></div><br>
+				    <input type="file" name="file[1]" id="file1" accept="image/*"><div id="fileInfo1"></div><br>
+				    <input type="file" name="file[2]" id="file2" accept="image/*"><div id="fileInfo2"></div><br>
+				    <font color="red">* 이미지 파일만 업로드 가능합니다.<br>
+				    * 용량 제한은 5MB입니다.</font> 
+					</div>
+				</div>
+			</div>
+
+
+			<div class="modal-footer">
+				<ul class="nav navbar-nav navbar-left">
+					<li>
+					
+					<a id="writeBtn" class="action">글쓰기</a></li>
+					
+				</ul>
+			</div>
+		</form>
+	</div>
 
 
 

@@ -6,7 +6,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$('.js-activated').dropdownHover().dropdown();
-	if(${sessionScope.loginVo != null}){
+	if("${sessionScope.loginVo}" != null){
 		$.ajax({
 			type:"POST",
 			url:"showPostingList.do",
@@ -1228,17 +1228,17 @@ $(document).ready(function(){
 							data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false">유기견 <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="getPostingList.do?type=board_abandoned">유기견정보</a></li>
-							<li><a href="getPostingList.do?type=board_adoption">유기견분양</a></li>
+								<li style="background-color: white;"><a href="getPostingList.do?type=board_abandoned">유기견정보</a></li>
+							<li style="background-color: white;"><a href="getPostingList.do?type=board_adoption">유기견분양</a></li>
 							</ul></li>
 
 						<li class=" dropdown"><a href="#" class="dropdown-toggle js-activated"
 							data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false">커뮤니티 <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-							<li><a href="getPostingList.do?type=board_notice">공지사항</a></li>
-							<li><a href="getPostingList.do?type=board_petInfo">애견정보</a></li>
-							<li><a href="getPostingList.do?type=board_community">자유게시판</a></li>
+							<li style="background-color: white;"><a href="getPostingList.do?type=board_notice">공지사항</a></li>
+							<li style="background-color: white;"><a href="getPostingList.do?type=board_petInfo">애견정보</a></li>
+							<li style="background-color: white;"><a href="getPostingList.do?type=board_community">자유게시판</a></li>
 							</ul></li>
 
 					<li><a href="getPostingList.do?type=board_petPicture">애견사진</a></li>
@@ -1997,3 +1997,46 @@ body {
       </div>
     </div>
 <!-- 쪽지보내기 모달 끝 -->
+
+<!-- 전체 E-mail보내기 -->
+
+<div class="modal fade" id="allEmailSendmodal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">E-mail 보내기</h4>
+          </div>
+          <div class="modal-body">
+            <h5>전체회원에게 E-mail 보내기</h5>
+            <textarea class="form-control" rows="7" style="resize: none;"></textarea>
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-default" href="">E-mail 보내기</a>
+            <a class="btn btn-default" data-dismiss="modal">닫기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 전체 E-mail 보내기 끝 -->
+    
+    
+    <!-- 전체회원보기 -->
+     <div class="modal fade" id="allMemberInfo">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">전체회원</h4>
+          </div>
+          <div class="modal-body">
+          <div id="allMemberList"></div>
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-default" data-dismiss="modal">닫기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 전체회원보기 끝 -->

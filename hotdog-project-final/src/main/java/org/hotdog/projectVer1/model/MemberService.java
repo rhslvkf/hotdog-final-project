@@ -1,5 +1,8 @@
 package org.hotdog.projectVer1.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface MemberService {
 	
 	public abstract void registerMember(MemberVO vo);
@@ -35,5 +38,7 @@ public interface MemberService {
 	public abstract String getMemberId(String memberNickName);
 
 	public abstract String getMemberNickName(String memberId);
+
+	public abstract MemberListVO allMemberInfo(String pageNo);
 	
 }

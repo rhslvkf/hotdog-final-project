@@ -15,8 +15,8 @@
     		if(confirm("게시물을 수정하시겠습니까?"))
     			location.href="updateView.do?no=${requestScope.bvo.boardNumber}&type=board_petInfo";
     	});
-    	if(${requestScope.bvo.memberVO.updateGrade != null}){
-	    	if(${requestScope.bvo.memberVO.updateGrade != "notUpdate"}){
+    	if("${requestScope.bvo.memberVO.updateGrade}" != ""){
+	    	if("${requestScope.bvo.memberVO.updateGrade}" != "notUpdate"){
 	    		alert("등급이 ${requestScope.bvo.memberVO.updateGrade}가 되었습니다.");
 	    		location.href="${initParam.root}showContentNoHit.do?no=${requestScope.bvo.boardNumber}&type=board_petInfo";
 	    	}
@@ -391,7 +391,7 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
 		<tr>
 			<td valign="middle" align="center" colspan="3">
 			 <img id="listImg" class="action" src="${initParam.root}img/list_btn.jpg">
-			 <c:if test="${requestScope.bvo.memberVO.memberId==sessionScope.loginVo.memberId}">
+			 <c:if test="${requestScope.bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
 			 <img id="deleteImg" class="action"  onclick="deleteBoard()" src="${initParam.root}img/delete_btn.jpg" > 
 			 <img id="updateImg" class="action"  onclick="updateBoard()" src="${initParam.root}img/modify_btn.jpg" >
 			 </c:if>

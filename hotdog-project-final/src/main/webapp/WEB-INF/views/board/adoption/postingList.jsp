@@ -3,6 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script type="text/javascript">
 function showPostingList(memberId){
+	var grade = "${sessionScope.loginVo.memberGrade}";
 	$.ajax({
 		type:"POST",
 		url:"showPostingList.do",
@@ -12,17 +13,26 @@ function showPostingList(memberId){
 			if(result.board_abandoned.length != 0){
 				title += "<tr><td colspan='5'><h3>"+result.board_abandoned[0].boardType+"</h3></td></tr>";
 				title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
-				
 				for(var i=0;i<result.board_abandoned.length;i++){
-					title += "<tr><td>"+result.board_abandoned[i].boardNumber+
+				if(grade !="BRONZE"){
+					title += "<tr><td>"+result.board_abandoned[i].boardNumber
 							+"</td><td><a href = '${initParam.root}showContent.do?no="
 							+result.board_abandoned[i].boardNumber
 							+"&type=board_abandoned'>"
-							+result.board_abandoned[i].boardTitle+	"</a></td>";
-							"</td><td>"+result.board_abandoned[i].memberVO.memberNickName
+							+result.board_abandoned[i].boardTitle+
+							"</a></td><td>"+result.board_abandoned[i].memberVO.memberNickName
 							+"</td><td>"+result.board_abandoned[i].boardDate
 							+"</td><td>"+result.board_abandoned[i].boardHits+"</td></tr>";
-					}
+				}else{
+					title += "<tr><td>"+result.board_abandoned[i].boardNumber
+					+"</td><td>"+result.board_abandoned[i].boardTitle+
+					"</td><td>"+result.board_abandoned[i].memberVO.memberNickName
+					+"</td><td>"+result.board_abandoned[i].boardDate
+					+"</td><td>"+result.board_abandoned[i].boardHits+"</td></tr>";
+					
+					
+				}
+				}
 			}
 			if(result.board_adoption.length != 0){
 				title += "<tr><td colspan='5'><h3>"+result.board_adoption[0].boardType+"</h3></td></tr>";
@@ -169,42 +179,47 @@ function SendMessage(){
 
 </script>
 	
-	<div class="panel panel-default">
-      <!-- Default panel contents -->
-      <div class="panel-heading">유기견분양</div>
-      <!-- Table -->
-      <table class="list">
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>닉네임</th>
-            <th>작성일</th>
-            <th>조회수</th>
-          </tr>
-        </thead>
-        <c:forEach var="bvo" items="${requestScope.lvo.list}" varStatus="status">			
-        	<c:choose>	
-        		<c:when test="${sessionScope.loginVo.memberGrade =='GOLD'}">
-					<tr>
-					    <td>${bvo.boardNumber }</td>				
-						<td>
-						<c:choose>
-						<c:when test="${sessionScope.loginVo!=null}">
-						<a href="${initParam.root}showContent.do?no=${bvo.boardNumber }&type=board_adoption">
-						${bvo.boardTitle }</a>
-						</c:when>
-						<c:otherwise>
-						${bvo.boardTitle}
-						</c:otherwise>
-						</c:choose>
-						</td>
-						<c:choose>
-						<c:when test="${sessionScope.loginVo == null }">
-						<td>${bvo.memberVO.memberNickName}</td>
-						</c:when>
-						<c:when test="${sessionScope.loginVo.memberId == bvo.memberVO.memberId }">
-					<td><a href="#" onclick="layerControl(event, ${status.count},${fn:length(requestScope.lvo.list)},true,null)">
+   <h1>유기견분양</h1>
+    <div class="showListPosting">
+      <div class="col-md-12">
+        <table class="list">
+          <thead>
+            <tr>
+              <th width="80">번 호</th>
+              <th>사진</th>
+              <th width="300">제 목</th>
+              <th width="150">닉네임</th>
+              <th width="150">작성일</th>
+              <th width="100">조회수</th>
+              <th class="text-center" width="150">수정/삭제</th>
+            </tr>
+          </thead>
+          				<c:forEach var="bvo" items="${requestScope.lvo.list}" varStatus="status">				
+          <tbody>
+			<tr>
+			    <td>${bvo.boardNumber }</td>		
+			    <td width="110"><img src="${bvo.fileName}" width="100" height="80"></td>			
+				<td>
+				<c:choose>
+				<c:when test="${sessionScope.loginVo !=null}">
+				<a href="${initParam.root}showContent.do?no=${bvo.boardNumber }&type=board_adoption">
+				${bvo.boardTitle }</a>
+				</c:when>
+				<c:otherwise>
+				${bvo.boardTitle}
+				</c:otherwise>
+				</c:choose>
+				</td>
+				<c:choose>
+				<c:when test="${sessionScope.loginVo ==null}">
+				<td>${bvo.memberVO.memberNickName}</td>
+				</c:when>
+				<c:when test="${sessionScope.loginVo.memberId == bvo.memberVO.memberId}">
+				
+
+<!-- 				/////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	
+				<td><a href="#" onclick="layerControl(event, ${status.count},${fn:length(requestScope.lvo.list)},true,null)">
 				${bvo.memberVO.memberNickName }</a></td>
 				
 				</c:when>
@@ -213,32 +228,58 @@ function SendMessage(){
 				${bvo.memberVO.memberNickName }</a></td>
 				</c:otherwise>
 				</c:choose>
-
-						<td>${bvo.boardDate }</td>
-						<td>${bvo.boardHits }</td>
-					</tr>	
-					</c:when>
-			<c:otherwise>
-					<tr>
-					    <td>${bvo.boardNumber }</td>				
-						<td>${bvo.boardTitle}</td>
-						<td>${bvo.memberVO.memberNickName}</td>
-						<td>${bvo.boardDate }</td>
-						<td>${bvo.boardHits }</td>
-					</tr>
-			
-			</c:otherwise>		
-				</c:choose>
+<!-- 				/////////////////////////////////////////////////////////////////////////////////////////////////// -->
+				
+				
+				<td>${bvo.boardDate }</td>
+				<td>${bvo.boardHits }</td>
+							<td class="text-center">   
+							<c:if test="${bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
+								<a class="btn btn-info btn-xs"
+									href="updateView.do?no=${bvo.boardNumber}&type=board_adoption" onclick="return confirm('수정하시겠습니까?')">
+									<span class="glyphicon glyphicon-edit"></span>
+									 수정
+								</a>
+								<a
+									href="auth_deletePosting.do?no=${bvo.boardNumber }&type=board_adoption" onclick="return confirm('삭제하시겠습니까?')"
+									class="btn btn-danger btn-xs"> <span
+									class="glyphicon glyphicon-remove"></span> 삭제
+								</a>
+                               </c:if>
+							</td>
+			</tr>	
+			</tbody>
 			</c:forEach>
-		</tbody>
-      </table>
+        </table>
+      </div>
     </div>
+
+
+
+	 <style>
+      .custab{
+          border: 1px solid #ccc;
+          padding: 5px;
+          margin: 5% 0;
+          box-shadow: 3px 3px 2px #ccc;
+          transition: 0.5s;
+          }
+      .custab:hover{
+          box-shadow: 3px 3px 0px transparent;
+          transition: 0.5s;
+          }
+    </style>
+
+
+
+
+
 	<form class="navbar-form navbar-left" role="search"
 		action="${initParam.root}searchPosting.do">
 		<input type="hidden" name="type" value="board_adoption">
 		<div class="form-group">
 		<c:choose>
-			<c:when test="${sessionScope.loginVo!=null && sessionScope.loginVo.memberGrade=='GOLD'}">
+			<c:when test="${sessionScope.loginVo!=null && sessionScope.loginVo.memberGrade=='GOLD' || sessionScope.loginVo.memberGrade=='ADMIN'}">
 			<a class="btn btn-default" href="${initParam.root}auth_write.do?type=board_adoption">글쓰기</a>
 			</c:when>
 			<c:otherwise>

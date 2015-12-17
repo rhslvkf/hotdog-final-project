@@ -1,5 +1,8 @@
 package org.hotdog.projectVer1.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface MemberDAO {
 
 	public abstract void register(MemberVO vo);
@@ -39,6 +42,10 @@ public interface MemberDAO {
 	public abstract String getMemberId(String memberNickName);
 
 	public abstract String getMemberNickName(String memberId);
+
+	public abstract List<MemberVO> allMemberInfo(String pageNo);
+
+	public abstract int totalContent();
 
 	public abstract String loginTime();
 

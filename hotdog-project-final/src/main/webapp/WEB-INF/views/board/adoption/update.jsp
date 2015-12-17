@@ -21,10 +21,10 @@
           	}else{
           		$("input:radio[id='petSize3']").prop("checked", true);
           	}
+          	        	
           	
           	
-          	
-          	
+         
           	var file0 = document.querySelector('#file0');
         	var file1 = document.querySelector('#file1');
         	var file2 = document.querySelector('#file2');
@@ -202,7 +202,6 @@
 <form id="updatePostingForm" method=post action="${initParam.root}auth_updatePosting.do?type=board_adoption" enctype="multipart/form-data">
 <input type = "hidden" name = "boardNumber" value = "${bvo.boardNumber}">
 	<table class="content">
-	
 		<tr>		
 			<td>NO : ${requestScope.bvo.boardNumber } </td>
 			<td colspan="2">제목 : <input type=text id="boardTitle" name="boardTitle" value="${requestScope.bvo.boardTitle}" size="40"></input>
@@ -231,7 +230,6 @@
 		<td>전화번호 : ${requestScope.bvo.memberVO.memberTel}</td>
 		<td>거주지역 : 
 				<select class="selectpicker" data-style="btn-info" id="residence" name="residence">
-				<option value="">-----</option>
 				<option value="서울">서울</option>
 				<option value="경기도">경기도</option>
 				<option value="강원도">강원도</option>
@@ -242,7 +240,6 @@
 		</td>
 		<td>애견종류 : 
 				<select class="selectpicker" data-style="btn-info" name="petType">
-				<option value="">-----</option>
 				<option value="삽살개">삽살개</option>
 				<option value="진돗개">진돗개</option>
 				<option value="풍산개">풍산개</option>
@@ -253,7 +250,6 @@
 				<tr>
 		<td>애견나이 : 
 				<select class="selectpicker" data-style="btn-info" name="petAge">
-				<option value="">-----</option>		
 				<c:forEach var="i" begin="1" end="15">
 				<option value="${i}">${i}</option>
 			    </c:forEach>
