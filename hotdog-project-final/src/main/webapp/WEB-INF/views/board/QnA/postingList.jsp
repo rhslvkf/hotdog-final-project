@@ -187,10 +187,10 @@ function showPostingList(memberId){
 
 
 
-   	      <h1>Q & A</h1>
+   	      <h1>Q & A</h1><br>
     <div class="showListPosting">
       <div class="col-md-12">
-        <table class="table table-striped custab">
+        <table class="list">
           <thead>
             <tr>
               <th width="80">번 호</th>
@@ -198,7 +198,9 @@ function showPostingList(memberId){
               <th width="150">닉네임</th>
               <th width="150">작성일</th>
               <th width="100">조회수</th>
-              <th class="text-center" width="150">수정/삭제</th>
+              <c:if	test="${sessionScope.loginVo.memberGrade=='ADMIN'}">
+              <th class="text-center" width="150">삭제</th>
+              </c:if>
             </tr>
           </thead>
           				<c:forEach var="bvo" items="${requestScope.lvo.list}" varStatus="status">				
@@ -241,20 +243,16 @@ function showPostingList(memberId){
 				<td>${bvo.boardDate }</td>
 				<td>${bvo.boardHits }</td>
 
-						<td class="text-center"><c:if
-								test="${bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
-								<a class="btn btn-info btn-xs"
-									href="updateView.do?no=${bvo.boardNumber}&type=board_QnA"
-									onclick="return confirm('수정하시겠습니까?')"> <span
-									class="glyphicon glyphicon-edit"></span> 수정
-								</a>
+						<c:if	test="${sessionScope.loginVo.memberGrade=='ADMIN'}">
+						<td class="text-center">
 								<a
 									href="auth_deletePosting.do?no=${bvo.boardNumber }&type=board_QnA"
 									onclick="return confirm('삭제하시겠습니까?')"
 									class="btn btn-danger btn-xs"> <span
 									class="glyphicon glyphicon-remove"></span> 삭제
 								</a>
-							</c:if></td>
+							</td>
+							</c:if>
 					</tr>	
 			</c:forEach>
 		</tbody>
@@ -264,19 +262,6 @@ function showPostingList(memberId){
 
 
 
-     <style>
-      .custab{
-          border: 1px solid #ccc;
-          padding: 5px;
-          margin: 5% 0;
-          box-shadow: 3px 3px 2px #ccc;
-          transition: 0.5s;
-          }
-      .custab:hover{
-          box-shadow: 3px 3px 0px transparent;
-          transition: 0.5s;
-          }
-    </style>
 
     
 	<form class="navbar-form navbar-left" role="search"

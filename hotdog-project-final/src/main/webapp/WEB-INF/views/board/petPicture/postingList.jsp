@@ -167,19 +167,22 @@ function SendMessage(){
 
 
 </script>
-	<div class="panel panel-default">
-      <!-- Default panel contents -->
-      <div class="panel-heading">애견사진</div>
-      <!-- Table -->
+	    	      <h1>애견사진</h1><br>
+    <div class="showListPosting">
+      <div class="col-md-12">
       <table class="list">
         <thead>
           <tr>
-            <th>번호</th>
-            <th>사진</th>
-            <th>제목</th>
-            <th>닉네임</th>
-            <th>작성일</th>
-            <th>조회수</th>
+                        <th width="80">번 호</th>
+              <th>사진</th>
+              <th width="300">제 목</th>
+              <th width="150">닉네임</th>
+              <th width="150">작성일</th>
+              <th width="100">조회수</th>
+
+            <c:if test="${sessionScope.loginVo.memberGrade=='ADMIN'}">
+             <th class="text-center" width="150">삭제</th>
+            </c:if>
           </tr>
         </thead>
         <c:forEach var="bvo" items="${requestScope.lvo.list}" varStatus="status">				
@@ -214,10 +217,20 @@ function SendMessage(){
 
 				<td>${bvo.boardDate }</td>
 				<td>${bvo.boardHits }</td>
+							<c:if test="${sessionScope.loginVo.memberGrade=='ADMIN'}">
+											<td class="text-center">   
+								<a
+									href="auth_deletePosting.do?no=${bvo.boardNumber }&type=board_petPicture" onclick="return confirm('삭제하시겠습니까?')"
+									class="btn btn-danger btn-xs"> <span
+									class="glyphicon glyphicon-remove"></span> 삭제
+								</a>
+							</td>
+                               </c:if>
 			</tr>	
 			</c:forEach>
 		</tbody>
       </table>
+    </div>
     </div>
 	<form class="navbar-form navbar-left" role="search"
 		action="${initParam.root}searchPosting.do">

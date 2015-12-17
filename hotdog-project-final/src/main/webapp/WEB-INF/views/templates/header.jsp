@@ -1266,7 +1266,9 @@ $(document).ready(function(){
 						<c:otherwise>
         	
 
+
 							<ul class="nav navbar-nav pull-right">
+							
 								<li class=""><a href="logout.do" class="">로그아웃</a></li>
 
 							</ul>
@@ -1844,11 +1846,22 @@ body {
                 </div>
                 			<div class="modal-footer">
 				<ul class="nav navbar-nav navbar-right">
+
+				<c:choose>
+				<c:when test="${sessionScope.loginVo.memberGrade=='ADMIN' }">
+				<li><a data-toggle="modal" data-target="#allEmailSendmodal"
+				 id="">전체회원에게 E-mail 보내기</a></li>
+				<li><a href="allMemberInfo.do">전체회원목록보기</a></li>
+				<li><a data-dismiss="modal">닫기</a></li>
+				</c:when>
+				<c:otherwise>
 					<li><a data-toggle="modal" data-target="#deletemodal"
 						id="deleteMemBtn" data-dismiss="modal">회원탈퇴</a></li>
 					<li><a data-toggle="modal" data-target="#updatemodal"
 						id="updateMemBtn" data-dismiss="modal">회원정보수정</a></li>
 					<li><a data-dismiss="modal">닫기</a></li>
+				</c:otherwise>
+				</c:choose>
 				</ul>
 			</div>
               </div>
