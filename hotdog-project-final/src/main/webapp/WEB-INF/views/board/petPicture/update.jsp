@@ -111,15 +111,21 @@
 				$("#boardContent").focus();
 				return false;
 			}
-			for(var i=0;i<3;i++){
-	    		if($("#file"+i).val() != ""){
-		    		var fileExt = $("#file"+i).val().substring($("#file"+i).val().lastIndexOf('.')+1).toUpperCase();
-		    		if(fileExt != "JPG" && fileExt != "GIF" && fileExt != "JPEG" && fileExt != "PNG"){
-		    			alert("첨부파일은 jpg, gif, jpeg, png로 된 이미지만 가능합니다.");
-		    			return false;
-		    		}
-	    		}
-    		}
+			var fileExist = "";
+			for (var i = 0; i < 3; i++) {
+				fileExist += $("#file" + i).val();
+				if ($("#file" + i).val() != "") {
+					var fileExt = $("#file" + i).val().substring($("#file"	+ i)	.val().lastIndexOf('.') + 1).toUpperCase();
+					if (fileExt != "JPG" && fileExt != "GIF" && fileExt != "JPEG" && fileExt != "PNG") {
+						alert("첨부파일은 jpg, gif, jpeg, png로 된 이미지만 가능합니다.");
+						return false;
+					}
+				}
+			}
+			if (fileExist == "") {
+				alert("이미지 파일을 첨부하셔야 글을 등록하실 수 있습니다.");
+				return false;
+			}
     		for(var i=0;i<3;i++){
     			if($("#fileInfo"+i).text().search("용량") != -1){
     				alert("첨부파일의 용량이 초과되었습니다.");

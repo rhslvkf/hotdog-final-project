@@ -6,6 +6,8 @@ package org.hotdog.projectVer1.controller;
 
 
 
+import java.lang.reflect.ParameterizedType;
+
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.hotdog.projectVer1.model.MemberService;
 import org.hotdog.projectVer1.model.MemberVO;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CustomizableThreadCreator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -168,7 +171,7 @@ public class MemberController {
 			}
 		}
 		return path;
-}
+	}
 
 
 	//로그아웃
@@ -196,6 +199,5 @@ public class MemberController {
 		}
 		return path;
 	}
-
 	
 }

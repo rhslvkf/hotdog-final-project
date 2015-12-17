@@ -2021,11 +2021,11 @@ body {
             <h4 class="modal-title">E-mail 보내기</h4>
           </div>
           <div class="modal-body">
-            <h5>전체회원에게 E-mail 보내기</h5>
-            <textarea class="form-control" rows="7" style="resize: none;"></textarea>
+            <input type="text" name="mailTitle" placeholder="제목" class="form-control">
+            <textarea class="form-control" rows="7" style="resize: none;" name="mailContent" placeholder="내용을 입력하세요"></textarea>
           </div>
           <div class="modal-footer">
-            <a class="btn btn-default" href="">E-mail 보내기</a>
+            <a class="btn btn-default" href="sendMailToMember.do">E-mail 보내기</a>
             <a class="btn btn-default" data-dismiss="modal">닫기</a>
           </div>
         </div>

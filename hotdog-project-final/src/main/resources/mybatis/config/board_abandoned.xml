@@ -149,15 +149,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="showPostingListById" resultMap="boardRM">
-		select
-		b.abandoned_title,b.board_type,b.abandoned_number,b.abandoned_hits,b.abandoned_date,m.member_nickname
-		from(
-		select
-		abandoned_title,board_type,abandoned_number,abandoned_hits,to_char(abandoned_date,'YYYY.MM.DD')
-		as abandoned_date from board_abandoned
-		where member_id = #{memberId}
-		)b, hotdog_member m where m.member_id =
-		#{memberId}
+		select abandoned_title,board_type,abandoned_number,abandoned_hits,abandoned_date,member_nickname,page from(
+			select b.abandoned_title,b.board_type,b.abandoned_number,b.abandoned_hits,b.abandoned_date,m.member_nickname,ceil(rownum/3) as page from(
+				select abandoned_title,board_type,abandoned_number,abandoned_hits,to_char(abandoned_date,'YYYY.MM.DD') as abandoned_date,rownum
+				from board_abandoned	where member_id = #{memberId} order by abandoned_number desc
+			)b, hotdog_member m where m.member_id = #{memberId}
+		) where page = 1
 	</select>
 
 	<select id="searchFileName" resultType="String">
