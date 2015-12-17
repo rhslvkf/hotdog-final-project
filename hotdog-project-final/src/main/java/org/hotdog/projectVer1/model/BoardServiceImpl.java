@@ -110,21 +110,28 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public Map<String, Object> showPostingListById(String pageNo, String memberId) {
-		if(pageNo==null||pageNo==""){ 
-			pageNo="1";
-		}
+	public Map<String, Object> showPostingListById(String memberId,String pageNoOfAbandoned,String pageNoOfAdoption,String pageNoOfCommunity,String pageNoOfPetInfo,String pageNoOfPetPicture) {
+		if(pageNoOfAbandoned==null||pageNoOfAbandoned=="") 
+			pageNoOfAbandoned="1";
+		if(pageNoOfAdoption==null||pageNoOfAdoption=="") 
+			pageNoOfAdoption="1";
+		if(pageNoOfCommunity==null||pageNoOfCommunity=="") 
+			pageNoOfCommunity="1";
+		if(pageNoOfPetInfo==null||pageNoOfPetInfo=="") 
+			pageNoOfPetInfo="1";
+		if(pageNoOfPetPicture==null||pageNoOfPetPicture=="") 
+			pageNoOfPetPicture="1";
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("board_abandoned", boardDAO.showPostingListByIdFromAbandoned(pageNo, memberId));
-		map.put("board_abandoned_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromAbandoned(memberId),Integer.parseInt(pageNo)));
-		map.put("board_adoption", boardDAO.showPostingListByIdFromAdoption(pageNo, memberId));
-		map.put("board_adoption_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromAdoption(memberId),Integer.parseInt(pageNo)));
-		map.put("board_petInfo", boardDAO.showPostingListByIdFromPetInfo(pageNo, memberId));
-		map.put("board_petInfo_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromPetInfo(memberId),Integer.parseInt(pageNo)));
-		map.put("board_community", boardDAO.showPostingListByIdFromCommunity(pageNo, memberId));
-		map.put("board_community_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromCommunity(memberId),Integer.parseInt(pageNo)));
-		map.put("board_petPicture", boardDAO.showPostingListByIdFromPetPicture(pageNo, memberId));
-		map.put("board_petPicture_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromPetPicture(memberId),Integer.parseInt(pageNo)));
+		map.put("board_abandoned", boardDAO.showPostingListByIdFromAbandoned(pageNoOfAbandoned, memberId));
+		map.put("board_abandoned_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromAbandoned(memberId),Integer.parseInt(pageNoOfAbandoned)));
+		map.put("board_adoption", boardDAO.showPostingListByIdFromAdoption(pageNoOfAdoption, memberId));
+		map.put("board_adoption_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromAdoption(memberId),Integer.parseInt(pageNoOfAdoption)));
+		map.put("board_community", boardDAO.showPostingListByIdFromPetInfo(pageNoOfCommunity, memberId));
+		map.put("board_community_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromPetInfo(memberId),Integer.parseInt(pageNoOfCommunity)));
+		map.put("board_petInfo", boardDAO.showPostingListByIdFromCommunity(pageNoOfPetInfo, memberId));
+		map.put("board_petInfo_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromCommunity(memberId),Integer.parseInt(pageNoOfPetInfo)));
+		map.put("board_petPicture", boardDAO.showPostingListByIdFromPetPicture(pageNoOfPetPicture, memberId));
+		map.put("board_petPicture_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromPetPicture(memberId),Integer.parseInt(pageNoOfPetPicture)));
 		return map;
 	}
 

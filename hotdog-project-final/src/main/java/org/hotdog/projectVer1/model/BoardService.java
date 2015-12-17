@@ -27,7 +27,7 @@ public interface BoardService {
 
 	public abstract ListVO searchPosting(String pageNo,String category, String word,String type);
 
-	public abstract Map<String, Object> showPostingListById(String pageNo, String memberId);
+	public abstract Map<String, Object> showPostingListById(String memberId,String pageNoOfAbandoned,String pageNoOfAdoption,String pageNoOfCommunity,String pageNoOfPetInfo,String pageNoOfPetPicture);
 	
 	
 
