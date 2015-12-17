@@ -109,10 +109,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="showPostingListById" resultMap="boardRM">
-		select b.notice_title,b.board_type,b.notice_number,b.notice_hits,b.notice_date,m.member_nickname from(
-	        select notice_title,board_type,notice_number,notice_hits,to_char(notice_date,'YYYY.MM.DD') as notice_date from board_notice
-			where member_id = #{memberId}
-		)b, hotdog_member m where m.member_id = #{memberId}
+		select notice_title,board_type,notice_number,notice_hits,notice_date,member_nickname,page from(
+			select b.notice_title,b.board_type,b.notice_number,b.notice_hits,b.notice_date,m.member_nickname,ceil(rownum/3) as page from(
+				select notice_title,board_type,notice_number,notice_hits,to_char(notice_date,'YYYY.MM.DD') as notice_date,rownum
+				from board_notice	where member_id = #{memberId} order by notice_number desc
+			)b, hotdog_member m where m.member_id = #{memberId}
+		) where page = #{pageNo}
 	</select>
 	
 	<select id="searchFileName" resultType="String">
@@ -151,6 +153,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<select id="totalContentBySearchingTitleOrContents" resultType="int">
 		select count(*) from board_notice where notice_title like '%' || #{word1} || '%' or
 		notice_content like '%' || #{word2} || '%'
+	</select>
+	
+	<select id="totalContentByIdFromNotice" resultType="int">
+		select count(*) from board_notice
+		where member_id = #{memberId}
 	</select>
 	
  </mapper> 	

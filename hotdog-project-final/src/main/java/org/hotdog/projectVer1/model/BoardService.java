@@ -27,7 +27,7 @@ public interface BoardService {
 
 	public abstract ListVO searchPosting(String pageNo,String category, String word,String type);
 
-	public abstract Map<String, List<BoardVO>> showPostingListById(String memberId);
+	public abstract Map<String, Object> showPostingListById(String pageNo, String memberId);
 	
 	
 
@@ -82,5 +82,6 @@ public interface BoardService {
 	// Q&A 게시판에 댓글달기
 	public abstract void reply(BoardVO vo, String type,ArrayList<String> fileName);
 	
+	public abstract int totalContentById(String memberId);
 
 }

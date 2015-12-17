@@ -106,10 +106,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="showPostingListById" resultMap="boardRM">
-		select b.community_title,b.board_type,b.community_number,b.community_hits,b.community_date,m.member_nickname from(
-	        select community_title,board_type,community_number,community_hits,to_char(community_date,'YYYY.MM.DD') as community_date from board_community
-			where member_id = #{memberId}
-		)b, hotdog_member m where m.member_id = #{memberId}
+		select community_title,board_type,community_number,community_hits,community_date,member_nickname,page from(
+			select b.community_title,b.board_type,b.community_number,b.community_hits,b.community_date,m.member_nickname,ceil(rownum/3) as page from(
+				select community_title,board_type,community_number,community_hits,to_char(community_date,'YYYY.MM.DD') as community_date,rownum
+				from board_community	where member_id = #{memberId} order by community_number desc
+			)b, hotdog_member m where m.member_id = #{memberId}
+		) where page = #{pageNo}
 	</select>
 	
 	<select id="searchFileName" resultType="String">
@@ -225,6 +227,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="totalContentBySearchingTitleOrContents" resultType="int">
 		select count(*) from board_community where community_title like '%' || #{word1} || '%' or
 		community_content like '%' || #{word2} || '%'
+	</select>
+	
+	<select id="totalContentByIdFromCommunity" resultType="int">
+		select count(*) from board_community
+		where member_id = #{memberId}
 	</select>
 
  </mapper> 	

@@ -107,10 +107,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="showPostingListById" resultMap="boardRM">
-		select b.petPicture_title,b.board_type,b.petPicture_number,b.petPicture_hits,b.petPicture_date,m.member_nickname from(
-	        select petPicture_title,board_type,petPicture_number,petPicture_hits,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date from board_petPicture
-			where member_id = #{memberId}
-		)b, hotdog_member m where m.member_id = #{memberId}
+		select petPicture_title,board_type,petPicture_number,petPicture_hits,petPicture_date,member_nickname,page from(
+			select b.petPicture_title,b.board_type,b.petPicture_number,b.petPicture_hits,b.petPicture_date,m.member_nickname,ceil(rownum/3) as page from(
+				select petPicture_title,board_type,petPicture_number,petPicture_hits,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date,rownum
+				from board_petPicture	where member_id = #{memberId} order by petPicture_number desc
+			)b, hotdog_member m where m.member_id = #{memberId}
+		) where page = #{pageNo}
 	</select>
 	
 	<select id="searchFileName" resultType="String">
@@ -202,7 +204,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select> -->
 	<!-- 최근 게시글 불러오기 -->
 	<select id="latestPetPicturePosting" resultMap="boardRM">
-		select petpicture_number, petpicture_title, petpicture_content from board_petpicture where 13 > rownum order by petpicture_number desc
+		select petpicture_number, petpicture_title, petpicture_content from(
+			select petpicture_number, petpicture_title, petpicture_content from board_petpicture order by petpicture_number desc
+		)where 13 > rownum
 	</select>
 	
 	<select id="replyShapeCondition" resultType="int">
@@ -243,6 +247,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="totalContentBySearchingTitleOrContents" resultType="int">
 		select count(*) from board_petPicture where petPicture_title like '%' || #{word1} || '%' or
 		petPicture_content like '%' || #{word2} || '%'
+	</select>
+	
+	<select id="totalContentByIdFromPetPicture" resultType="int">
+		select count(*) from board_petPicture
+		where member_id = #{memberId}
 	</select>
 	
  </mapper> 	

@@ -154,7 +154,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				select abandoned_title,board_type,abandoned_number,abandoned_hits,to_char(abandoned_date,'YYYY.MM.DD') as abandoned_date,rownum
 				from board_abandoned	where member_id = #{memberId} order by abandoned_number desc
 			)b, hotdog_member m where m.member_id = #{memberId}
-		) where page = 1
+		) where page = #{pageNo}
 	</select>
 
 	<select id="searchFileName" resultType="String">
@@ -340,6 +340,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from board_abandoned where abandoned_title like '%' ||
 		#{word1} || '%' or
 		abandoned_content like '%' || #{word2} || '%'
+	</select>
+	
+	<select id="totalContentByIdFromAbandoned" resultType="int">
+		select count(*) from board_abandoned
+		where member_id = #{memberId}
 	</select>
 
 </mapper> 	

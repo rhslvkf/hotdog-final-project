@@ -78,7 +78,7 @@ public class BoardServiceImpl implements BoardService{
 		List<BoardVO> list= boardDAO.getPostingList(pageNo, type);
 		for(int i=0;i<list.size();i++){
 			if(list.get(i).getBoardContent() != null && list.get(i).getBoardContent().contains("data:image")){
-				list.get(i).setFileName(list.get(i).getBoardContent().substring(list.get(i).getBoardContent().indexOf("data:image"), list.get(i).getBoardContent().indexOf("\">")-1));
+				list.get(i).setFileName(list.get(i).getBoardContent().substring(list.get(i).getBoardContent().indexOf("data:image"), list.get(i).getBoardContent().indexOf("\">")));
 			}
 		}
 		int total=boardDAO.totalContent(type);
@@ -110,13 +110,21 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public Map<String, List<BoardVO>> showPostingListById(String memberId) {
-		Map<String, List<BoardVO>> map = new HashMap<String, List<BoardVO>>();
-		map.put("board_abandoned", boardDAO.showPostingListByIdFromAbandoned(memberId));
-		map.put("board_adoption", boardDAO.showPostingListByIdFromAdoption(memberId));
-		map.put("board_petInfo", boardDAO.showPostingListByIdFromPetInfo(memberId));
-		map.put("board_community", boardDAO.showPostingListByIdFromCommunity(memberId));
-		map.put("board_petPicture", boardDAO.showPostingListByIdFromPetPicture(memberId));
+	public Map<String, Object> showPostingListById(String pageNo, String memberId) {
+		if(pageNo==null||pageNo==""){ 
+			pageNo="1";
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("board_abandoned", boardDAO.showPostingListByIdFromAbandoned(pageNo, memberId));
+		map.put("board_abandoned_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromAbandoned(memberId),Integer.parseInt(pageNo)));
+		map.put("board_adoption", boardDAO.showPostingListByIdFromAdoption(pageNo, memberId));
+		map.put("board_adoption_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromAdoption(memberId),Integer.parseInt(pageNo)));
+		map.put("board_petInfo", boardDAO.showPostingListByIdFromPetInfo(pageNo, memberId));
+		map.put("board_petInfo_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromPetInfo(memberId),Integer.parseInt(pageNo)));
+		map.put("board_community", boardDAO.showPostingListByIdFromCommunity(pageNo, memberId));
+		map.put("board_community_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromCommunity(memberId),Integer.parseInt(pageNo)));
+		map.put("board_petPicture", boardDAO.showPostingListByIdFromPetPicture(pageNo, memberId));
+		map.put("board_petPicture_paging", new PagingBeanOfMyPage(boardDAO.totalContentByIdFromPetPicture(memberId),Integer.parseInt(pageNo)));
 		return map;
 	}
 
@@ -273,7 +281,7 @@ public class BoardServiceImpl implements BoardService{
 		ArrayList<BoardVO> list = boardDAO.latestPetPicturePosting();
 		for(int i=0;i<list.size();i++){
 			if(list.get(i).getBoardContent().contains("data:image")){
-				list.get(i).setFileName(list.get(i).getBoardContent().substring(list.get(i).getBoardContent().indexOf("data:image"), list.get(i).getBoardContent().indexOf("\">")-1));
+				list.get(i).setFileName(list.get(i).getBoardContent().substring(list.get(i).getBoardContent().indexOf("data:image"), list.get(i).getBoardContent().indexOf("\">")));
 			}
 		}
 		return list;
@@ -382,6 +390,17 @@ public class BoardServiceImpl implements BoardService{
 				boardDAO.uploadFile(vo,type);
 			}
 		}
+	}
+
+	@Override
+	public int totalContentById(String memberId) {
+		int totalContentById = 0;
+		totalContentById += boardDAO.totalContentByIdFromAbandoned(memberId);
+		totalContentById += boardDAO.totalContentByIdFromAdoption(memberId);
+		totalContentById += boardDAO.totalContentByIdFromCommunity(memberId);
+		totalContentById += boardDAO.totalContentByIdFromPetInfo(memberId);
+		totalContentById += boardDAO.totalContentByIdFromPetPicture(memberId);
+		return totalContentById;
 	}
 	
 	

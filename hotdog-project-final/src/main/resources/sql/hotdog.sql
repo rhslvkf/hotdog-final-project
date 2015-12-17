@@ -4,6 +4,17 @@ select abandoned_title,board_type,abandoned_number,abandoned_hits,abandoned_date
 		from board_abandoned	where member_id = 'gonipal@naver.com' order by abandoned_number desc
 	)b, hotdog_member m where m.member_id = 'gonipal@naver.com'
 ) where page = '1';
+select petpicture_number, petpicture_title, petpicture_content from(
+	select petpicture_number, petpicture_title, petpicture_content from board_petpicture order by petpicture_number desc
+)where 13 > rownum;
+
+select adoption_title,board_type,adoption_number,adoption_hits,adoption_date,member_nickname,page from(
+			select b.adoption_title,b.board_type,b.adoption_number,b.adoption_hits,b.adoption_date,m.member_nickname,ceil(rownum/3) as page from(
+				select adoption_title,board_type,adoption_number,adoption_hits,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,rownum
+				from board_adoption	where member_id = 'gonipal@naver.com' order by adoption_number desc
+			)b, hotdog_member m where m.member_id = 'gonipal@naver.com'
+		) where page = '1';
+	
 	
 update hotdog_member set member_attendance = '9' where member_id = 'gonipal1@gmail.com';
 update hotdog_member set member_grade = 'BRONZE' where member_id = 'baba9024@gmail.com';
