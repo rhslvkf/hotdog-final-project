@@ -45,7 +45,7 @@
 			success:function(oldMessageList){ 
 				oldMessageList.forEach(function(oldMessage) {
 					if("${sessionScope.loginVo.memberNickName}" == oldMessage.userName){
-                    	var messageTemplate = '<p align="right"><strong>:userName</strong></p><div class="alert alert-info"><strong>:message</strong>&nbsp;<span class="badge">:dateCreated</span></div>';
+                    	var messageTemplate = '<p align="right"><strong>:userName</strong></p><div class="alert alert-success"><strong>:message</strong>&nbsp;<span class="badge">:dateCreated</span></div>';
 					}else{
 						var messageTemplate = '<p align="left"><strong>:userName</strong></a></p><div class="alert alert-info"><strong>:message</strong>&nbsp;<span class="badge">:dateCreated</span></div>';
 					}
@@ -74,7 +74,7 @@
                 var newMessageList = JSON.parse(event.data);
                 newMessageList.forEach(function(newMessage) {
                 	if("${sessionScope.loginVo.memberNickName}" == newMessage.userName){
-                    	var messageTemplate = '<p align="right"><strong>:userName</strong></p><div class="alert alert-info"><strong>:message</strong>&nbsp;<span class="badge">:dateCreated</span></div>';
+                    	var messageTemplate = '<p align="right"><strong>:userName</strong></p><div class="alert alert-success"><strong>:message</strong>&nbsp;<span class="badge">:dateCreated</span></div>';
 					}else{
 						memberId = newMessage.userName;
 						var messageTemplate = "<p align='left'><strong>:userName</strong></a></p><div class='alert alert-info'><strong>:message</strong>&nbsp;<span class='badge'>:dateCreated</span></div>";

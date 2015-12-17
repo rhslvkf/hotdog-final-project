@@ -1,3 +1,10 @@
+select abandoned_title,board_type,abandoned_number,abandoned_hits,abandoned_date,member_nickname,page from(
+	select b.abandoned_title,b.board_type,b.abandoned_number,b.abandoned_hits,b.abandoned_date,m.member_nickname,ceil(rownum/3) as page from(
+		select abandoned_title,board_type,abandoned_number,abandoned_hits,to_char(abandoned_date,'YYYY.MM.DD') as abandoned_date,rownum
+		from board_abandoned	where member_id = 'gonipal@naver.com' order by abandoned_number desc
+	)b, hotdog_member m where m.member_id = 'gonipal@naver.com'
+) where page = '1';
+	
 update hotdog_member set member_attendance = '9' where member_id = 'gonipal1@gmail.com';
 update hotdog_member set member_grade = 'BRONZE' where member_id = 'baba9024@gmail.com';
 update hotdog_member set member_grade = 'GOLD' where member_id = 'baba9024@gmail.com';
