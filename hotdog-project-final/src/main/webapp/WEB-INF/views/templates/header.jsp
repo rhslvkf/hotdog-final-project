@@ -1099,7 +1099,7 @@ function findAllTheEmailAddresses(StrObj) {
             				url:"idCheck.do",				
             				data:"memberId="+id,
             				success:function(data){	
-              					if(data=="ok"){
+              					if(data=="ok"){//등록되지 않은 아이디
             					alert("등록되지 않은 아이디입니다!");
             					$("#loginMemId").focus();
               					}else{
@@ -1108,10 +1108,12 @@ function findAllTheEmailAddresses(StrObj) {
                         				url:"login.do",				
                         				data:"memberId="+id+"&memberPassword="+password,
                         				success:function(data){
-                        					if(data=="passfail"){
+                        					if(data=="passfail"){//틀린 패스워드
                         					alert("비밀번호가 일치하지 않습니다.");
                         					$("#loginMemPass").focus();
-                        					}else{
+                        					}else if(data=="duplicate"){//로그인 중복
+                        						alert("해당 계정이 이미 접속중인 상태입니다.\n 로그인을 원하시면 팝업 종료 후 재로그인 해주세요.");
+                            				}else{
                         						location.replace(data);
                         					}
                            				}			
