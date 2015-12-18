@@ -130,7 +130,7 @@
     <section class="section-white">
       <div class="container">
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel"
-        data-interval="2000">
+        data-interval="4000">
           <!-- Indicators -->
           <ol class="carousel-indicators">
             <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -140,19 +140,19 @@
           <!-- Wrapper for slides -->
           <div class="carousel-inner">
             <div class="item active">
-              <img src="${initParam.root}image/iu1.jpg" alt="..." id="slideimg">
+              <img src="${initParam.root}image/choa.jpg" alt="..." id="slideimg">
               <div class="carousel-caption">
                 <h2>Heading</h2>
               </div>
             </div>
             <div class="item">
-              <img src="${initParam.root}image/iu2.jpg" alt="..." id="slideimg">
+              <img src="${initParam.root}image/choa1.png" alt="..." id="slideimg">
               <div class="carousel-caption">
                 <h2>Heading</h2>
               </div>
             </div>
             <div class="item">
-              <img src="${initParam.root}image/iu3.png" alt="..." id="slideimg">
+              <img src="${initParam.root}image/choa2.jpg" alt="..." id="slideimg">
               <div class="carousel-caption">
                 <h2>HotDog</h2>
               </div>
@@ -162,7 +162,7 @@
         </div>
       </div>
     </section>
-
+<br><br>
 
 
 <div class="container">
@@ -269,7 +269,7 @@
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[0].boardTitle}</h4>
 										<a class="btn btn-mini" href="${initParam.root}showContent.do?no=${requestScope.result.petPictureList[0].boardNumber}&type=board_petPicture">
-										» Read More</a>
+										» 상세보기</a>
 									</div>
 									</c:when>
 									<c:otherwise>
@@ -279,7 +279,7 @@
 									</div>
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[0].boardTitle}</h4>
-										» Read More
+										» 상세보기
 									</div>
 									</c:otherwise>
 								</c:choose>
@@ -299,7 +299,7 @@
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[1].boardTitle}</h4>
 										<a class="btn btn-mini" href="${initParam.root}showContent.do?no=${requestScope.result.petPictureList[1].boardNumber}&type=board_petPicture">
-										» Read More</a>
+										» 상세보기</a>
 									</div>
 									</c:when>
 									<c:otherwise>
@@ -309,7 +309,7 @@
 									</div>
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[1].boardTitle}</h4>
-										» Read More
+										» 상세보기
 									</div>
 									</c:otherwise>
 								</c:choose>
@@ -329,7 +329,7 @@
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[2].boardTitle}</h4>
 										<a class="btn btn-mini" href="${initParam.root}showContent.do?no=${requestScope.result.petPictureList[2].boardNumber}&type=board_petPicture">
-										» Read More</a>
+										» 상세보기</a>
 									</div>
 									</c:when>
 									<c:otherwise>
@@ -339,7 +339,7 @@
 									</div>
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[2].boardTitle}</h4>
-										» Read More
+										» 상세보기
 									</div>
 									</c:otherwise>
 								</c:choose>
@@ -359,7 +359,7 @@
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[3].boardTitle}</h4>
 										<a class="btn btn-mini" href="${initParam.root}showContent.do?no=${requestScope.result.petPictureList[3].boardNumber}&type=board_petPicture">
-										» Read More</a>
+										» 상세보기</a>
 									</div>
 									</c:when>
 									<c:otherwise>
@@ -369,7 +369,7 @@
 									</div>
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[3].boardTitle}</h4>
-										» Read More
+										» 상세보기
 									</div>
 									</c:otherwise>
 								</c:choose>
@@ -395,7 +395,7 @@
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[4].boardTitle}</h4>
 										<a class="btn btn-mini" href="${initParam.root}showContent.do?no=${requestScope.result.petPictureList[4].boardNumber}&type=board_petPicture">
-										» Read More</a>
+										» 상세보기</a>
 									</div>
 									</c:when>
 									<c:otherwise>
@@ -405,7 +405,7 @@
 									</div>
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[4].boardTitle}</h4>
-										» Read More
+										» 상세보기
 									</div>
 									</c:otherwise>
 								</c:choose>
@@ -425,7 +425,7 @@
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[5].boardTitle}</h4>
 										<a class="btn btn-mini" href="${initParam.root}showContent.do?no=${requestScope.result.petPictureList[5].boardNumber}&type=board_petPicture">
-										» Read More</a>
+										» 상세보기</a>
 									</div>
 									</c:when>
 									<c:otherwise>
@@ -435,7 +435,7 @@
 									</div>
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[5].boardTitle}</h4>
-										» Read More
+										» 상세보기
 									</div>
 									</c:otherwise>
 								</c:choose>
@@ -455,7 +455,7 @@
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[6].boardTitle}</h4>
 										<a class="btn btn-mini" href="${initParam.root}showContent.do?no=${requestScope.result.petPictureList[6].boardNumber}&type=board_petPicture">
-										» Read More</a>
+										» 상세보기</a>
 									</div>
 									</c:when>
 									<c:otherwise>
@@ -465,7 +465,7 @@
 									</div>
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[6].boardTitle}</h4>
-										» Read More
+										» 상세보기
 									</div>
 									</c:otherwise>
 								</c:choose>
@@ -485,7 +485,7 @@
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[7].boardTitle}</h4>
 										<a class="btn btn-mini" href="${initParam.root}showContent.do?no=${requestScope.result.petPictureList[7].boardNumber}&type=board_petPicture">
-										» Read More</a>
+										» 상세보기</a>
 									</div>
 									</c:when>
 									<c:otherwise>
@@ -495,7 +495,7 @@
 									</div>
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[7].boardTitle}</h4>
-										» Read More
+										» 상세보기
 									</div>
 									</c:otherwise>
 								</c:choose>
@@ -522,7 +522,7 @@
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[8].boardTitle}</h4>
 										<a class="btn btn-mini" href="${initParam.root}showContent.do?no=${requestScope.result.petPictureList[8].boardNumber}&type=board_petPicture">
-										» Read More</a>
+										» 상세보기</a>
 									</div>
 									</c:when>
 									<c:otherwise>
@@ -532,7 +532,7 @@
 									</div>
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[8].boardTitle}</h4>
-										» Read More
+										» 상세보기
 									</div>
 									</c:otherwise>
 								</c:choose>
@@ -552,7 +552,7 @@
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[9].boardTitle}</h4>
 										<a class="btn btn-mini" href="${initParam.root}showContent.do?no=${requestScope.result.petPictureList[9].boardNumber}&type=board_petPicture">
-										» Read More</a>
+										» 상세보기</a>
 									</div>
 									</c:when>
 									<c:otherwise>
@@ -562,7 +562,7 @@
 									</div>
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[9].boardTitle}</h4>
-										» Read More
+										» 상세보기
 									</div>
 									</c:otherwise>
 								</c:choose>
@@ -582,7 +582,7 @@
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[10].boardTitle}</h4>
 										<a class="btn btn-mini" href="${initParam.root}showContent.do?no=${requestScope.result.petPictureList[10].boardNumber}&type=board_petPicture">
-										» Read More</a>
+										» 상세보기</a>
 									</div>
 									</c:when>
 									<c:otherwise>
@@ -592,7 +592,7 @@
 									</div>
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[10].boardTitle}</h4>
-										» Read More
+										» 상세보기
 									</div>
 									</c:otherwise>
 								</c:choose>
@@ -612,7 +612,7 @@
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[11].boardTitle}</h4>
 										<a class="btn btn-mini" href="${initParam.root}showContent.do?no=${requestScope.result.petPictureList[11].boardNumber}&type=board_petPicture">
-										» Read More</a>
+										» 상세보기</a>
 									</div>
 									</c:when>
 									<c:otherwise>
@@ -622,7 +622,7 @@
 									</div>
 									<div class="caption">
 										<h4>${requestScope.result.petPictureList[11].boardTitle}</h4>
-										» Read More
+										» 상세보기
 									</div>
 									</c:otherwise>
 								</c:choose>
@@ -633,7 +633,7 @@
 					</div> 
 </c:if>
 					<!-- /Slide3 -->
-				</div> 
+				</div>  
 
 
 				<nav>

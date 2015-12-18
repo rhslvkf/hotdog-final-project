@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 select abandoned_title,board_type,abandoned_number,abandoned_hits,abandoned_date,member_nickname,page from(
 	select b.abandoned_title,b.board_type,b.abandoned_number,b.abandoned_hits,b.abandoned_date,m.member_nickname,ceil(rownum/3) as page from(
 		select abandoned_title,board_type,abandoned_number,abandoned_hits,to_char(abandoned_date,'YYYY.MM.DD') as abandoned_date,rownum

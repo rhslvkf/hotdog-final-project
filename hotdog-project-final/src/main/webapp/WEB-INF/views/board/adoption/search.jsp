@@ -77,6 +77,7 @@ function allLayerClose(idx,length,flag) {
           <tbody>
 			<tr>
 			    <td>${bvo.boardNumber }</td>				
+			    
 				<td>
 				<c:choose>
 				<c:when test="${sessionScope.loginVo !=null}">

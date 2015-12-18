@@ -146,6 +146,7 @@
  <br>
 
   
+        	          <div class="col-sm-7">
   
             <h1>애견정보</h1>
 <div class="section">
@@ -200,12 +201,14 @@
 					<li>
 					
 					<a id="writeBtn" class="action">글쓰기</a></li>
+										<li><a id="resetBtn" class="action">닫기</a></li>
+					
 					
 				</ul>
 			</div>
 		</form>
 	</div>
-
+</div>
 
 
 

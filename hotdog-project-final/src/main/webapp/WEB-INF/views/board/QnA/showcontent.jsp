@@ -19,6 +19,7 @@
     		if(confirm("게시물에 답글을 다시겠습니까?"))
     			location.href="replyView.do?no=${requestScope.bvo.boardNumber}&type=board_QnA";
     	});
+    	
     });	
 </script>
 <script type="text/javascript">
@@ -145,61 +146,85 @@ function layerControl(event, flag){
 }
 </script>
 
-<body>
-	<table class="content">
-		<tr>		
-			<td>NO : ${requestScope.bvo.boardNumber } </td>
-			<td colspan="2">${requestScope.bvo.boardTitle}
-			 </td>
-			
-			
-		</tr>
-		<tr>
-		<c:choose>
+
+
+
+
+
+
+
+    <div class="section text-left">
+      <div class="container">
+        <div class="row">
+            <div class="panel panel-success text-left">
+              <div class="panel-heading">
+                <h2 class="panel-title">Q & A</h2>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class=" col-md-12 col-lg-12 hidden-xs hidden-sm">
+                   
+                    <table class="table table-user-information">
+                        <tr>
+                          <td>번호 : ${requestScope.bvo.boardNumber} </td>
+                          <td colspan="3">제목 : ${requestScope.bvo.boardTitle}</td>
+                        </tr>
+                        <tr>
+								<c:choose>
 				<c:when test="${sessionScope.loginVo == null }">
 				<td>작성자 : ${requestScope.bvo.memberVO.memberNickName }</td>
 				</c:when>
 				<c:when test="${sessionScope.loginVo.memberId == requestScope.bvo.memberVO.memberId }">
-				<td>작성자 : <a href="#" onclick="layerControl(event,true);">
+				<td>작성자 : <a href="#" onclick="layerControl(event,true,null);">
 				${requestScope.bvo.memberVO.memberNickName }</a></td>
 				</c:when>
 				<c:otherwise>
-				<td>작성자 : <a href="#" onclick="layerControl(event,false);">
+				<td>작성자 : <a href="#" onclick="layerControl(event,false,'${requestScope.bvo.memberVO.memberNickName }');">
 				${requestScope.bvo.memberVO.memberNickName }</a></td>
 				</c:otherwise>
 				</c:choose>
-			<td> ${requestScope.bvo.boardDate }</td>
-			<td>조회수 : ${requestScope.bvo.boardHits }</td>
-		</tr>
+                          <td>날짜 : ${requestScope.bvo.boardDate }</td>
+                          <td>조회수 :  ${requestScope.bvo.boardHits }</td>
+                        </tr>
 		<tr>
-			<td colspan="3">
-			<pre style="white-space: pre-wrap;">${requestScope.bvo.boardContent}
-			<c:if test="${fn:length(requestScope.bvo.fileNameList) != 0 }">
-			<c:forEach begin="1" end="${fn:length(requestScope.bvo.fileNameList)}" var="i">
-			<img src="${initParam.root}upload/${requestScope.bvo.fileNameList[i-1]}" width="300px" height="200px">
-			</c:forEach>
-			</c:if>
-			</pre>
-			</td>
+			<td colspan="3"><pre style="white-space: pre-wrap;">${requestScope.bvo.boardContent}
+</pre></td>
 		</tr>
-		<tr>
-			<td valign="middle" align="center" colspan="3">
-			 <img id="listImg" class="action" src="${initParam.root}img/list_btn.jpg">
-			 <c:if test="${requestScope.bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
-			 <img id="deleteImg" class="action"  onclick="deleteBoard()" src="${initParam.root}img/delete_btn.jpg" > 
-			 <img id="updateImg" class="action"  onclick="updateBoard()" src="${initParam.root}img/modify_btn.jpg" >
-			 </c:if>
-			 <c:if test="${requestScope.bvo.memberVO.memberId!=sessionScope.loginVo.memberId}">
-			 <img id="scrapeImg" class="action"  onclick="scrapeBoard()" src="${initParam.root}img/scrapbutn.gif" >
-			 <img id="answerImg" class="action"  onclick="answerBoard()" src="${initParam.root}img/answer_btn.jpg">
-			 </c:if>
-			 <br><br>				
-			 </td>
-		</tr>
-	</table>
-	
-</body>
-</html>
+
+                    </table>
+                  </div>
+                </div>
+                <div class="col-md-12 text-center">
+                  <span class="pull-center">
+                                    <a href="${initParam.root}getPostingList.do?type=board_QnA" 
+									class="btn btn-lg btn-success"> 목록	</a>
+								 <c:if test="${requestScope.bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
+								    <a href="updateView.do?no=${requestScope.bvo.boardNumber}&type=board_QnA" onclick="return confirm('수정하시겠습니까?')"
+									class="btn btn-lg btn-warning"> 수정</a>
+                					<a href="auth_deletePosting.do?no=${requestScope.bvo.boardNumber}&type=board_QnA" onclick="return confirm('삭제하시겠습니까?')"
+									class="btn btn-danger btn-lg"> 삭제</a>
+									</c:if>
+									<a href="replyView.do?no=${requestScope.bvo.boardNumber}&type=board_QnA" onclick="return confirm('게시물에답글을다시겠습니까?')"
+									class="btn btn-info btn-lg"> 답글</a>
+                  </span>
+                </div>
+                
+ <div>&nbsp; </div>
+
+
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
 
 <div class="_popup" id="Layertrue" style="position:absolute; display:none;">
 <table class="memberInfo">

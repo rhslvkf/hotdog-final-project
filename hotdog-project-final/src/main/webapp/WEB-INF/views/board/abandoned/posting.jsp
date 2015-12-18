@@ -145,12 +145,18 @@
  <br>
 
   
-      <h1>유기견정보</h1>
+
+      
+      	          <div class="col-sm-7">
+<h1>유기견정보</h1>
 <div class="section">
+
+
 		<form class="form-horizontal" role="form" action="${initParam.root}auth_posting.do?type=board_abandoned"
 			id="write_form" method="post" enctype="multipart/form-data">
 			
 	<div class="container">
+	
 			<div class="form-group">
 			
 				<div class="col-sm-1">
@@ -183,7 +189,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-12">
+				<div class="col-sm-6">
 					<label for="exampleInputFile">파일 업로드</label>
 				    <input type="file" name="file[0]" id="file0" accept="image/*"><div id="fileInfo0"></div><br>
 				    <input type="file" name="file[1]" id="file1" accept="image/*"><div id="fileInfo1"></div><br>
@@ -192,20 +198,21 @@
 				    * 용량 제한은 5MB입니다.</font> 
 					</div>
 				</div>
-			</div>
 
-
+</div>
 			<div class="modal-footer">
 				<ul class="nav navbar-nav navbar-left">
 					<li>
 					
 					<a id="writeBtn" class="action">글쓰기</a></li>
+										<li><a id="resetBtn" class="action">닫기</a></li>
+					
 					
 				</ul>
 			</div>
 		</form>
 	</div>
-
+</div>
 
 
 

@@ -414,9 +414,7 @@ $("#commentTable td").remove();
 
 
 
-</head>
-<body>
-	<table class="content">
+	<%-- <table class="content">
 		<tr>		
 			<td>NO : ${requestScope.bvo.boardNumber } </td>
 			<td colspan="2">${requestScope.bvo.boardTitle}
@@ -471,8 +469,83 @@ $("#commentTable td").remove();
 			 <br><br>				
 			 </td>
 		</tr>
-	</table>
-	
+	</table> --%>
+
+                    
+ <div class="section text-left">
+      <div class="container">
+        <div class="row">
+            <div class="panel panel-success text-left">
+              <div class="panel-heading">
+                <h2 class="panel-title">유기견분양</h2>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class=" col-md-12 col-lg-12 hidden-xs hidden-sm">
+                   
+                    <table class="table table-user-information">
+                        <tr>
+                          <td>번호 : ${requestScope.bvo.boardNumber} </td>
+                          <td colspan="3">제목 : ${requestScope.bvo.boardTitle}
+                       <c:if test="${requestScope.bvo.memberVO.memberId!=sessionScope.loginVo.memberId}">
+			 	<img id="scrapeImg" class="action"  onclick="scrapeBoard()" src="${initParam.root}img/scrapbutn.gif" >
+			 	</c:if>
+			 	</td>
+                          
+                        </tr>
+                        <tr>
+								<c:choose>
+				<c:when test="${sessionScope.loginVo == null }">
+				<td>작성자 : ${requestScope.bvo.memberVO.memberNickName }</td>
+				</c:when>
+				<c:when test="${sessionScope.loginVo.memberId == requestScope.bvo.memberVO.memberId }">
+				<td>작성자 : <a href="#" onclick="layerControl(event,true,null);">
+				${requestScope.bvo.memberVO.memberNickName }</a></td>
+				</c:when>
+				<c:otherwise>
+				<td>작성자 : <a href="#" onclick="layerControl(event,false,'${requestScope.bvo.memberVO.memberNickName }');">
+				${requestScope.bvo.memberVO.memberNickName }</a></td>
+				</c:otherwise>
+				</c:choose>
+                          <td>날짜 : ${requestScope.bvo.boardDate }</td>
+                          <td>조회수 :  ${requestScope.bvo.boardHits }</td>
+                        </tr>
+                        <tr>
+                        <td>전화번호 : ${requestScope.bvo.memberVO.memberTel}</td>
+                        <td>거주지역 : ${requestScope.bvo.residence}</td>
+                        <td>애견종류 : ${requestScope.bvo.petVO.petType}</td>
+                        </tr>
+                        <tr>
+                        <td>애견나이 : ${requestScope.bvo.petVO.petAge}</td>
+                        <td>성별 : ${requestScope.bvo.petVO.petGender}</td>
+                        <td>중성화여부 : ${requestScope.bvo.petVO.petNeutralInfo}</td>
+                        </tr>
+                         <tr>
+                        <td colspan="3">애견크기 : ${requestScope.bvo.petVO.petSize}</td>
+
+		<tr>
+			<td colspan="3"><pre style="white-space: pre-wrap;">${requestScope.bvo.boardContent}
+</pre></td>
+		</tr>
+
+                    </table>
+                  </div>
+                </div>
+                <div class="col-md-12 text-center">
+                  <span class="pull-center">
+                                    <a href="${initParam.root}getPostingList.do?type=board_adoption" 
+									class="btn btn-lg btn-success"> 목록	</a>
+								 <c:if test="${requestScope.bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
+								    <a href="updateView.do?no=${requestScope.bvo.boardNumber}&type=board_adoption" onclick="return confirm('수정하시겠습니까?')"
+									class="btn btn-lg btn-warning"> 수정</a>
+                					<a href="auth_deletePosting.do?no=${requestScope.bvo.boardNumber}&type=board_adoption" onclick="return confirm('삭제하시겠습니까?')"
+									class="btn btn-danger btn-lg"> 삭제</a>
+									</c:if>
+
+                  </span>
+                </div>
+                
+ <div>&nbsp; </div>
 			 <table id="commentTable" class="table table-condensed"></table>
 				 <form id="commentForm">
 					<input type="hidden" name="commentBoardNumber" value="${requestScope.bvo.boardNumber }">
@@ -496,9 +569,21 @@ $("#commentTable td").remove();
                         </tr>
                     </table>
                     </form>
-	
-</body>
-</html>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
 
 <div class="_popup" id="Layertrue" style="position:absolute; display:none;">
 <table class="memberInfo">

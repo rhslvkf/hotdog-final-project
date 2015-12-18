@@ -54,27 +54,31 @@ function allLayerClose(idx,length,flag) {
 }
 
 </script>
-	
-	<div class="panel panel-default">
-      <!-- Default panel contents -->
-      <div class="panel-heading">애견사진</div>
-      <!-- Table -->
+
+
+    
+    	    	      <h1>애견사진</h1><br>
+    <div class="showListPosting">
+      <div class="col-md-12">
       <table class="list">
         <thead>
           <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>닉네임</th>
-            <th>작성일</th>
-            <th>조회수</th>
-                <c:if test="${sessionScope.loginVo.memberGrade=='ADMIN'}">
-              <th class="text-center" width="150">삭제</th>
+                        <th width="80">번 호</th>
+              <th>사진</th>
+              <th width="300">제 목</th>
+              <th width="150">닉네임</th>
+              <th width="150">작성일</th>
+              <th width="100">조회수</th>
+
+            <c:if test="${sessionScope.loginVo.memberGrade=='ADMIN'}">
+             <th class="text-center" width="150">삭제</th>
             </c:if>
           </tr>
         </thead>
         <c:forEach var="bvo" items="${requestScope.lvo.list}" varStatus="status">				
 			<tr>
 			    <td>${bvo.boardNumber }</td>				
+			    <td width="110"><img src="${bvo.fileName}" width="100" height="80"></td>
 				<td>
 				<c:choose>
 				<c:when test="${sessionScope.loginVo!=null}">
@@ -91,14 +95,16 @@ function allLayerClose(idx,length,flag) {
 				<td>${bvo.memberVO.memberNickName}</td>
 				</c:when>
 				<c:when test="${sessionScope.loginVo.memberId == bvo.memberVO.memberId }">
-				<td><a href="#" onclick="layerControl(event, ${status.count},${fn:length(requestScope.lvo.list)},true);">
+				<td><a href="#" onclick="layerControl(event, ${status.count},${fn:length(requestScope.lvo.list)},true,null)">
 				${bvo.memberVO.memberNickName }</a></td>
+				
 				</c:when>
 				<c:otherwise>
-				<td><a href="#" onclick="layerControl(event, ${status.count},${fn:length(requestScope.lvo.list)},false);">
+				<td><a href="#" onclick="layerControl(event, ${status.count},${fn:length(requestScope.lvo.list)},false,'${bvo.memberVO.memberNickName }');">
 				${bvo.memberVO.memberNickName }</a></td>
 				</c:otherwise>
 				</c:choose>
+
 				<td>${bvo.boardDate }</td>
 				<td>${bvo.boardHits }</td>
 							<c:if test="${sessionScope.loginVo.memberGrade=='ADMIN'}">
@@ -115,6 +121,16 @@ function allLayerClose(idx,length,flag) {
 		</tbody>
       </table>
     </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
 	<form class="navbar-form navbar-left" role="search"
 		action="${initParam.root}searchPosting.do">
 		<input type="hidden" name="type" value="board_petPicture">
@@ -122,7 +138,7 @@ function allLayerClose(idx,length,flag) {
 		<div class="form-group">
 		<c:choose>
 			<c:when test="${sessionScope.loginVo!=null}">
-			<a class="btn btn-default" href="${initParam.root}write.do?type=board_petPicture">글쓰기</a>
+			<a class="btn btn-default" href="${initParam.root}auth_write.do?type=board_petPicture">글쓰기</a>
 			</c:when>
 			<c:otherwise>
 			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
