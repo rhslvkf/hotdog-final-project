@@ -73,7 +73,7 @@ public interface BoardService {
 	public abstract ArrayList<BoardVO> latestPetPicturePosting();
 
 	public abstract Map<String, Object> getCommentListByNickName(
-			String memberNickName);
+			String memberNickName,String pageNoOfAbandoned,String pageNoOfAdoption,String pageNoOfCommunity,String pageNoOfPetInfo,String pageNoOfPetPicture);
 	
 	// 통합검색
 	public abstract ListVO searchBoard(String word, String pageNo);

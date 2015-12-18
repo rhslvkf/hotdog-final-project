@@ -297,12 +297,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="getCommentListByNickNameFromAbandoned" resultMap="boardRM">
-		select b.board_type, b.abandoned_number, b.abandoned_title,
-		m.member_nickname, b.abandoned_date, b.abandoned_hits from(
-		select distinct(board_number) from board_abandoned_comment where
-		member_nickname = #{memberNickName}
-		)c, board_abandoned b,
-		hotdog_member m where c.board_number = b.abandoned_number
+		select board_type, abandoned_number, abandoned_title, member_nickname, abandoned_date, abandoned_hits,page from(
+			select board_type, abandoned_number, abandoned_title, member_nickname, abandoned_date, abandoned_hits,ceil(rownum/3) as page from(
+				select b.board_type, b.abandoned_number, b.abandoned_title, m.member_nickname, b.abandoned_date, b.abandoned_hits,rownum from(
+					select distinct(board_number) from board_abandoned_comment where member_nickname = #{memberNickName}
+				)c, board_abandoned b, hotdog_member m where c.board_number = b.abandoned_number and b.member_id = m.member_id order by board_number desc
+			)
+		) where page = #{pageNo}
 	</select>
 
 	<select id="searchBoard" resultMap="boardRM" resultType="list"
@@ -345,6 +346,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="totalContentByIdFromAbandoned" resultType="int">
 		select count(*) from board_abandoned
 		where member_id = #{memberId}
+	</select>
+	
+	<select id="totalPostingIncludedCommentFromAbandoned" resultType="int">
+		select count(distinct(board_number)) from board_abandoned_comment where member_nickname = #{memberNickName}
 	</select>
 
 </mapper> 	

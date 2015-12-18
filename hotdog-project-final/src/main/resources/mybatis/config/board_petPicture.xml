@@ -219,9 +219,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getCommentListByNickNameFromPetPicture" resultMap="boardRM">
-		select b.board_type, b.petpicture_number, b.petpicture_title, m.member_nickname, b.petpicture_date, b.petpicture_hits from(
-			select distinct(board_number) from board_petpicture_comment where member_nickname = #{memberNickName}
-		)c, board_petpicture b, hotdog_member m where c.board_number = b.petpicture_number
+		select board_type, petpicture_number, petpicture_title, member_nickname, petpicture_date, petpicture_hits,page from(
+			select board_type, petpicture_number, petpicture_title, member_nickname, petpicture_date, petpicture_hits,ceil(rownum/3) as page from(
+				select b.board_type, b.petpicture_number, b.petpicture_title, m.member_nickname, b.petpicture_date, b.petpicture_hits,rownum from(
+					select distinct(board_number) from board_petpicture_comment where member_nickname = #{memberNickName}
+				)c, board_petpicture b, hotdog_member m where c.board_number = b.petpicture_number and b.member_id = m.member_id order by board_number desc
+			)
+		) where page = #{pageNo}
 	</select>
 	
 		 <select id="searchBoard" resultMap="boardRM" parameterType="map">
@@ -252,6 +256,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="totalContentByIdFromPetPicture" resultType="int">
 		select count(*) from board_petPicture
 		where member_id = #{memberId}
+	</select>
+	
+	<select id="totalPostingIncludedCommentFromPetPicture" resultType="int">
+		select count(distinct(board_number)) from board_petpicture_comment where member_nickname = #{memberNickName}
 	</select>
 	
  </mapper> 	

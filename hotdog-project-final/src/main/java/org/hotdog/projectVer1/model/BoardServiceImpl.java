@@ -295,13 +295,28 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public Map<String, Object> getCommentListByNickName(String memberNickName) {
+	public Map<String, Object> getCommentListByNickName(String memberNickName,String pageNoOfAbandoned,String pageNoOfAdoption,String pageNoOfCommunity,String pageNoOfPetInfo,String pageNoOfPetPicture) {
+		if(pageNoOfAbandoned==null||pageNoOfAbandoned=="") 
+			pageNoOfAbandoned="1";
+		if(pageNoOfAdoption==null||pageNoOfAdoption=="") 
+			pageNoOfAdoption="1";
+		if(pageNoOfCommunity==null||pageNoOfCommunity=="") 
+			pageNoOfCommunity="1";
+		if(pageNoOfPetInfo==null||pageNoOfPetInfo=="") 
+			pageNoOfPetInfo="1";
+		if(pageNoOfPetPicture==null||pageNoOfPetPicture=="") 
+			pageNoOfPetPicture="1";
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("board_abandoned", boardDAO.getCommentListByNickNameFromAbandoned(memberNickName));
-		map.put("board_adoption", boardDAO.getCommentListByNickNameFromAdoption(memberNickName));
-		map.put("board_community", boardDAO.getCommentListByNickNameFromCommunity(memberNickName));
-		map.put("board_petInfo", boardDAO.getCommentListByNickNameFromPetInfo(memberNickName));
-		map.put("board_petPicture", boardDAO.getCommentListByNickNameFromPetPicture(memberNickName));
+		map.put("board_abandoned", boardDAO.getCommentListByNickNameFromAbandoned(pageNoOfAbandoned,memberNickName));
+		map.put("board_abandoned_paging", new PagingBeanOfMyPage(boardDAO.totalPostingIncludedCommentFromAbandoned(memberNickName),Integer.parseInt(pageNoOfAbandoned)));
+		map.put("board_adoption", boardDAO.getCommentListByNickNameFromAdoption(pageNoOfAdoption,memberNickName));
+		map.put("board_adoption_paging", new PagingBeanOfMyPage(boardDAO.totalPostingIncludedCommentFromAdoption(memberNickName),Integer.parseInt(pageNoOfAdoption)));
+		map.put("board_community", boardDAO.getCommentListByNickNameFromCommunity(pageNoOfCommunity,memberNickName));
+		map.put("board_community_paging", new PagingBeanOfMyPage(boardDAO.totalPostingIncludedCommentFromCommunity(memberNickName),Integer.parseInt(pageNoOfCommunity)));
+		map.put("board_petInfo", boardDAO.getCommentListByNickNameFromPetInfo(pageNoOfPetInfo,memberNickName));
+		map.put("board_petInfo_paging", new PagingBeanOfMyPage(boardDAO.totalPostingIncludedCommentFromPetInfo(memberNickName),Integer.parseInt(pageNoOfPetInfo)));
+		map.put("board_petPicture", boardDAO.getCommentListByNickNameFromPetPicture(pageNoOfPetPicture,memberNickName));
+		map.put("board_petPicture_paging", new PagingBeanOfMyPage(boardDAO.totalPostingIncludedCommentFromPetPicture(memberNickName),Integer.parseInt(pageNoOfPetPicture)));
 		return map;
 	}
 	//통합검색관련

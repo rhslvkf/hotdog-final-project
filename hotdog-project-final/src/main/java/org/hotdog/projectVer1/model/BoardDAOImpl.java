@@ -19,6 +19,13 @@ import javax.annotation.Resource;
 
 
 
+
+
+
+
+
+
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -329,28 +336,43 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public Object getCommentListByNickNameFromAbandoned(String memberNickName) {
-		return sqlSessionTemplate.selectList("board_abandoned.getCommentListByNickNameFromAbandoned",memberNickName);
+	public Object getCommentListByNickNameFromAbandoned(String pageNo,String memberNickName) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("pageNo", pageNo);
+		map.put("memberNickName", memberNickName);
+		return sqlSessionTemplate.selectList("board_abandoned.getCommentListByNickNameFromAbandoned",map);
 	}
 
 	@Override
-	public Object getCommentListByNickNameFromAdoption(String memberNickName) {
-		return sqlSessionTemplate.selectList("board_adoption.getCommentListByNickNameFromAdoption",memberNickName);
+	public Object getCommentListByNickNameFromAdoption(String pageNo,String memberNickName) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("pageNo", pageNo);
+		map.put("memberNickName", memberNickName);
+		return sqlSessionTemplate.selectList("board_adoption.getCommentListByNickNameFromAdoption",map);
 	}
 
 	@Override
-	public Object getCommentListByNickNameFromCommunity(String memberNickName) {
-		return sqlSessionTemplate.selectList("board_community.getCommentListByNickNameFromCommunity",memberNickName);
+	public Object getCommentListByNickNameFromCommunity(String pageNo,String memberNickName) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("pageNo", pageNo);
+		map.put("memberNickName", memberNickName);
+		return sqlSessionTemplate.selectList("board_community.getCommentListByNickNameFromCommunity",map);
 	}
 
 	@Override
-	public Object getCommentListByNickNameFromPetInfo(String memberNickName) {
-		return sqlSessionTemplate.selectList("board_petInfo.getCommentListByNickNameFromPetInfo",memberNickName);
+	public Object getCommentListByNickNameFromPetInfo(String pageNo,String memberNickName) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("pageNo", pageNo);
+		map.put("memberNickName", memberNickName);
+		return sqlSessionTemplate.selectList("board_petInfo.getCommentListByNickNameFromPetInfo",map);
 	}
 
 	@Override
-	public Object getCommentListByNickNameFromPetPicture(String memberNickName) {
-		return sqlSessionTemplate.selectList("board_petPicture.getCommentListByNickNameFromPetPicture",memberNickName);
+	public Object getCommentListByNickNameFromPetPicture(String pageNo,String memberNickName) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("pageNo", pageNo);
+		map.put("memberNickName", memberNickName);
+		return sqlSessionTemplate.selectList("board_petPicture.getCommentListByNickNameFromPetPicture",map);
 	}
 	
 	// 통합 검색 관련
@@ -478,6 +500,31 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public int totalContentByIdFromPetPicture(String memberId) {
 		return sqlSessionTemplate.selectOne("board_petPicture.totalContentByIdFromPetPicture",memberId);
+	}
+
+	@Override
+	public int totalPostingIncludedCommentFromAbandoned(String memberNickName) {
+		return sqlSessionTemplate.selectOne("board_abandoned.totalPostingIncludedCommentFromAbandoned",memberNickName);
+	}
+
+	@Override
+	public int totalPostingIncludedCommentFromAdoption(String memberNickName) {
+		return sqlSessionTemplate.selectOne("board_adoption.totalPostingIncludedCommentFromAdoption",memberNickName);
+	}
+
+	@Override
+	public int totalPostingIncludedCommentFromCommunity(String memberNickName) {
+		return sqlSessionTemplate.selectOne("board_community.totalPostingIncludedCommentFromCommunity",memberNickName);
+	}
+
+	@Override
+	public int totalPostingIncludedCommentFromPetInfo(String memberNickName) {
+		return sqlSessionTemplate.selectOne("board_petInfo.totalPostingIncludedCommentFromPetInfo",memberNickName);
+	}
+
+	@Override
+	public int totalPostingIncludedCommentFromPetPicture(String memberNickName) {
+		return sqlSessionTemplate.selectOne("board_petPicture.totalPostingIncludedCommentFromPetPicture",memberNickName);
 	}
 	
 }

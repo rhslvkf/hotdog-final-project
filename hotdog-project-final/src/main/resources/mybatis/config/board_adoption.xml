@@ -244,9 +244,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getCommentListByNickNameFromAdoption" resultMap="boardRM">
-		select b.board_type, b.adoption_number, b.adoption_title, m.member_nickname, b.adoption_date, b.adoption_hits from(
-			select distinct(board_number) from board_adoption_comment where member_nickname = #{memberNickName}
-		)c, board_adoption b, hotdog_member m where c.board_number = b.adoption_number
+		select board_type, adoption_number, adoption_title, member_nickname, adoption_date, adoption_hits,page from(
+			select board_type, adoption_number, adoption_title, member_nickname, adoption_date, adoption_hits,ceil(rownum/3) as page from(
+				select b.board_type, b.adoption_number, b.adoption_title, m.member_nickname, b.adoption_date, b.adoption_hits,rownum from(
+					select distinct(board_number) from board_adoption_comment where member_nickname = #{memberNickName}
+				)c, board_adoption b, hotdog_member m where c.board_number = b.adoption_number and b.member_id = m.member_id order by board_number desc
+			)
+		) where page = #{pageNo}
 	</select>
 	
 			<select id="searchBoard" resultMap="boardRM" parameterType="map">
@@ -277,6 +281,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="totalContentByIdFromAdoption" resultType="int">
 		select count(*) from board_adoption
 		where member_id = #{memberId}
+	</select>
+	
+	<select id="totalPostingIncludedCommentFromAdoption" resultType="int">
+		select count(distinct(board_number)) from board_adoption_comment where member_nickname = #{memberNickName}
 	</select>
 	
  </mapper> 	

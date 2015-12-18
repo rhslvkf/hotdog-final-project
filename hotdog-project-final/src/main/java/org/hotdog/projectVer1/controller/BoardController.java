@@ -280,8 +280,9 @@ public class BoardController {
 	//회원의 댓글 로딩
 	@ResponseBody
 	@RequestMapping("getCommentListByNickName.do")
-	public Map<String, Object> getCommentListByNickName(String memberNickName) {
-		return boardService.getCommentListByNickName(memberNickName);
+	public Map<String, Object> getCommentListByNickName(String memberNickName,String pageNoOfAbandoned,String pageNoOfAdoption,String pageNoOfCommunity,String pageNoOfPetInfo,String pageNoOfPetPicture) {
+		System.out.println(memberNickName+" "+pageNoOfAbandoned+" "+pageNoOfAdoption+" "+pageNoOfCommunity+" "+pageNoOfPetInfo+" "+pageNoOfPetPicture);
+		return boardService.getCommentListByNickName(memberNickName,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfCommunity,pageNoOfPetInfo,pageNoOfPetPicture);
 	}
 	
 	/*
@@ -415,5 +416,11 @@ public class BoardController {
 		return new ModelAndView("redirect:showContentNoHit.do?no="+vo.getBoardNumber()+"&type="+type);
 	}
 	
+	// 게시글 수 얻어오기
+	@ResponseBody
+	@RequestMapping("getCountOfPosting.do")
+	public int getCountOfPosting(String memberId) throws IOException {	
+		return boardService.totalContentById(memberId);
+	}
 	
 }

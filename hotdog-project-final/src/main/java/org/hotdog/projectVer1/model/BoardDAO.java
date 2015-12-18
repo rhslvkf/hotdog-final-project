@@ -115,19 +115,19 @@ public interface BoardDAO {
 	public abstract ArrayList<BoardVO> latestPetPicturePosting();
 
 	public abstract Object getCommentListByNickNameFromAbandoned(
-			String memberNickName);
+			String pageNo,String memberNickName);
 
 	public abstract Object getCommentListByNickNameFromAdoption(
-			String memberNickName);
+			String pageNo,String memberNickName);
 
 	public abstract Object getCommentListByNickNameFromCommunity(
-			String memberNickName);
+			String pageNo,String memberNickName);
 
 	public abstract Object getCommentListByNickNameFromPetInfo(
-			String memberNickName);
+			String pageNo,String memberNickName);
 
 	public abstract Object getCommentListByNickNameFromPetPicture(
-			String memberNickName);
+			String pageNo,String memberNickName);
 	
 	// 통합 검색관련
 	public abstract List<BoardVO> searchBoardAbandoned(String word);
@@ -172,6 +172,24 @@ public interface BoardDAO {
 
 
 	public abstract int totalContentByIdFromPetPicture(String memberId);
+
+
+	public abstract int totalPostingIncludedCommentFromAbandoned(
+			String memberNickName);
+
+
+	public abstract int totalPostingIncludedCommentFromAdoption(String memberNickName);
+
+
+	public abstract int totalPostingIncludedCommentFromCommunity(
+			String memberNickName);
+
+
+	public abstract int totalPostingIncludedCommentFromPetInfo(String memberNickName);
+
+
+	public abstract int totalPostingIncludedCommentFromPetPicture(
+			String memberNickName);
 	
 
 }

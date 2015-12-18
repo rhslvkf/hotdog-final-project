@@ -199,9 +199,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getCommentListByNickNameFromCommunity" resultMap="boardRM">
-		select b.board_type, b.community_number, b.community_title, m.member_nickname, b.community_date, b.community_hits from(
-			select distinct(board_number) from board_community_comment where member_nickname = #{memberNickName}
-		)c, board_community b, hotdog_member m where c.board_number = b.community_number
+		select board_type, community_number, community_title, member_nickname, community_date, community_hits,page from(
+			select board_type, community_number, community_title, member_nickname, community_date, community_hits,ceil(rownum/3) as page from(
+				select b.board_type, b.community_number, b.community_title, m.member_nickname, b.community_date, b.community_hits,rownum from(
+					select distinct(board_number) from board_community_comment where member_nickname = #{memberNickName}
+				)c, board_community b, hotdog_member m where c.board_number = b.community_number and b.member_id = m.member_id order by board_number desc
+			)
+		) where page = #{pageNo}
 	</select>
 	
 			<select id="searchBoard" resultMap="boardRM" parameterType="map">
@@ -232,6 +236,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="totalContentByIdFromCommunity" resultType="int">
 		select count(*) from board_community
 		where member_id = #{memberId}
+	</select>
+	
+	<select id="totalPostingIncludedCommentFromCommunity" resultType="int">
+		select count(distinct(board_number)) from board_community_comment where member_nickname = #{memberNickName}
 	</select>
 
  </mapper> 	

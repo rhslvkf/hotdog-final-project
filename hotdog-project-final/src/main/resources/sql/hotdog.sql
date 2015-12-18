@@ -9,12 +9,19 @@ select petpicture_number, petpicture_title, petpicture_content from(
 )where 13 > rownum;
 
 select adoption_title,board_type,adoption_number,adoption_hits,adoption_date,member_nickname,page from(
-			select b.adoption_title,b.board_type,b.adoption_number,b.adoption_hits,b.adoption_date,m.member_nickname,ceil(rownum/3) as page from(
-				select adoption_title,board_type,adoption_number,adoption_hits,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,rownum
-				from board_adoption	where member_id = 'gonipal@naver.com' order by adoption_number desc
-			)b, hotdog_member m where m.member_id = 'gonipal@naver.com'
-		) where page = '1';
-	
+	select b.adoption_title,b.board_type,b.adoption_number,b.adoption_hits,b.adoption_date,m.member_nickname,ceil(rownum/3) as page from(
+		select adoption_title,board_type,adoption_number,adoption_hits,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,rownum
+		from board_adoption	where member_id = 'gonipal@naver.com' order by adoption_number desc
+	)b, hotdog_member m where m.member_id = 'gonipal@naver.com'
+) where page = '1';
+
+select board_type, abandoned_number, abandoned_title, member_nickname, abandoned_date, abandoned_hits,page from(
+			select board_type, abandoned_number, abandoned_title, member_nickname, abandoned_date, abandoned_hits,ceil(rownum/3) as page from(
+				select b.board_type, b.abandoned_number, b.abandoned_title, m.member_nickname, b.abandoned_date, b.abandoned_hits,rownum from(
+					select distinct(board_number) from board_abandoned_comment where member_nickname = '핫도그'
+				)c, board_abandoned b, hotdog_member m where c.board_number = b.abandoned_number and b.member_id = m.member_id order by board_number desc
+			)
+		) where page = '2';
 	
 update hotdog_member set member_attendance = '9' where member_id = 'gonipal1@gmail.com';
 update hotdog_member set member_grade = 'BRONZE' where member_id = 'baba9024@gmail.com';
