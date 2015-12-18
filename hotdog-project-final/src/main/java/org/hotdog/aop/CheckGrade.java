@@ -40,7 +40,7 @@ public class CheckGrade {
 				if(attendance < 3){
 					return retValue;
 				}else if(attendance >= 3 && attendance < 10){
-					countOfPosting = countOfPosting(memberId);
+					countOfPosting = boardService.totalContentById(memberId);
 					System.out.println("countOfPosting : "+countOfPosting);
 					if(countOfPosting < 5){
 						return retValue;
@@ -60,7 +60,7 @@ public class CheckGrade {
 						}
 					}
 				}else{
-					countOfPosting = countOfPosting(memberId);
+					countOfPosting = boardService.totalContentById(memberId);
 					System.out.println("countOfPosting : "+countOfPosting);
 					if(countOfPosting < 5){
 						return retValue;
@@ -128,7 +128,7 @@ public class CheckGrade {
 			int attendance = 0;
 			int countOfPosting = 0;
 			int countOfComment = 0;
-			countOfPosting = countOfPosting(memberId);
+			countOfPosting = boardService.totalContentById(memberId);
 			System.out.println("countOfPosting : "+countOfPosting);
 			String memberNickName = memberService.getMemberNickName(memberId);
 			if(countOfPosting < 5){
@@ -229,7 +229,7 @@ public class CheckGrade {
 				if(attendance < 3){
 					return retValue;
 				}else if(attendance >= 3){
-					countOfPosting = countOfPosting(memberId);
+					countOfPosting = boardService.totalContentById(memberId);
 					System.out.println("countOfPosting : "+countOfPosting);
 					if(countOfPosting < 5){
 						return retValue;
@@ -248,7 +248,7 @@ public class CheckGrade {
 				if(attendance < 3){
 					return retValue;
 				}else if(attendance >= 3 && attendance < 10){
-					countOfPosting = countOfPosting(memberId);
+					countOfPosting = boardService.totalContentById(memberId);
 					System.out.println("countOfPosting : "+countOfPosting);
 					if(countOfPosting < 5){
 						return retValue;
@@ -261,7 +261,7 @@ public class CheckGrade {
 						}
 					}
 				}else{
-					countOfPosting = countOfPosting(memberId);
+					countOfPosting = boardService.totalContentById(memberId);
 					System.out.println("countOfPosting : "+countOfPosting);
 					if(countOfPosting < 5){
 						return retValue;
@@ -284,17 +284,6 @@ public class CheckGrade {
 			}
 		}
 		return retValue;
-	}
-	
-	//게시글수 구하기
-	public int countOfPosting(String memberId){
-		int countOfPosting = 0;
-		countOfPosting += boardService.showPostingListById(memberId).get("board_abandoned").size();
-		countOfPosting += boardService.showPostingListById(memberId).get("board_adoption").size();
-		countOfPosting += boardService.showPostingListById(memberId).get("board_petInfo").size();
-		countOfPosting += boardService.showPostingListById(memberId).get("board_community").size();
-		countOfPosting += boardService.showPostingListById(memberId).get("board_petPicture").size();
-		return countOfPosting;
 	}
 	
 }

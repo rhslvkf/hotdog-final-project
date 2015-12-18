@@ -1,16 +1,19 @@
 package org.hotdog.projectVer1.model;
 
-public class PagingBean {
+public class PagingBeanOfMyPage {
+	
 	private int totalContent;
+	
 	public int getNowPage() {
 		return nowPage;
 	}
 	private int nowPage=1;
 	
-	private int numberOfContentPerPage=8;
+	private int numberOfContentPerPage=3;
 	
-	private int numberOfPageGroup=8;
-	public PagingBean(int totalContent, int nowPage) {
+	private int numberOfPageGroup=5;
+	
+	public PagingBeanOfMyPage(int totalContent, int nowPage) {
 		super();
 		this.totalContent = totalContent;
 		this.nowPage = nowPage;

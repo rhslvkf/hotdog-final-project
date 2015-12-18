@@ -17,6 +17,8 @@ import javax.annotation.Resource;
 
 
 
+
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -117,28 +119,43 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public List<BoardVO> showPostingListByIdFromAbandoned(String memberId) {
-		return sqlSessionTemplate.selectList("board_abandoned.showPostingListById",memberId);
+	public List<BoardVO> showPostingListByIdFromAbandoned(String pageNo, String memberId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pageNo", pageNo);
+		map.put("memberId", memberId);
+		return sqlSessionTemplate.selectList("board_abandoned.showPostingListById",map);
 	}
 
 	@Override
-	public List<BoardVO> showPostingListByIdFromAdoption(String memberId) {
-		return sqlSessionTemplate.selectList("board_adoption.showPostingListById",memberId);
+	public List<BoardVO> showPostingListByIdFromAdoption(String pageNo, String memberId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pageNo", pageNo);
+		map.put("memberId", memberId);
+		return sqlSessionTemplate.selectList("board_adoption.showPostingListById",map);
 	}
 
 	@Override
-	public List<BoardVO> showPostingListByIdFromPetInfo(String memberId) {
-		return sqlSessionTemplate.selectList("board_petInfo.showPostingListById",memberId);
+	public List<BoardVO> showPostingListByIdFromPetInfo(String pageNo, String memberId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pageNo", pageNo);
+		map.put("memberId", memberId);
+		return sqlSessionTemplate.selectList("board_petInfo.showPostingListById",map);
 	}
 
 	@Override
-	public List<BoardVO> showPostingListByIdFromCommunity(String memberId) {
-		return sqlSessionTemplate.selectList("board_community.showPostingListById",memberId);
+	public List<BoardVO> showPostingListByIdFromCommunity(String pageNo, String memberId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pageNo", pageNo);
+		map.put("memberId", memberId);
+		return sqlSessionTemplate.selectList("board_community.showPostingListById",map);
 	}
 
 	@Override
-	public List<BoardVO> showPostingListByIdFromPetPicture(String memberId) {
-		return sqlSessionTemplate.selectList("board_petPicture.showPostingListById",memberId);
+	public List<BoardVO> showPostingListByIdFromPetPicture(String pageNo, String memberId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pageNo", pageNo);
+		map.put("memberId", memberId);
+		return sqlSessionTemplate.selectList("board_petPicture.showPostingListById",map);
 	}
 
 	@Override
@@ -436,6 +453,31 @@ public class BoardDAOImpl implements BoardDAO {
 	public void insertRefContent(BoardVO vo, String type) {
 		sqlSessionTemplate.insert(type+".writeReply", vo);	
 		
+	}
+
+	@Override
+	public int totalContentByIdFromAbandoned(String memberId) {
+		return sqlSessionTemplate.selectOne("board_abandoned.totalContentByIdFromAbandoned",memberId);
+	}
+
+	@Override
+	public int totalContentByIdFromAdoption(String memberId) {
+		return sqlSessionTemplate.selectOne("board_adoption.totalContentByIdFromAdoption",memberId);
+	}
+
+	@Override
+	public int totalContentByIdFromPetInfo(String memberId) {
+		return sqlSessionTemplate.selectOne("board_petInfo.totalContentByIdFromPetInfo",memberId);
+	}
+
+	@Override
+	public int totalContentByIdFromCommunity(String memberId) {
+		return sqlSessionTemplate.selectOne("board_community.totalContentByIdFromCommunity",memberId);
+	}
+
+	@Override
+	public int totalContentByIdFromPetPicture(String memberId) {
+		return sqlSessionTemplate.selectOne("board_petPicture.totalContentByIdFromPetPicture",memberId);
 	}
 	
 }

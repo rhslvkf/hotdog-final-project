@@ -43,18 +43,18 @@ public interface BoardDAO {
 	public abstract int totalContentBySearchingNickName(String type, String word);
 
 	public abstract List<BoardVO> showPostingListByIdFromAbandoned(
-			String memberId);
+			String pageNo, String memberId);
 
 	public abstract List<BoardVO> showPostingListByIdFromAdoption(
-			String memberId);
+			String pageNo, String memberId);
 
-	public abstract List<BoardVO> showPostingListByIdFromPetInfo(String memberId);
+	public abstract List<BoardVO> showPostingListByIdFromPetInfo(String pageNo, String memberId);
 
 	public abstract List<BoardVO> showPostingListByIdFromCommunity(
-			String memberId);
+			String pageNo, String memberId);
 
 	public abstract List<BoardVO> showPostingListByIdFromPetPicture(
-			String memberId);
+			String pageNo, String memberId);
 
 
 	public abstract int searchBoardNumber(String type);
@@ -157,6 +157,21 @@ public interface BoardDAO {
 	public abstract void updateRestep(int ref, int restep, String type);
 
 	public abstract void insertRefContent(BoardVO vo, String type);
+
+
+	public abstract int totalContentByIdFromAbandoned(String memberId);
+
+
+	public abstract int totalContentByIdFromAdoption(String memberId);
+
+
+	public abstract int totalContentByIdFromPetInfo(String memberId);
+
+
+	public abstract int totalContentByIdFromCommunity(String memberId);
+
+
+	public abstract int totalContentByIdFromPetPicture(String memberId);
 	
 
 }

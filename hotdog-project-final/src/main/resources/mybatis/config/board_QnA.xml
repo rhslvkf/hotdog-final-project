@@ -110,10 +110,12 @@ select b.QnA_number,b.QnA_title,b.QnA_date,b.QnA_hits,b.member_id,b.QnA_ref,b.Qn
 	</select>
 	
 	<select id="showPostingListById" resultMap="boardRM">
-		select b.QnA_title,b.board_type,b.QnA_number,b.QnA_hits,b.QnA_date,m.member_nickname from(
-	        select QnA_title,board_type,QnA_number,QnA_hits,to_char(QnA_date,'YYYY.MM.DD') as QnA_date from board_QnA
-			where member_id = #{memberId}
-		)b, hotdog_member m where m.member_id = #{memberId}
+		select QnA_title,board_type,QnA_number,QnA_hits,QnA_date,member_nickname,page from(
+			select b.QnA_title,b.board_type,b.QnA_number,b.QnA_hits,b.QnA_date,m.member_nickname,ceil(rownum/3) as page from(
+				select QnA_title,board_type,QnA_number,QnA_hits,to_char(QnA_date,'YYYY.MM.DD') as QnA_date,rownum
+				from board_QnA	where member_id = #{memberId} order by QnA_number desc
+			)b, hotdog_member m where m.member_id = #{memberId}
+		) where page = #{pageNo}
 	</select>
 	
 	<select id="searchFileName" resultType="String">
@@ -158,5 +160,10 @@ select b.QnA_number,b.QnA_title,b.QnA_date,b.QnA_hits,b.member_id,b.QnA_ref,b.Qn
 	 	(QnA_number,QnA_title,QnA_content,QnA_date,member_id,QnA_ref,QnA_restep,QnA_relevel)
 	 	values(#{boardNumber},#{boardTitle},#{boardContent},sysdate,#{memberVO.memberId},#{ref},#{restep},#{relevel})
 	 </insert>
+	 
+	 <select id="totalContentByIdFromQnA" resultType="int">
+		select count(*) from board_QnA
+		where member_id = #{memberId}
+	</select>
 	
  </mapper> 	

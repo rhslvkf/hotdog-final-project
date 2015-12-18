@@ -119,10 +119,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="showPostingListById" resultMap="boardRM">
-		select b.adoption_title,b.board_type,b.adoption_number,b.adoption_hits,b.adoption_date,m.member_nickname from(
-	        select adoption_title,board_type,adoption_number,adoption_hits,to_char(adoption_date,'YYYY.MM.DD') as adoption_date from board_adoption
-			where member_id = #{memberId}
-		)b, hotdog_member m where m.member_id = #{memberId}
+		select adoption_title,board_type,adoption_number,adoption_hits,adoption_date,member_nickname,page from(
+			select b.adoption_title,b.board_type,b.adoption_number,b.adoption_hits,b.adoption_date,m.member_nickname,ceil(rownum/3) as page from(
+				select adoption_title,board_type,adoption_number,adoption_hits,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,rownum
+				from board_adoption	where member_id = #{memberId} order by adoption_number desc
+			)b, hotdog_member m where m.member_id = #{memberId}
+		) where page = #{pageNo}
 	</select>
 	
 	<select id="searchFileName" resultType="String">
@@ -270,6 +272,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="totalContentBySearchingTitleOrContents" resultType="int">
 		select count(*) from board_adoption where adoption_title like '%' || #{word1} || '%' or
 		adoption_content like '%' || #{word2} || '%'
+	</select>
+	
+	<select id="totalContentByIdFromAdoption" resultType="int">
+		select count(*) from board_adoption
+		where member_id = #{memberId}
 	</select>
 	
  </mapper> 	

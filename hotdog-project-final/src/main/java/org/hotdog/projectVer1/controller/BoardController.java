@@ -220,8 +220,9 @@ public class BoardController {
 	 */
 	@ResponseBody
 	@RequestMapping("showPostingList.do")
-	public Map<String, List<BoardVO>> showPostingList(String memberId){
-		return boardService.showPostingListById(memberId);
+	public Map<String, Object> showPostingList(String memberId,String pageNoOfAbandoned,String pageNoOfAdoption,String pageNoOfCommunity,String pageNoOfPetInfo,String pageNoOfPetPicture){
+		System.out.println(memberId+" "+pageNoOfAbandoned+" "+pageNoOfAdoption+" "+pageNoOfCommunity+" "+pageNoOfPetInfo+" "+pageNoOfPetPicture);
+		return boardService.showPostingListById(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfCommunity,pageNoOfPetInfo,pageNoOfPetPicture);
 	}
 	
 	/*

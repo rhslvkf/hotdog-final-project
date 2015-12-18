@@ -107,10 +107,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="showPostingListById" resultMap="boardRM">
-		select b.petInfo_title,b.board_type,b.petInfo_number,b.petInfo_hits,b.petInfo_date,m.member_nickname from(
-	        select petInfo_title,board_type,petInfo_number,petInfo_hits,to_char(petInfo_date,'YYYY.MM.DD') as petInfo_date from board_petInfo
-			where member_id = #{memberId}
-		)b, hotdog_member m where m.member_id = #{memberId}
+		select petInfo_title,board_type,petInfo_number,petInfo_hits,petInfo_date,member_nickname,page from(
+			select b.petInfo_title,b.board_type,b.petInfo_number,b.petInfo_hits,b.petInfo_date,m.member_nickname,ceil(rownum/3) as page from(
+				select petInfo_title,board_type,petInfo_number,petInfo_hits,to_char(petInfo_date,'YYYY.MM.DD') as petInfo_date,rownum
+				from board_petInfo	where member_id = #{memberId} order by petInfo_number desc
+			)b, hotdog_member m where m.member_id = #{memberId}
+		) where page = #{pageNo}
 	</select>
 	
 	<select id="searchFileName" resultType="String">
@@ -243,6 +245,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="totalContentBySearchingTitleOrContents" resultType="int">
 		select count(*) from board_petInfo where petInfo_title like '%' || #{word1} || '%' or
 		petInfo_content like '%' || #{word2} || '%'
+	</select>
+	
+	<select id="totalContentByIdFromPetInfo" resultType="int">
+		select count(*) from board_petInfo
+		where member_id = #{memberId}
 	</select>
 	
  </mapper> 	
