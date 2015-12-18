@@ -329,8 +329,10 @@
 			<div class="modal-footer">
 				<ul class="nav navbar-nav navbar-left">
 					<li>
+					<a id="writeBtn" class="action">글쓰기</a>
+					</li>
+					<li><a id="resetBtn" class="action">닫기</a></li>
 					
-					<a id="writeBtn" class="action">글쓰기</a></li>
 					
 				</ul>
 			</div>
