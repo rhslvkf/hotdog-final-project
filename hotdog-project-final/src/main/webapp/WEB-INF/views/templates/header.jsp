@@ -312,17 +312,65 @@ function showMyPostingList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfC
 	});
 }
 
+$(document).on("click","#pagingOfAbandonedScrape", function(){
+	var memberId = "${sessionScope.loginVo.memberId}";
+	var pageNoOfAbandoned = $(this).text();
+	if(pageNoOfAbandoned == "Next"){
+		pageNoOfAbandoned = $("#endPageOfAbandonedScrape").val();
+	}else if(pageNoOfAbandoned == "Prev"){
+		pageNoOfAbandoned = $("#startPageOfAbandonedScrape").val();
+	}
+	var pageNoOfAdoption = $("#pageNoOfAdoptionScrape").val();
+	var pageNoOfPetInfo = $("#pageNoOfPetInfoScrape").val();
+	showMyScrapeList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfPetInfo);
+});
+
+$(document).on("click","#pagingOfAdoptionScrape", function(){
+	var memberId = "${sessionScope.loginVo.memberId}";
+	var pageNoOfAdoption = $(this).text();
+	if(pageNoOfAdoption == "Next"){
+		pageNoOfAdoption = $("#endPageOfAdoptionScrape").val();
+	}else if(pageNoOfAdoption == "Prev"){
+		pageNoOfAdoption = $("#startPageOfAdoptionScrape").val();
+	}
+	var pageNoOfAbandoned = $("#pageNoOfAbandonedScrape").val();
+	var pageNoOfPetInfo = $("#pageNoOfPetInfoScrape").val();
+	showMyScrapeList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfPetInfo);
+});
+
+$(document).on("click","#pagingOfPetInfoScrape", function(){
+	var memberId = "${sessionScope.loginVo.memberId}";
+	var pageNoOfPetInfo = $(this).text();
+	if(pageNoOfPetInfo == "Next"){
+		pageNoOfPetInfo = $("#endPageOfPetInfoScrape").val();
+	}else if(pageNoOfPetInfo == "Prev"){
+		pageNoOfPetInfo = $("#startPageOfPetInfoScrape").val();
+	}
+	var pageNoOfAdoption = $("#pageNoOfAdoptionScrape").val();
+	var pageNoOfAbandoned = $("#pageNoOfAbandonedScrape").val();
+	showMyScrapeList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfPetInfo);
+});
+
 //스크랩 리스트
-function showMyScrapeList(memberId){
+function showMyScrapeList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfPetInfo){
 	$.ajax({
 		type:"POST",
 		url:"showMyScrapeList.do",
-		data:"memberId="+memberId,
+		data:"memberId="+memberId+"&pageNoOfAbandoned="+pageNoOfAbandoned+"&pageNoOfAdoption="+pageNoOfAdoption+"&pageNoOfPetInfo="+pageNoOfPetInfo,
 		success:function(result){ 
-			var title = "<table class='showListPosting'>";
+			var title = "<input type='hidden' id='pageNoOfAbandonedScrape' value='"+pageNoOfAbandoned+"'>";
+			title += "<input type='hidden' id='pageNoOfAdoptionScrape' value='"+pageNoOfAdoption+"'>";
+			title += "<input type='hidden' id='pageNoOfPetInfoScrape' value='"+pageNoOfPetInfo+"'>";
+			title += "<input type='hidden' id='endPageOfAbandonedScrape' value='"+(result.board_abandoned_paging.endPageOfPageGroup+1)+"'>";
+			title += "<input type='hidden' id='startPageOfAbandonedScrape' value='"+(result.board_abandoned_paging.startPageOfPageGroup-1)+"'>";
+			title += "<input type='hidden' id='endPageOfAdoptionScrape' value='"+(result.board_adoption_paging.endPageOfPageGroup+1)+"'>";
+			title += "<input type='hidden' id='startPageOfAdoptionScrape' value='"+(result.board_adoption_paging.startPageOfPageGroup-1)+"'>";
+			title += "<input type='hidden' id='endPageOfPetInfoScrape' value='"+(result.board_petInfo_paging.endPageOfPageGroup+1)+"'>";
+			title += "<input type='hidden' id='startPageOfPetInfoScrape' value='"+(result.board_petInfo_paging.startPageOfPageGroup-1)+"'>";
+			title += "<table class='showListPosting'>";
 			if(result.board_abandoned.length != 0){
-				title += "<tr><td colspan='5'><h3>"+result.board_abandoned[0].boardType+"</h3></td></tr>";
-				title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
+				title += "<tr><td colspan='5' align='left'><h3>"+result.board_abandoned[0].boardType+"</h3></td></tr>";
+				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_abandoned.length;i++){
 					title += "<tr><td>"+result.board_abandoned[i].boardNumber
 							+"</td><td><a href = '${initParam.root}showContent.do?no="
@@ -333,10 +381,29 @@ function showMyScrapeList(memberId){
 							+"</td><td>"+result.board_abandoned[i].boardDate
 							+"</td><td>"+result.board_abandoned[i].boardHits+"</td></tr>";
 				}
+				title += "</table>";
+				title += "<p class='paging'>";
+				title += "<div class='col-md-12 text-center'>";
+				title += "<ul class='pagination'>";
+				if(result.board_abandoned_paging.previousPageGroup){
+					title += "<li><a href='#' id='pagingOfAbandonedScrape'>Prev</a></li>";
+				}
+				for(var i=result.board_abandoned_paging.startPageOfPageGroup;i<=result.board_abandoned_paging.endPageOfPageGroup;i++){
+					if(result.board_abandoned_paging.nowPage != i){
+						title += "<li><a href='#' id='pagingOfAbandonedScrape'>"+i+"</a></li>";
+					}else{
+						title += "<li class='active'><a>"+i+"</a></li>";
+					}
+				}
+				if(result.board_abandoned_paging.nextPageGroup){
+					title += "<li><a href='#' id='pagingOfAbandonedScrape'>Next</a></li>";
+				}
+				title += "</ul>";
+				title += "</div>";
 			}
 			if(result.board_adoption.length != 0){
-				title += "<tr><td colspan='5'><h3>"+result.board_adoption[0].boardType+"</h3></td></tr>";
-				title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
+				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_adoption[0].boardType+"</h3></td></tr>";
+				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_adoption.length;i++){
 					title += "<tr><td>"+result.board_adoption[i].boardNumber
 							+"</td><td><a href = '${initParam.root}showContent.do?no="
@@ -347,10 +414,29 @@ function showMyScrapeList(memberId){
 							+"</td><td>"+result.board_adoption[i].boardDate
 							+"</td><td>"+result.board_adoption[i].boardHits+"</td></tr>";
 				}
+				title += "</table>";
+				title += "<p class='paging'>";
+				title += "<div class='col-md-12 text-center'>";
+				title += "<ul class='pagination'>";
+				if(result.board_adoption_paging.previousPageGroup){
+					title += "<li><a href='#' id='pagingOfAdoptionScrape'>Prev</a></li>";
+				}
+				for(var i=result.board_adoption_paging.startPageOfPageGroup;i<=result.board_adoption_paging.endPageOfPageGroup;i++){
+					if(result.board_adoption_paging.nowPage != i){
+						title += "<li><a href='#' id='pagingOfAdoptionScrape'>"+i+"</a></li>";
+					}else{
+						title += "<li class='active'><a>"+i+"</a></li>";
+					}
+				}
+				if(result.board_adoption_paging.nextPageGroup){
+					title += "<li><a href='#' id='pagingOfAdoptionScrape'>Next</a></li>";
+				}
+				title += "</ul>";
+				title += "</div>";
 			}
 			if(result.board_petInfo.length != 0){
-				title += "<tr><td colspan='5'><h3>"+result.board_petInfo[0].boardType+"</h3></td></tr>";
-				title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
+				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_petInfo[0].boardType+"</h3></td></tr>";
+				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_petInfo.length;i++){
 					title += "<tr><td>"+result.board_petInfo[i].boardNumber
 							+"</td><td><a href = '${initParam.root}showContent.do?no="
@@ -361,8 +447,26 @@ function showMyScrapeList(memberId){
 							+"</td><td>"+result.board_petInfo[i].boardDate
 							+"</td><td>"+result.board_petInfo[i].boardHits+"</td></tr>";
 				}
+				title += "</table>";
+				title += "<p class='paging'>";
+				title += "<div class='col-md-12 text-center'>";
+				title += "<ul class='pagination'>";
+				if(result.board_petInfo_paging.previousPageGroup){
+					title += "<li><a href='#' id='pagingOfPetInfoScrape'>Prev</a></li>";
+				}
+				for(var i=result.board_petInfo_paging.startPageOfPageGroup;i<=result.board_petInfo_paging.endPageOfPageGroup;i++){
+					if(result.board_petInfo_paging.nowPage != i){
+						title += "<li><a href='#' id='pagingOfPetInfoScrape'>"+i+"</a></li>";
+					}else{
+						title += "<li class='active'><a>"+i+"</a></li>";
+					}
+				}
+				if(result.board_petInfo_paging.nextPageGroup){
+					title += "<li><a href='#' id='pagingOfPetInfoScrape'>Next</a></li>";
+				}
 			}
-			title += "</table>";
+			title += "</ul>";
+			title += "</div>";
 			$("#scrapeTitle").html(title);
 			$("#showScrapeList").modal();
 		}
@@ -2206,7 +2310,7 @@ body {
                       </tr>
                       <tr>
                         <td>스크랩한 게시글</td>
-                        <td><a href="#" onclick="showMyScrapeList('${sessionScope.loginVo.memberId}')"><span id="countOfMyScrape"></span></a></td>
+                        <td><a href="#" onclick="showMyScrapeList('${sessionScope.loginVo.memberId}',1,1,1)"><span id="countOfMyScrape"></span></a></td>
                       </tr>
                     </tbody>
                   </table>

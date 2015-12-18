@@ -131,13 +131,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<select id="getAllScrapeFromPetInfo" resultMap="boardRM">
-		select b.petInfo_title,b.board_type,b.petInfo_number,b.petInfo_hits,to_char(petInfo_date,'YYYY.MM.DD') as petInfo_date,m.member_nickname from(
-			select b.petInfo_title,b.board_type,b.petInfo_number,b.petInfo_hits,b.petInfo_date,b.member_id from( 
-				select board_number from board_petInfo_scrape where member_id = #{memberId}
-			)s, board_petInfo b, hotdog_member m
-			where petInfo_number = s.board_number and m.member_id = #{memberId}
-		)b, hotdog_member m
-		where b.member_id = m.member_id
+		select b.petinfo_title,b.board_type,b.petinfo_number,b.petinfo_hits,to_char(petinfo_date,'YYYY.MM.DD') as petinfo_date,m.member_nickname,b.page from(
+			select	b.petinfo_title,b.board_type,b.petinfo_number,b.petinfo_hits,b.petinfo_date,b.member_id,ceil(rownum/3) as page from(
+				select board_number from board_petinfo_scrape where member_id = #{memberId} 
+			)s, board_petinfo b, hotdog_member m where petinfo_number = s.board_number and m.member_id = #{memberId} order by board_number desc
+		)b, hotdog_member m where b.member_id = m.member_id and page = #{pageNo}
 	</select>
 		<select id="latestepetinfoPosting" resultMap="boardRM">
 			select b.petInfo_number,b.petInfo_title,b.petInfo_date,m.member_id,m.member_nickname,b.petInfo_hits from(
@@ -258,6 +256,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="totalPostingIncludedCommentFromPetInfo" resultType="int">
 		select count(distinct(board_number)) from board_petinfo_comment where member_nickname = #{memberNickName}
+	</select>
+	
+	<select id="totalPostingScrapedByIdFromPetInfo" resultType="int">
+		select	count(*) from(
+			select board_number from board_petinfo_scrape where member_id = #{memberId}
+		)s, board_petinfo b, hotdog_member m where petinfo_number = s.board_number and m.member_id = #{memberId}
 	</select>
 	
  </mapper> 	

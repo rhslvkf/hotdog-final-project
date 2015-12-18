@@ -1,4 +1,24 @@
-<<<<<<< HEAD
+select b.adoption_content,b.adoption_number,b.adoption_title,b.adoption_date,b.adoption_hits,b.member_id,m.member_nickname from(
+	select adoption_content,adoption_number,adoption_title,adoption_date,adoption_hits,ceil(rownum/8) as page,member_id,member_nickname from(
+		select adoption_content,adoption_number,adoption_title,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,adoption_hits,member_id,member_nickname from(
+				select adoption_content,adoption_number,adoption_title,adoption_date,adoption_hits,m.member_id,m.member_nickname from(
+					select * from board_adoption b, hotdog_member m where b.member_id = m.member_id order by adoption_number desc
+				)b, hotdog_member m where m.member_nickname like '%' || '핫도그' || '%' 
+		)
+	)
+) b,hotdog_member m where b.member_id=m.member_id and page='1';
+
+select b.petinfo_title,b.board_type,b.petinfo_number,b.petinfo_hits,to_char(petinfo_date,'YYYY.MM.DD') as petinfo_date,m.member_nickname,b.page from(
+			select	b.petinfo_title,b.board_type,b.petinfo_number,b.petinfo_hits,b.petinfo_date,b.member_id,ceil(rownum/3) as page from(
+				select board_number from board_petinfo_scrape where member_id = 'rhslvkf@gmail.com'
+			)s, board_petinfo b, hotdog_member m where petinfo_number = s.board_number and m.member_id = 'rhslvkf@gmail.com' order by board_number desc
+		)b, hotdog_member m where b.member_id = m.member_id and page = '1'
+
+select	count(*) from(
+	select board_number from board_petinfo_scrape where member_id = 'rhslvkf@gmail.com'
+)s, board_petinfo b, hotdog_member m where petinfo_number = s.board_number and m.member_id = 'rhslvkf@gmail.com'
+		
+select count(*) from board_petinfo_scrape where member_id = 'rhslvkf@gmail.com'
 select abandoned_title,board_type,abandoned_number,abandoned_hits,abandoned_date,member_nickname,page from(
 	select b.abandoned_title,b.board_type,b.abandoned_number,b.abandoned_hits,b.abandoned_date,m.member_nickname,ceil(rownum/3) as page from(
 		select abandoned_title,board_type,abandoned_number,abandoned_hits,to_char(abandoned_date,'YYYY.MM.DD') as abandoned_date,rownum

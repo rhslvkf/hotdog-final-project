@@ -67,11 +67,11 @@ public interface BoardDAO {
 
 	public abstract void insertScrape(BoardVO vo, String type);
 
-	public abstract Object getAllScrapeFromAbandoned(String memberId);
+	public abstract Object getAllScrapeFromAbandoned(String pageNo,String memberId);
 
-	public abstract Object getAllScrapeFromAdoption(String memberId);
+	public abstract Object getAllScrapeFromAdoption(String pageNo,String memberId);
 
-	public abstract Object getAllScrapeFromPetInfo(String memberId);
+	public abstract Object getAllScrapeFromPetInfo(String pageNo,String memberId);
 
 	
 	//댓글 관련
@@ -190,6 +190,15 @@ public interface BoardDAO {
 
 	public abstract int totalPostingIncludedCommentFromPetPicture(
 			String memberNickName);
+
+
+	public abstract int totalPostingScrapedByIdFromAbandoned(String memberId);
+
+
+	public abstract int totalPostingScrapedByIdFromAdoption(String memberId);
+
+
+	public abstract int totalPostingScrapedByIdFromPetInfo(String memberId);
 	
 
 }

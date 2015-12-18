@@ -26,6 +26,7 @@ import javax.annotation.Resource;
 
 
 
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -193,18 +194,27 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public Object getAllScrapeFromAbandoned(String memberId) {
-		return sqlSessionTemplate.selectList("board_abandoned.getAllScrapeFromAbandoned",memberId);
+	public Object getAllScrapeFromAbandoned(String pageNo,String memberId) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("pageNo", pageNo);
+		map.put("memberId", memberId);
+		return sqlSessionTemplate.selectList("board_abandoned.getAllScrapeFromAbandoned",map);
 	}
 
 	@Override
-	public Object getAllScrapeFromAdoption(String memberId) {
-		return sqlSessionTemplate.selectList("board_adoption.getAllScrapeFromAdoption",memberId);
+	public Object getAllScrapeFromAdoption(String pageNo,String memberId) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("pageNo", pageNo);
+		map.put("memberId", memberId);
+		return sqlSessionTemplate.selectList("board_adoption.getAllScrapeFromAdoption",map);
 	}
 
 	@Override
-	public Object getAllScrapeFromPetInfo(String memberId) {
-		return sqlSessionTemplate.selectList("board_petInfo.getAllScrapeFromPetInfo",memberId);
+	public Object getAllScrapeFromPetInfo(String pageNo,String memberId) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("pageNo", pageNo);
+		map.put("memberId", memberId);
+		return sqlSessionTemplate.selectList("board_petInfo.getAllScrapeFromPetInfo",map);
 	}
 	
 	
@@ -525,6 +535,21 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public int totalPostingIncludedCommentFromPetPicture(String memberNickName) {
 		return sqlSessionTemplate.selectOne("board_petPicture.totalPostingIncludedCommentFromPetPicture",memberNickName);
+	}
+
+	@Override
+	public int totalPostingScrapedByIdFromAbandoned(String memberId) {
+		return sqlSessionTemplate.selectOne("board_abandoned.totalPostingScrapedByIdFromAbandoned",memberId);
+	}
+
+	@Override
+	public int totalPostingScrapedByIdFromAdoption(String memberId) {
+		return sqlSessionTemplate.selectOne("board_adoption.totalPostingScrapedByIdFromAdoption",memberId);
+	}
+
+	@Override
+	public int totalPostingScrapedByIdFromPetInfo(String memberId) {
+		return sqlSessionTemplate.selectOne("board_petInfo.totalPostingScrapedByIdFromPetInfo",memberId);
 	}
 	
 }

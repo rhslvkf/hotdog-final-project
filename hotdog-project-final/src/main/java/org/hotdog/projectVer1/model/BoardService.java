@@ -35,7 +35,7 @@ public interface BoardService {
 
 	public abstract Map<String, Object> scrape(BoardVO vo, String type);
 
-	public abstract Map<String, Object> showMyScrapeList(String memberId);
+	public abstract Map<String, Object> showMyScrapeList(String memberId,String pageNoOfAbandoned,String pageNoOfAdoption,String pageNoOfPetInfo);
 	
 	
 	//댓글 관련
