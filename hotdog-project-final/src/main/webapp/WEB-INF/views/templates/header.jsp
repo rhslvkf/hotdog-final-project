@@ -828,16 +828,16 @@ function sendMessageList(){
 			data:"receiver="+receiver+"&sender="+sender+"&messageDate="+messageDate+"&type="+flag,
 			success:function(result){ 
 				var title="<a id='replyMesssage' href='#'><h3>답장하기</h3></a>";
-				 title+="<table class='messageList1'>";
+				 title+="<table border='1' class='messageList1'>";
 				if(result.length != 0){
 					title+="<tr><td>보낸사람:</td><td>"+result.sender+"</td>";
 					title+="<td>받는사람:</td><td>"+result.receiver+"</td>";
 					title+="<td>날짜:</td><td>"+result.messageDate+"</td></tr>";
-					title+="<tr><td>제목:</td><td>"+result.messageTitle+"</td></tr>";
-					title+="<tr><td>내용:"+result.messageContent+"</td></tr>";		
+					title+="<tr><td>제목:</td><td colspan='5'>"+result.messageTitle+"</td></tr>";
+					title+="<tr><td>내용:</td><td colspan='5'>"+result.messageContent+"</td></tr>";		
 				}
 				title += "</table>";
-				title+="<button type='button' class='close' id='redelBtn' data-dismiss='modal' aria-hidden='true' onclick='UpdateSendMessageList()'>끄지라</button>";	
+				title+="<button type='button' class='close' id='redelBtn' data-dismiss='modal' aria-hidden='true' onclick='UpdateSendMessageList()'>삭제</button>";	
 				$("#showContentMessage").html(title);
 				$("#messageContent").modal();
 			} 
@@ -887,16 +887,16 @@ function sendMessageList(){
 			url:"messageContent.do",
 			data:"receiver="+receiver+"&sender="+sender+"&messageDate="+messageDate+"&type="+flag,
 			success:function(result){ 
-				var title = "<table class='messageList1'>";
+				var title = "<table border='1' class='messageList1'>";
 				if(result.length != 0){
 					title+="<tr><td>보낸사람:</td><td>"+result.sender+"</td>";
 					title+="<td>받는사람:</td><td>"+result.receiver+"</td>";
 					title+="<td>날짜:</td><td>"+result.messageDate+"</td></tr>";
-					title+="<tr><td>제목:</td><td>"+result.messageTitle+"</td></tr>";
-					title+="<tr><td>내용:"+result.messageContent+"</td></tr>";			
+					title+="<tr><td>제목:</td><td colspan='5'>"+result.messageTitle+"</td></tr>";
+					title+="<tr><td>내용:</td><td colspan='5'>"+result.messageContent+"</td></tr>";			
 				}
 				title += "</table>";
-				title+="<tr><td><button type='button' class='close' id='delBtn' data-dismiss='modal' aria-hidden='true' onclick='UpdateShowMessageList()'>끄지라</button></td></tr>"
+				title+="<button type='button' class='close' id='delBtn' data-dismiss='modal' aria-hidden='true' onclick='UpdateShowMessageList()'>삭제</button></td></tr>"
 				$("#showContentMessage").html(title);
 				$("#messageContent").modal();
 			} 
