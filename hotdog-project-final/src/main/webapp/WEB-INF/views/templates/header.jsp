@@ -2271,7 +2271,8 @@ body {
             <div class="panel-body">
               <div class="row">
                 <div class="col-md-3 col-lg-3 " align="center">
-                  <img alt="User Pic" src="${initParam.root}image/dog1.jpg" width="140px" height="180px">
+                  <img alt="User Pic" src="${initParam.root}image/로고.jpg" width="140px" height="180px">
+                  <img alt="User Pic" src="${initParam.root}image/글자로고.png" width="140px" height="80px">
                 </div>
                 <div class=" col-md-9 col-lg-9 ">
                   <table class="table table-user-information">
