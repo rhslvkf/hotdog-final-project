@@ -147,7 +147,7 @@
   
 
       
-      	          <div class="col-sm-7">
+<%--       	          <div class="col-sm-7">
 <h1>유기견정보</h1>
 <div class="section">
 
@@ -212,7 +212,81 @@
 			</div>
 		</form>
 	</div>
+</div> --%>
+
+
+
+
+
+<form id="write_form" method=post action="${initParam.root}auth_posting.do?type=board_abandoned" enctype="multipart/form-data">
+ <div class="section text-left">
+      <div class="container">
+        <div class="row">
+            <div class="panel panel-success text-left">
+              <div class="panel-heading">
+                <h2 class="panel-title">유기견정보</h2>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                   
+                    <table class="table table-user-information">
+                        <tr>
+			<td colspan="2">제목 : <input type=text id="boardTitle" name="boardTitle" size="60"></input>
+			 </td>
+                          
+                        </tr>
+                        <tr>
+				<td>작성자 : ${sessionScope.loginVo.memberNickName}</td>
+				
+				
+                        </tr>
+                        <tr>
+
+
+					
+					<tr><td colspan="3">
+								<div class="form-group">
+
+				<div class="col-sm-4">
+					<input type = "hidden" name = "boardContent" id = "boardContentHidden">
+     				<div id="boardContent" contenteditable="true" style="width: 950px"></div>
+				</div>
+			</div></td></tr>
+            
+
+                    </table>
+                  </div>
+                <div class="col-md-12 text-center">
+                <br>
+                 	<div class="form-group text-left">
+				    <label for="exampleInputFile">파일 업로드</label>
+				    <input type="file" name="file[0]" id="file0" accept="image/*"><div id="fileInfo0"></div><br>
+				    <input type="file" name="file[1]" id="file1" accept="image/*"><div id="fileInfo1"></div><br>
+				    <input type="file" name="file[2]" id="file2" accept="image/*"><div id="fileInfo2"></div><br>
+				    <font color="red">* 이미지 파일만 업로드 가능합니다.<br>
+				    * 용량 제한은 5MB입니다.</font> 
+				  </div>
+
+                </div>                
+                
+                
+			<div class="modal-footer">
+				<ul class="nav navbar-nav navbar-left">
+					<li>
+					
+					<a id="writeBtn" class="action">글쓰기</a></li>
+										<li><a id="resetBtn" class="action">닫기</a></li>
+					
+					
+				</ul>
+			</div>
 </div>
+            </div>
+        </div>
+      </div>
+              </div>
+</form>
+
 
 
 

@@ -166,43 +166,40 @@
 </script>
 <br>
 
-          <h1>유기견분양</h1>
-<div class="section">
-	<div class="container">
-		<form class="form-horizontal" role="form" action="${initParam.root}auth_posting.do?type=board_adoption"
-			id="write_form" method="post" enctype="multipart/form-data">
-			<div class="form-group">
-				<div class="col-sm-2">
-					<label for="inputEmail3" class="control-label">제목</label>
-				</div>
-				<div class="col-sm-4">
-					<input type="text" class="form-control" id="boardTitle"
-						placeholder="글 제목을 입력하세요" name="boardTitle" onfocus="this.select()"
-						required="">
-				</div>
-			</div>
-						<div class="form-group">
-				<div class="col-sm-2">
-					<label for="inputEmail3" class="control-label">닉네임</label>
-				</div>
-				<div class="col-sm-4">
-					<label for="inputEmail3" class="control-label">${sessionScope.loginVo.memberNickName}</label>
-
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2">
-					<label for="inputEmail3" class="control-label">전화번호</label>
-				</div>
-				<div class="col-sm-4">
-					<label for="inputEmail3" class="control-label">${sessionScope.loginVo.memberTel}</label>
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2">
-					<label for="inputEmail3" class="control-label">거주지역</label>
-				</div>
-				<div class="col-sm-4">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<form id="write_form" method=post action="${initParam.root}auth_posting.do?type=board_adoption" enctype="multipart/form-data">
+ <div class="section text-left">
+      <div class="container">
+        <div class="row">
+            <div class="panel panel-success text-left">
+              <div class="panel-heading">
+                <h2 class="panel-title">유기견분양</h2>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                   
+                    <table class="table table-user-information">
+                        <tr>
+			<td colspan="2">제목 : <input type=text id="boardTitle" name="boardTitle" size="60"></input>
+			 </td>
+                          <td colspan="2">작성자 : ${sessionScope.loginVo.memberNickName}</td>
+                        </tr>
+                        <tr >
+                        <td colspan="1">거주지역 : 			
 				<select class="selectpicker" data-style="btn-info" name="residence">
 				<option value="서울">서울</option>
 				<option value="경기도">경기도</option>
@@ -211,133 +208,92 @@
 				<option value="전라도">전라도</option>
 				<option value="경상도">경상도</option>
 			</select>
-<!-- 					<input type="text" class="form-control" id="residence"
-						placeholder="사시는 지역을 입력하세요" name="residence"
-						onfocus="this.select()" required=""> <span
-						id="loginIdCheckView"></span> -->
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2">
-					<label for="inputEmail3" class="control-label">애견종류</label>
-				</div>
-				<div class="col-sm-4">
-				<select class="selectpicker" data-style="btn-info" name="petType">
+
+				</td>
+                        <td colspan="1">애견종류 : 
+                <select class="selectpicker" data-style="btn-info" name="petType">
 				<option value="삽살개">삽살개</option>
 				<option value="진돗개">진돗개</option>
 				<option value="풍산개">풍산개</option>
 				<option value="우리집개">우리집개</option>
 			</select>
-			
-			
-			
-
-				</div>
-			</div>
-
-			<div class="form-group">
-				<div class="col-sm-2">
-					<label for="inputEmail3" class="control-label">애견나이</label>
-				</div>
-
-				
-			<div class="col-sm-4">
-			
-				<select class="selectpicker" data-style="btn-info" name="petAge">
+                        </td>
+                        <td colspan="1">애견나이 :
+                 <select class="selectpicker" data-style="btn-info" name="petAge">
 				<c:forEach var="i" begin="1" end="15">
 				<option value="${i}">${i}</option>
 			    </c:forEach>
-			    </select>
-			    
-			</div>
-	
+			    </select></td>
 				
 				
-<!-- 
-				<div class="col-sm-4">
-
-					<input type="text" class="form-control" id="petAge"
-						placeholder="애견나이를 입력하세요" name="petAge" onfocus="this.select()"
-						required="">
-				</div> -->
-			</div>
-
-
-
-			<div class="form-group">
-				<div class="col-sm-2">
-					<label for="inputEmail3" class="control-label">성별</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="radio-inline"> <input type="radio"
+                        </tr>
+                        <tr><td>성별 : 
+                        					<label class="radio-inline"> <input type="radio"
 						name="petGender" id="petGender" value="수컷">수컷
 					</label> <label class="radio-inline"> <input type="radio"
 						name="petGender" id="petGender" value="암컷">암컷
 					</label>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<div class="col-sm-2">
-					<label for="inputEmail3" class="control-label">중성화여부</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="radio-inline"> <input type="radio"
+                        </td>
+                        <td>중성화 : 
+                        <label class="radio-inline"> <input type="radio"
 						name="petNeutralInfo" id="petNeutralInfo" value="예">예&nbsp;&nbsp;
 					</label> <label class="radio-inline"> <input type="radio"
 						name="petNeutralInfo" id="petNeutralInfo" value="아니오">아니오
 					</label>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<div class="col-sm-2">
-					<label for="inputEmail3" class="control-label">애견크기</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="radio-inline"> <input type="radio"
+					</td>
+                        <td colspan="2">애견크기 : 
+                     <label class="radio-inline"> <input type="radio"
 						name="petSize" id="petSize" value="소형">소형
 					</label> <label class="radio-inline"> <input type="radio"
 						name="petSize" id="petSize" value="중형">중형
 					</label> <label class="radio-inline"> <input type="radio"
 						name="petSize" id="petSize" value="대형">대형
 					</label>
+					</td>
+                        </tr>
+                        
 
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2">
-					<label for="inputEmail3" class="control-label">내용</label>
-				</div>
+
+					
+					<tr><td colspan="4">
+								<div class="form-group">
+
 				<div class="col-sm-4">
-					<input type = "hidden" name = "boardContent" id = "boardContentHidden" value = "">
-     				<div id="boardContent" contenteditable="true"></div>
+					<input type = "hidden" name = "boardContent" id = "boardContentHidden">
+     				<div id="boardContent" contenteditable="true" style="width: 950px"></div>
 				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-12">
-					<label for="exampleInputFile">파일 업로드</label>
+			</div></td></tr>
+            
+
+                    </table>
+                  </div>
+                <div class="col-md-12 text-center">
+                <br>
+                 	<div class="form-group text-left">
+				    <label for="exampleInputFile">파일 업로드</label>
 				    <input type="file" name="file[0]" id="file0" accept="image/*"><div id="fileInfo0"></div><br>
 				    <input type="file" name="file[1]" id="file1" accept="image/*"><div id="fileInfo1"></div><br>
 				    <input type="file" name="file[2]" id="file2" accept="image/*"><div id="fileInfo2"></div><br>
 				    <font color="red">* 이미지 파일만 업로드 가능합니다.<br>
 				    * 용량 제한은 5MB입니다.</font> 
-					</div>
-				</div>
+				  </div>
 
-
+                </div>                
+                
+                
 			<div class="modal-footer">
 				<ul class="nav navbar-nav navbar-left">
 					<li>
-					<a id="writeBtn" class="action">글쓰기</a>
-					</li>
-					<li><a id="resetBtn" class="action">닫기</a></li>
+					
+					<a id="writeBtn" class="action">글쓰기</a></li>
+										<li><a id="resetBtn" class="action">닫기</a></li>
 					
 					
 				</ul>
 			</div>
-		</form>
-	</div>
-		
-	</div>
-
+</div>
+            </div>
+        </div>
+      </div>
+              </div>
+</form>
