@@ -301,13 +301,14 @@
 						name="petSize" id="petSize3" value="대형">대형
 					</label>
 					</td>
+					
 					<tr><td colspan="3">
 					<input type = "hidden" name = "boardContent" id = "boardContentHidden" value = "">
+
      				<div id="boardContent" contenteditable="true" style="width: 1000px;">${bvo.boardContent}</div></td><tr>
 
                     </table>
                   </div>
-                </div>
                 <div class="col-md-12 text-center">
                 
                  	<div class="form-group text-left">
@@ -318,13 +319,9 @@
 				    <font color="red">* 이미지 파일만 업로드 가능합니다.<br>
 				    * 용량 제한은 5MB입니다.</font> 
 				  </div>
-                
-                
-                
 
+                </div>                
                 
-
-                </div>
                 
  <div><ul class="nav navbar-nav navbar-left">
 					<li>
@@ -333,9 +330,9 @@
 			<input type="button" id="resetBtn" class="action" value="취소">
 </li>
 				</ul></div>
-
-              </div>
+</div>
             </div>
         </div>
       </div>
+              </div>
 </form>
