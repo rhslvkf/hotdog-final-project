@@ -304,11 +304,9 @@
 					
 					<tr><td colspan="3">
 					<input type = "hidden" name = "boardContent" id = "boardContentHidden" value = "">
-     				<div id="boardContent" contenteditable="true" style="width: 1000px">${bvo.boardContent}</div></td></tr>
-            
-            
-            
-            
+
+     				<div id="boardContent" contenteditable="true" style="width: 1000px;">${bvo.boardContent}</div></td><tr>
+
                     </table>
                   </div>
                 <div class="col-md-12 text-center">
