@@ -51,6 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		parameterType="map">
 		select b.board_type,b.abandoned_content,b.abandoned_number,b.abandoned_title,b.abandoned_date,b.member_id,m.member_nickname from(
 			select board_type,abandoned_content,abandoned_number,abandoned_title,abandoned_date,ceil(rownum/8) as page,member_id from(
+			select board_type,abandoned_content,abandoned_number,abandoned_title,abandoned_date,member_id from(
 		select b.board_type,b.abandoned_content,b.abandoned_number,b.abandoned_title,b.abandoned_date,b.member_id,m.member_nickname from(
 			select board_type,abandoned_content,abandoned_number,abandoned_title,abandoned_date,member_id from(
 				select board_type,abandoned_content,abandoned_number,abandoned_title,to_char(abandoned_date,'YYYY.MM.DD') as abandoned_date,
@@ -124,7 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				select board_type,QnA_content,QnA_number,QnA_title,QnA_date,member_id from board_QnA where QnA_title like '%' || #{word1} || '%' or QnA_content like '%' || #{word2} || '%'
 				)
 			)
-		) b,hotdog_member m where b.member_id=m.member_id)
+		) b,hotdog_member m where b.member_id=m.member_id) order by abandoned_date desc)
 		
 		)b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}		
 		
