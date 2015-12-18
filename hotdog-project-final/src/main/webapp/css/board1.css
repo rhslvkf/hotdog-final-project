@@ -184,6 +184,10 @@ textarea.tx { border:1px solid #9A9A9A; border-right:1px solid #D8D8D8; border-b
 	.showListPosting tr{
 		border-bottom: 1pt solid #808080;
 	}
+	
+		.showListPosting tr:hover {background:#cdec93;} /* 각 행에 마우스 커서를 올렸을 때 배경 색 */
+	
+	
 	#highlightimg{
 	 width: 100px;
 	 height: 180px;

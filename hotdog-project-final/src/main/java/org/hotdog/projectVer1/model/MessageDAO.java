@@ -16,6 +16,7 @@ public interface MessageDAO {
 	public abstract void readUpdate(MessageVO mevo);
 
 	public abstract void deleteMessage(MessageVO mevo);
+	
 	public abstract void redeleteMessage(MessageVO mevo);
 	
 }
