@@ -414,62 +414,7 @@ $("#commentTable td").remove();
 
 
 
-	<%-- <table class="content">
-		<tr>		
-			<td>NO : ${requestScope.bvo.boardNumber } </td>
-			<td colspan="2">${requestScope.bvo.boardTitle}
-			 </td>
-			
-			
-		</tr>
-		<tr>
-		<c:choose>
-				<c:when test="${sessionScope.loginVo == null }">
-				<td>작성자 : ${requestScope.bvo.memberVO.memberNickName }</td>
-				</c:when>
-				<c:when test="${sessionScope.loginVo.memberId == requestScope.bvo.memberVO.memberId }">
-				<td>작성자 : <a href="#" onclick="layerControl(event,true,null);">
-				${requestScope.bvo.memberVO.memberNickName }</a></td>
-				</c:when>
-				<c:otherwise>
-				<td>작성자 : <a href="#" onclick="layerControl(event,false,'${requestScope.bvo.memberVO.memberNickName }');">
-				${requestScope.bvo.memberVO.memberNickName }</a></td>
-				</c:otherwise>
-				</c:choose>
-			<td> ${requestScope.bvo.boardDate }</td>
-			<td>조회수 : ${requestScope.bvo.boardHits }</td>
-		</tr>
-		<tr>
-		<td>전화번호 : ${requestScope.bvo.memberVO.memberTel}</td>
-		<td>거주지역 : ${requestScope.bvo.residence}</td>
-		<td>애견종류 : ${requestScope.bvo.petVO.petType}</td>
-		</tr>
-				<tr>
-		<td>애견나이 : ${requestScope.bvo.petVO.petAge}</td>
-		<td> 				
-				성별 : ${requestScope.bvo.petVO.petGender}</td>
-		<td>중성화여부 : ${requestScope.bvo.petVO.petNeutralInfo}</td>
-		</tr>
-		<tr><td colspan="3">애견크기 : ${requestScope.bvo.petVO.petSize}</td></tr>
-		<tr>
-			<td colspan="3"><pre style="white-space: pre-wrap;">${requestScope.bvo.boardContent}
-			</pre>
-			</td>
-		</tr>
-		<tr>
-			<td valign="middle" align="center" colspan="3">
-			 <img id="listImg" class="action" src="${initParam.root}img/list_btn.jpg">
-			 <c:if test="${requestScope.bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
-			 <img id="deleteImg" class="action"  onclick="deleteBoard()" src="${initParam.root}img/delete_btn.jpg" > 
-			 <img id="updateImg" class="action"  onclick="updateBoard()" src="${initParam.root}img/modify_btn.jpg" >
-			 </c:if>
-			 <c:if test="${requestScope.bvo.memberVO.memberId!=sessionScope.loginVo.memberId}">
-			 <img id="scrapeImg" class="action"  onclick="scrapeBoard()" src="${initParam.root}img/scrapbutn.gif" >
-			 </c:if>
-			 <br><br>				
-			 </td>
-		</tr>
-	</table> --%>
+
 
                     
  <div class="section text-left">
