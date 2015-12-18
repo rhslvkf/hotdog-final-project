@@ -73,29 +73,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="searchPostingByTitle"  resultMap="boardRM">
-		select b.petPicture_number,b.petPicture_title,b.petPicture_date,b.petPicture_hits,b.member_id,m.member_nickname from(
-			select petPicture_number,petPicture_title,petPicture_date,petPicture_hits,ceil(rownum/8) as page,member_id from(
-				select petPicture_number,petPicture_title,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date,
-				petPicture_hits,member_id from(
-				select * from board_petPicture where petPicture_title like '%' || #{word} || '%' order by petPicture_number desc
+		select petPicture_content, b.petPicture_number,b.petPicture_title,b.petPicture_date,b.petPicture_hits,b.member_id,m.member_nickname from(
+			select petPicture_content, petPicture_number,petPicture_title,petPicture_date,petPicture_hits,ceil(rownum/8) as page,member_id from(
+				select petPicture_content, petPicture_number,petPicture_title,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date, petPicture_hits,member_id from(
+					select * from board_petPicture where petPicture_title like '%' || #{word} || '%' order by petPicture_number desc
 				)
 			)
 		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
 	</select>
 	
 	<select id="searchPostingByContent" resultMap="boardRM">
-		select b.petPicture_number,b.petPicture_title,b.petPicture_date,b.petPicture_hits,b.member_id,m.member_nickname from(
+		select b.petPicture_content,b.petPicture_number,b.petPicture_title,b.petPicture_date,b.petPicture_hits,b.member_id,m.member_nickname from(
 			select petPicture_content,petPicture_number,petPicture_title,petPicture_date,petPicture_hits,ceil(rownum/8) as page,member_id from(
-				select petPicture_content,petPicture_number,petPicture_title,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date,
-				petPicture_hits,member_id from(
-				select * from board_petPicture where petPicture_content like '%' || #{word} || '%' order by petPicture_number desc
+				select petPicture_content,petPicture_number,petPicture_title,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date, petPicture_hits,member_id from(
+					select * from board_petPicture where petPicture_content like '%' || #{word} || '%' order by petPicture_number desc
 				)
 			)
 		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
 	</select>
 	
 	<select id="searchPostingByNickName" resultMap="boardRM">
-		select b.petPicture_number,b.petPicture_title,b.petPicture_date,b.petPicture_hits,b.member_id,m.member_nickname from(
+		select b.petPicture_content,b.petPicture_number,b.petPicture_title,b.petPicture_date,b.petPicture_hits,b.member_id,m.member_nickname from(
 			select petPicture_content,petPicture_number,petPicture_title,petPicture_date,petPicture_hits,ceil(rownum/8) as page,member_id,member_nickname from(
 				select petPicture_content,petPicture_number,petPicture_title,to_char(petPicture_date,'YYYY.MM.DD') as petPicture_date,petPicture_hits,member_id,member_nickname from(
 						select petPicture_content,petPicture_number,petPicture_title,petPicture_date,petPicture_hits,m.member_id,m.member_nickname from(

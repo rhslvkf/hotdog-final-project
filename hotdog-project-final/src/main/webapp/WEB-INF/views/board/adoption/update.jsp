@@ -195,7 +195,7 @@
         	}
         	$("#resetBtn").click(function(){    		
         		if(confirm("글 수정을 취소하시겠습니까?")){
-        			location.href = "${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_community";
+        			location.href = "${initParam.root}showContent.do?no=${bvo.boardNumber}&type=board_adoption";
         		}
         	});
 
@@ -203,38 +203,50 @@
 
         </script>
 
-    
-    
+
+
+
+
+
 <form id="updatePostingForm" method=post action="${initParam.root}auth_updatePosting.do?type=board_adoption" enctype="multipart/form-data">
 <input type = "hidden" name = "boardNumber" value = "${bvo.boardNumber}">
-	<table class="content">
-		<tr>		
-			<td>NO : ${requestScope.bvo.boardNumber } </td>
+ <div class="section text-left">
+      <div class="container">
+        <div class="row">
+            <div class="panel panel-success text-left">
+              <div class="panel-heading">
+                <h2 class="panel-title">유기견분양</h2>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                   
+                    <table class="table table-user-information">
+                        <tr>
+                          <td>번호 : ${requestScope.bvo.boardNumber} </td>
 			<td colspan="2">제목 : <input type=text id="boardTitle" name="boardTitle" value="${requestScope.bvo.boardTitle}" size="40"></input>
 			 </td>
-			
-			
-		</tr>
-		<tr>
-		<c:choose>
+                          
+                        </tr>
+                        <tr>
+								<c:choose>
 				<c:when test="${sessionScope.loginVo == null }">
 				<td>작성자 : ${requestScope.bvo.memberVO.memberNickName }</td>
 				</c:when>
 				<c:when test="${sessionScope.loginVo.memberId == requestScope.bvo.memberVO.memberId }">
-				<td>작성자 : <a href="#" onclick="layerControl(event,true);">
+				<td>작성자 : <a href="#" onclick="layerControl(event,true,null);">
 				${requestScope.bvo.memberVO.memberNickName }</a></td>
 				</c:when>
 				<c:otherwise>
-				<td>작성자 : <a href="#" onclick="layerControl(event,false);">
+				<td>작성자 : <a href="#" onclick="layerControl(event,false,'${requestScope.bvo.memberVO.memberNickName }');">
 				${requestScope.bvo.memberVO.memberNickName }</a></td>
 				</c:otherwise>
 				</c:choose>
-			<td>날짜 : ${requestScope.bvo.boardDate }</td>
-			<td>조회수 : ${requestScope.bvo.boardHits }</td>
-		</tr>
-		<tr>
-		<td>전화번호 : ${requestScope.bvo.memberVO.memberTel}</td>
-		<td>거주지역 : 
+                          <td>날짜 : ${requestScope.bvo.boardDate }</td>
+                          <td>조회수 :  ${requestScope.bvo.boardHits }</td>
+                        </tr>
+                        <tr>
+                        <td>전화번호 : ${requestScope.bvo.memberVO.memberTel}</td>
+        <td>거주지역 : 
 				<select class="selectpicker" data-style="btn-info" id="residence" name="residence">
 				<option value="서울">서울</option>
 				<option value="경기도">경기도</option>
@@ -252,8 +264,8 @@
 				<option value="우리집개">우리집개</option>
 			</select>
 		</td>
-		</tr>
-				<tr>
+                        </tr>
+                        <tr>
 		<td>애견나이 : 
 				<select class="selectpicker" data-style="btn-info" name="petAge">
 				<c:forEach var="i" begin="1" end="15">
@@ -278,21 +290,27 @@
 					</label>
 					</label> 
 		</td>
-		</tr>
-		<tr><td colspan="3">애견크기 : 
+                        </tr>
+                         <tr>
+<td colspan="3">애견크기 : 
 							<label class="radio-inline"> <input type="radio"
 						name="petSize" id="petSize1" value="소형">소형
 					</label> <label class="radio-inline"> <input type="radio"
 						name="petSize" id="petSize2" value="중형">중형
 					</label> <label class="radio-inline"> <input type="radio"
 						name="petSize" id="petSize3" value="대형">대형
-					</label><br><br>
-					
-					
-					
+					</label>
+					</td>
+					<tr><td colspan="3">
 					<input type = "hidden" name = "boardContent" id = "boardContentHidden" value = "">
-     				<div id="boardContent" contenteditable="true">${bvo.boardContent}</div>
-					<div class="form-group">
+     				<div id="boardContent" contenteditable="true" >${bvo.boardContent}</div></td><tr>
+
+                    </table>
+                  </div>
+                </div>
+                <div class="col-md-12 text-center">
+                
+                 	<div class="form-group text-left">
 				    <label for="exampleInputFile">파일 업로드</label>
 				    <input type="file" name="file[0]" id="file0" accept="image/*"><div id="fileInfo0"></div><br>
 				    <input type="file" name="file[1]" id="file1" accept="image/*"><div id="fileInfo1"></div><br>
@@ -300,23 +318,24 @@
 				    <font color="red">* 이미지 파일만 업로드 가능합니다.<br>
 				    * 용량 제한은 5MB입니다.</font> 
 				  </div>
-		</td>
-		
-		</tr>
-				
+                
+                
+                
 
+                
 
+                </div>
+                
+ <div><ul class="nav navbar-nav navbar-left">
+					<li>
+					
+					<input type="submit" value="수정하기" class="action"></input>					
+			<input type="button" id="resetBtn" class="action" value="취소">
+</li>
+				</ul></div>
 
-						<tr>
-						
-				<td valign="middle" colspan="3">						
-					<input type="submit" value="수정하기" class="action"></input>
-					<img id="resetBtn" class="action" src="${initParam.root}img/cancel.gif" onclick="cancel()">			
-								
-					</td>				
-				</tr>
-				
-
-	</table>
-
+              </div>
+            </div>
+        </div>
+      </div>
 </form>

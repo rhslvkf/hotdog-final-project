@@ -105,6 +105,11 @@ public class BoardServiceImpl implements BoardService{
 			total=boardDAO.totalContentBySearchingNickName(type,word);
 		}
 		PagingBean paging=new PagingBean(total,Integer.parseInt(pageNo));
+		for(int i=0;i<list.size();i++){
+			if(list.get(i).getBoardContent().contains("data:image")){
+				list.get(i).setFileName(list.get(i).getBoardContent().substring(list.get(i).getBoardContent().indexOf("data:image"), list.get(i).getBoardContent().indexOf("\">")));
+			}
+		}
 		ListVO lvo= new ListVO(list,paging);
 		return lvo;
 	}
@@ -151,19 +156,28 @@ public class BoardServiceImpl implements BoardService{
 		}else{
 			boardDAO.insertScrape(vo,type);
 			map.put("isScrape", "notExist");
-			map.put("board_abandoned", boardDAO.getAllScrapeFromAbandoned(vo.getMemberVO().getMemberId()));
-			map.put("board_adoption", boardDAO.getAllScrapeFromAdoption(vo.getMemberVO().getMemberId()));
-			map.put("board_petInfo", boardDAO.getAllScrapeFromPetInfo(vo.getMemberVO().getMemberId()));
+			map.put("board_abandoned", boardDAO.getAllScrapeFromAbandoned("1",vo.getMemberVO().getMemberId()));
+			map.put("board_adoption", boardDAO.getAllScrapeFromAdoption("1",vo.getMemberVO().getMemberId()));
+			map.put("board_petInfo", boardDAO.getAllScrapeFromPetInfo("1",vo.getMemberVO().getMemberId()));
 			return map;
 		}
 	}
 
 	@Override
-	public Map<String, Object> showMyScrapeList(String memberId) {
+	public Map<String, Object> showMyScrapeList(String memberId,String pageNoOfAbandoned,String pageNoOfAdoption,String pageNoOfPetInfo) {
+		if(pageNoOfAbandoned==null||pageNoOfAbandoned=="") 
+			pageNoOfAbandoned="1";
+		if(pageNoOfAdoption==null||pageNoOfAdoption=="") 
+			pageNoOfAdoption="1";
+		if(pageNoOfPetInfo==null||pageNoOfPetInfo=="") 
+			pageNoOfPetInfo="1";
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("board_abandoned", boardDAO.getAllScrapeFromAbandoned(memberId));
-		map.put("board_adoption", boardDAO.getAllScrapeFromAdoption(memberId));
-		map.put("board_petInfo", boardDAO.getAllScrapeFromPetInfo(memberId));
+		map.put("board_abandoned", boardDAO.getAllScrapeFromAbandoned(pageNoOfAbandoned,memberId));
+		map.put("board_abandoned_paging", new PagingBeanOfMyPage(boardDAO.totalPostingScrapedByIdFromAbandoned(memberId),Integer.parseInt(pageNoOfAbandoned)));
+		map.put("board_adoption", boardDAO.getAllScrapeFromAdoption(pageNoOfAdoption,memberId));
+		map.put("board_adoption_paging", new PagingBeanOfMyPage(boardDAO.totalPostingScrapedByIdFromAdoption(memberId),Integer.parseInt(pageNoOfAdoption)));
+		map.put("board_petInfo", boardDAO.getAllScrapeFromPetInfo(pageNoOfPetInfo,memberId));
+		map.put("board_petInfo_paging", new PagingBeanOfMyPage(boardDAO.totalPostingScrapedByIdFromPetInfo(memberId),Integer.parseInt(pageNoOfPetInfo)));
 		return map;
 	}
 

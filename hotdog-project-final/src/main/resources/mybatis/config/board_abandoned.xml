@@ -177,19 +177,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<select id="getAllScrapeFromAbandoned" resultMap="boardRM">
-		select
-		b.abandoned_title,b.board_type,b.abandoned_number,b.abandoned_hits,to_char(abandoned_date,'YYYY.MM.DD')
-		as abandoned_date,m.member_nickname from(
-		select
-		b.abandoned_title,b.board_type,b.abandoned_number,b.abandoned_hits,b.abandoned_date,b.member_id
-		from(
-		select board_number from board_abandoned_scrape where member_id =
-		#{memberId}
-		)s, board_abandoned b, hotdog_member m
-		where abandoned_number = s.board_number and m.member_id = #{memberId}
-		)b,
-		hotdog_member m
-		where b.member_id = m.member_id
+		select b.abandoned_title,b.board_type,b.abandoned_number,b.abandoned_hits,to_char(abandoned_date,'YYYY.MM.DD') as abandoned_date,m.member_nickname,b.page from(
+			select	b.abandoned_title,b.board_type,b.abandoned_number,b.abandoned_hits,b.abandoned_date,b.member_id,ceil(rownum/3) as page from(
+				select board_number from board_abandoned_scrape where member_id = #{memberId} 
+			)s, board_abandoned b, hotdog_member m where abandoned_number = s.board_number and m.member_id = #{memberId} order by board_number desc
+		)b, hotdog_member m where b.member_id = m.member_id and page = #{pageNo}
 	</select>
 	<select id="latestPosting" resultMap="boardRM">
 		select
@@ -350,6 +342,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="totalPostingIncludedCommentFromAbandoned" resultType="int">
 		select count(distinct(board_number)) from board_abandoned_comment where member_nickname = #{memberNickName}
+	</select>
+	
+	<select id="totalPostingScrapedByIdFromAbandoned" resultType="int">
+		select	count(*) from(
+			select board_number from board_abandoned_scrape where member_id = #{memberId}
+		)s, board_abandoned b, hotdog_member m where abandoned_number = s.board_number and m.member_id = #{memberId}
 	</select>
 
 </mapper> 	

@@ -242,11 +242,12 @@
 			</div>
 
 <p>
-				<ul class="nav navbar-nav navbar-left">
+ <div><ul class="nav navbar-nav navbar-left">
 					<li>
-					<input type="submit" value="수정하기" class="action"></input>
-				</li>
 					
-				</ul>
+					<input type="submit" value="수정하기" class="action"></input>					
+			<input type="button" id="resetBtn" class="action" value="취소">
+</li>
+				</ul></div>
 		</form>
 	</div>

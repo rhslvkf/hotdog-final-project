@@ -64,6 +64,7 @@ function allLayerClose(idx,length,flag) {
           <thead>
             <tr>
               <th width="80">번 호</th>
+              <th>사진</th>
               <th width="300">제 목</th>
               <th width="150">닉네임</th>
               <th width="150">작성일</th>
@@ -77,7 +78,7 @@ function allLayerClose(idx,length,flag) {
           <tbody>
 			<tr>
 			    <td>${bvo.boardNumber }</td>				
-			    
+			    <td width="110"><img src="${bvo.fileName}" width="100" height="80"></td>
 				<td>
 				<c:choose>
 				<c:when test="${sessionScope.loginVo !=null}">

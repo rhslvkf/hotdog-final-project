@@ -274,8 +274,8 @@ public class BoardController {
 	//스크랩한 게시글 로딩
 	@ResponseBody
 	@RequestMapping("showMyScrapeList.do")
-	public Map<String, Object> showMyScrapeList(String memberId) {
-		return boardService.showMyScrapeList(memberId);
+	public Map<String, Object> showMyScrapeList(String memberId,String pageNoOfAbandoned,String pageNoOfAdoption,String pageNoOfPetInfo) {
+		return boardService.showMyScrapeList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfPetInfo);
 	}
 	//회원의 댓글 로딩
 	@ResponseBody

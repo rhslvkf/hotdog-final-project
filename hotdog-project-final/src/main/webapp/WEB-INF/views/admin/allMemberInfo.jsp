@@ -2,10 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<h1>전체회원정보</h1>
-<div class="showListPosting">
+<h1>전체회원정보</h1><br>
+    <div class="showListPosting">
+
 	<div class="col-md-12">
-		<table class="table table-striped custab">
+		<table class="list">
 			<thead>
 				<tr>
 					<th>아이디</th>
@@ -20,7 +21,6 @@
 
 				<c:forEach items="${requestScope.mvo.list}" var="allMember" varStatus="status">
 				<c:if test="${allMember.memberId!=sessionScope.loginVo.memberId}">
-				
 				<tr>
 						<td>${allMember.memberId}</td>
 						<td>${allMember.memberName}</td>
@@ -37,19 +37,6 @@
 	</div>
 </div>
 
-<style>
-      .custab{
-          border: 1px solid #ccc;
-          padding: 5px;
-          margin: 5% 0;
-          box-shadow: 3px 3px 2px #ccc;
-          transition: 0.5s;
-          }
-      .custab:hover{
-          box-shadow: 3px 3px 0px transparent;
-          transition: 0.5s;
-          }
-    </style>
     
     
     <p class="paging">
