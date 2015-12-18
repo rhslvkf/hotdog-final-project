@@ -146,6 +146,7 @@
  <br>
 
   
+        	          <div class="col-sm-7">
   
             <h1>애견정보</h1>
 <div class="section">
@@ -207,7 +208,7 @@
 			</div>
 		</form>
 	</div>
-
+</div>
 
 
 

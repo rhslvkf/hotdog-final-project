@@ -165,6 +165,7 @@
 
 </script>
 <br>
+
           <h1>유기견분양</h1>
 <div class="section">
 	<div class="container">
@@ -323,7 +324,6 @@
 				    * 용량 제한은 5MB입니다.</font> 
 					</div>
 				</div>
-			</div>
 
 
 			<div class="modal-footer">
@@ -337,5 +337,7 @@
 				</ul>
 			</div>
 		</form>
+	</div>
+		
 	</div>
 

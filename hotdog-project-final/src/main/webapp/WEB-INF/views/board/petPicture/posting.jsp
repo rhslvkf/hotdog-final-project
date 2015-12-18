@@ -152,6 +152,7 @@
  <br>
 
 
+      	          <div class="col-sm-7">
 
             <h1>애견사진</h1>
 <div class="section">
@@ -214,5 +215,5 @@
 		</form>
 	</div>
 
-
+</div>
 

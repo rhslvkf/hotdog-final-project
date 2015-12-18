@@ -358,17 +358,32 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
 </script>
 
 </head>
-<body>
-	<table class="content">
-		<tr>		
-			<td>NO : ${requestScope.bvo.boardNumber } </td>
-			<td colspan="2">${requestScope.bvo.boardTitle}
-			 </td>
-			
-			
-		</tr>
-		<tr>
-		<c:choose>
+
+
+
+
+
+
+
+
+    <div class="section text-left">
+      <div class="container">
+        <div class="row">
+            <div class="panel panel-success text-left">
+              <div class="panel-heading">
+                <h2 class="panel-title">애견정보</h2>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class=" col-md-12 col-lg-12 hidden-xs hidden-sm">
+                   
+                    <table class="table table-user-information">
+                        <tr>
+                          <td>번호 : ${requestScope.bvo.boardNumber} </td>
+                          <td colspan="3">제목 : ${requestScope.bvo.boardTitle}</td>
+                        </tr>
+                        <tr>
+								<c:choose>
 				<c:when test="${sessionScope.loginVo == null }">
 				<td>작성자 : ${requestScope.bvo.memberVO.memberNickName }</td>
 				</c:when>
@@ -381,25 +396,32 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
 				${requestScope.bvo.memberVO.memberNickName }</a></td>
 				</c:otherwise>
 				</c:choose>
-			<td> ${requestScope.bvo.boardDate }</td>
-			<td>조회수 : ${requestScope.bvo.boardHits }</td>
-		</tr>
+                          <td>날짜 : ${requestScope.bvo.boardDate }</td>
+                          <td>조회수 :  ${requestScope.bvo.boardHits }</td>
+                        </tr>
 		<tr>
 			<td colspan="3"><pre style="white-space: pre-wrap;">${requestScope.bvo.boardContent}
-<%-- <c:if test="${fn:length(requestScope.bvo.fileNameList) != 0 }"><c:forEach begin="1" end="${fn:length(requestScope.bvo.fileNameList)}" var="i"><img src="${initParam.root}upload/${requestScope.bvo.fileNameList[i-1]}" width="300"></c:forEach></c:if> --%></pre></td>
+</pre></td>
 		</tr>
-		<tr>
-			<td valign="middle" align="center" colspan="3">
-			 <img id="listImg" class="action" src="${initParam.root}img/list_btn.jpg">
-			 <c:if test="${requestScope.bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
-			 <img id="deleteImg" class="action"  onclick="deleteBoard()" src="${initParam.root}img/delete_btn.jpg" > 
-			 <img id="updateImg" class="action"  onclick="updateBoard()" src="${initParam.root}img/modify_btn.jpg" >
-			 </c:if>
-			 <br><br>			
-			 </td>
-		</tr>
-	</table>
-		 <table id="commentTable" class="table table-condensed"></table>
+
+                    </table>
+                  </div>
+                </div>
+                <div class="col-md-12 text-center">
+                  <span class="pull-center">
+                                    <a href="${initParam.root}getPostingList.do?type=board_petInfo" 
+									class="btn btn-lg btn-success"> 목록	</a>
+								 <c:if test="${requestScope.bvo.memberVO.memberId==sessionScope.loginVo.memberId || sessionScope.loginVo.memberGrade=='ADMIN'}">
+								    <a href="updateView.do?no=${requestScope.bvo.boardNumber}&type=board_petInfo" onclick="return confirm('수정하시겠습니까?')"
+									class="btn btn-lg btn-warning"> 수정</a>
+                					<a href="auth_deletePosting.do?no=${requestScope.bvo.boardNumber}&type=board_petInfo" onclick="return confirm('삭제하시겠습니까?')"
+									class="btn btn-danger btn-lg"> 삭제</a>
+									</c:if>
+                  </span>
+                </div>
+                
+ <div>&nbsp; </div>
+                		 <table id="commentTable" class="table table-condensed"></table>
 				 <form id="commentForm">
 					<input type="hidden" name="commentBoardNumber" value="${requestScope.bvo.boardNumber }">
 					<input type="hidden" name="commentDate" value="0">
@@ -422,10 +444,23 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
                         </tr>
                     </table>
                     </form>
-	
-	
-</body>
-</html>
+                		
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="_popup" id="Layertrue" style="position:absolute; display:none;">
 <table class="memberInfo">

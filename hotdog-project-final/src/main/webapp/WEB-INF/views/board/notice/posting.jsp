@@ -146,6 +146,7 @@
  <br>
 
   
+        	          <div class="col-sm-7">
   
     <h1>공지사항</h1>
 <div class="section">
@@ -210,6 +211,6 @@
 		</form>
 	</div>
 
-
+</div>
 
 
