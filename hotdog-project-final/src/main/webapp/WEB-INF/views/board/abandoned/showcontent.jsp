@@ -15,6 +15,68 @@
     		if(confirm("게시물을 수정하시겠습니까?"))
     			location.href="updateView.do?no=${requestScope.bvo.boardNumber}&type=board_abandoned";
     	});
+    	$("#scrapeImg").click(function(){  
+    		if(confirm("게시물을 스크랩하시겠습니까?")){
+    			$.ajax({
+					type:"POST",
+					url:"scrape.do",
+					data:"no=${requestScope.bvo.boardNumber}&type=board_abandoned",
+					success:function(result){ 
+						if(result.isScrape == "exist"){
+							alert("이미 스크랩하신 게시글입니다.");
+						}else{
+							var title = "<table class='showListPosting'>";
+							if(result.board_abandoned.length != 0){
+								title += "<tr><td colspan='5'><h3>"+result.board_abandoned[0].boardType+"</h3></td></tr>";
+								title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
+								for(var i=0;i<result.board_abandoned.length;i++){
+									title += "<tr><td>"+result.board_abandoned[i].boardNumber
+											+"</td><td><a href = '${initParam.root}showContent.do?no="
+											+result.board_abandoned[i].boardNumber
+											+"&type=board_abandoned'>"
+											+result.board_abandoned[i].boardTitle+
+											"</a></td><td>"+result.board_abandoned[i].memberVO.memberNickName
+											+"</td><td>"+result.board_abandoned[i].boardDate
+											+"</td><td>"+result.board_abandoned[i].boardHits+"</td></tr>";
+								}
+							}
+							if(result.board_adoption.length != 0){
+								title += "<tr><td colspan='5'><h3>"+result.board_adoption[0].boardType+"</h3></td></tr>";
+								title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
+								for(var i=0;i<result.board_adoption.length;i++){
+									title += "<tr><td>"+result.board_adoption[i].boardNumber
+											+"</td><td><a href = '${initParam.root}showContent.do?no="
+											+result.board_adoption[i].boardNumber
+											+"&type=board_adoption'>"
+											+result.board_adoption[i].boardTitle+
+											"</a></td><td>"+result.board_adoption[i].memberVO.memberNickName
+											+"</td><td>"+result.board_adoption[i].boardDate
+											+"</td><td>"+result.board_adoption[i].boardHits+"</td></tr>";
+								}
+							}
+							if(result.board_petInfo.length != 0){
+								title += "<tr><td colspan='5'><h3>"+result.board_petInfo[0].boardType+"</h3></td></tr>";
+								title += "<tr><th>번호</th><th>제목</th><th>닉네임</th><th>작성일</th><th>조회수</th></tr>";
+								for(var i=0;i<result.board_petInfo.length;i++){
+									title += "<tr><td>"+result.board_petInfo[i].boardNumber
+											+"</td><td><a href = '${initParam.root}showContent.do?no="
+											+result.board_petInfo[i].boardNumber
+											+"&type=board_petInfo'>"
+											+result.board_petInfo[i].boardTitle+
+											"</a></td><td>"+result.board_petInfo[i].memberVO.memberNickName
+											+"</td><td>"+result.board_petInfo[i].boardDate
+											+"</td><td>"+result.board_petInfo[i].boardHits+"</td></tr>";
+								}
+							}
+							title += "</table>";
+							$("#title").text("스크랩한 게시글");
+							$("#boardTitle").html(title);
+							$("#showPostingList").modal();
+						} //if else
+					} //success
+    			}); //ajax
+    		} //if
+    	}); //scrape
     	if("${requestScope.bvo.memberVO.updateGrade}" != ""){
 	    	if("${requestScope.bvo.memberVO.updateGrade}" != "notUpdate"){
 	    		alert("등급이 ${requestScope.bvo.memberVO.updateGrade}가 되었습니다.");
@@ -373,7 +435,11 @@ $(document).on("click","table#commentTable a", function(){//동적으로 버튼�
                     <table class="table table-user-information">
                         <tr>
                           <td>번호 : ${requestScope.bvo.boardNumber} </td>
-                          <td colspan="3">제목 : ${requestScope.bvo.boardTitle}</td>
+                          <td colspan="3">제목 : ${requestScope.bvo.boardTitle}
+                          <c:if test="${requestScope.bvo.memberVO.memberId!=sessionScope.loginVo.memberId}">
+						 	<img id="scrapeImg" class="action"  onclick="scrapeBoard()" src="${initParam.root}img/scrapbutn.gif" >
+						  </c:if>
+                          </td>
                         </tr>
                         <tr>
 								<c:choose>

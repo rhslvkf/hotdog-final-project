@@ -143,7 +143,7 @@ function showMyPostingList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfC
 			title += "<table class='showListPosting'>";
 			if(result.board_abandoned.length != 0){
 				title += "<tr><td colspan='5' align='left'><h3>"+result.board_abandoned[0].boardType+"</h3></td></tr>";
-				title += "<tr><th width='15%'>번호</th><th width='35%'>제목</th><th width='10%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
+				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_abandoned.length;i++){
 					title += "<tr><td>"+result.board_abandoned[i].boardNumber
 							+"</td><td><a href = '${initParam.root}showContent.do?no="
@@ -176,7 +176,7 @@ function showMyPostingList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfC
 			}
 			if(result.board_adoption.length != 0){
 				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_adoption[0].boardType+"</h3></td></tr>";
-				title += "<tr><th width='15%'>번호</th><th width='35%'>제목</th><th width='10%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
+				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_adoption.length;i++){
 					title += "<tr><td>"+result.board_adoption[i].boardNumber
 							+"</td><td><a href = '${initParam.root}showContent.do?no="
@@ -209,7 +209,7 @@ function showMyPostingList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfC
 			}
 			if(result.board_community.length != 0){
 				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_community[0].boardType+"</h3></td></tr>";
-				title += "<tr><th width='15%'>번호</th><th width='35%'>제목</th><th width='10%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
+				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_community.length;i++){
 					title += "<tr><td>"+result.board_community[i].boardNumber
 							+"</td><td><a href = '${initParam.root}showContent.do?no="
@@ -242,7 +242,7 @@ function showMyPostingList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfC
 			}
 			if(result.board_petInfo.length != 0){
 				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_petInfo[0].boardType+"</h3></td></tr>";
-				title += "<tr><th width='15%'>번호</th><th width='35%'>제목</th><th width='10%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
+				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_petInfo.length;i++){
 					title += "<tr><td>"+result.board_petInfo[i].boardNumber
 							+"</td><td><a href = '${initParam.root}showContent.do?no="
@@ -275,7 +275,7 @@ function showMyPostingList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfC
 			}
 			if(result.board_petPicture.length != 0){
 				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_petPicture[0].boardType+"</h3></td></tr>";
-				title += "<tr><th width='15%'>번호</th><th width='35%'>제목</th><th width='10%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
+				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_petPicture.length;i++){
 					title += "<tr><td>"+result.board_petPicture[i].boardNumber
 							+"</td><td><a href = '${initParam.root}showContent.do?no="
@@ -470,7 +470,7 @@ function showMyCommentList(memberNickName,pageNoOfAbandoned,pageNoOfAdoption,pag
 			title += "<table class='showListPosting'>";
 			if(result.board_abandoned.length != 0){
 				title += "<tr><td colspan='5' align='left'><h3>"+result.board_abandoned[0].boardType+"</h3></td></tr>";
-				title += "<tr><th width='15%'>번호</th><th width='35%'>제목</th><th width='10%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
+				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_abandoned.length;i++){
 					title += "<tr><td>"+result.board_abandoned[i].boardNumber
 							+"</td><td><a href = '${initParam.root}showContent.do?no="
@@ -503,7 +503,7 @@ function showMyCommentList(memberNickName,pageNoOfAbandoned,pageNoOfAdoption,pag
 			}
 			if(result.board_adoption.length != 0){
 				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_adoption[0].boardType+"</h3></td></tr>";
-				title += "<tr><th width='15%'>번호</th><th width='35%'>제목</th><th width='10%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
+				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_adoption.length;i++){
 					title += "<tr><td>"+result.board_adoption[i].boardNumber
 							+"</td><td><a href = '${initParam.root}showContent.do?no="
@@ -536,7 +536,7 @@ function showMyCommentList(memberNickName,pageNoOfAbandoned,pageNoOfAdoption,pag
 			}
 			if(result.board_community.length != 0){
 				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_community[0].boardType+"</h3></td></tr>";
-				title += "<tr><th width='15%'>번호</th><th width='35%'>제목</th><th width='10%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
+				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_community.length;i++){
 					title += "<tr><td>"+result.board_community[i].boardNumber
 							+"</td><td><a href = '${initParam.root}showContent.do?no="
@@ -569,7 +569,7 @@ function showMyCommentList(memberNickName,pageNoOfAbandoned,pageNoOfAdoption,pag
 			}
 			if(result.board_petInfo.length != 0){
 				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_petInfo[0].boardType+"</h3></td></tr>";
-				title += "<tr><th width='15%'>번호</th><th width='35%'>제목</th><th width='10%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
+				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_petInfo.length;i++){
 					title += "<tr><td>"+result.board_petInfo[i].boardNumber
 							+"</td><td><a href = '${initParam.root}showContent.do?no="
@@ -602,7 +602,7 @@ function showMyCommentList(memberNickName,pageNoOfAbandoned,pageNoOfAdoption,pag
 			}
 			if(result.board_petPicture.length != 0){
 				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_petPicture[0].boardType+"</h3></td></tr>";
-				title += "<tr><th width='15%'>번호</th><th width='35%'>제목</th><th width='10%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
+				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_petPicture.length;i++){
 					title += "<tr><td>"+result.board_petPicture[i].boardNumber
 							+"</td><td><a href = '${initParam.root}showContent.do?no="

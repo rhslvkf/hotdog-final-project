@@ -179,6 +179,7 @@ textarea.tx { border:1px solid #9A9A9A; border-right:1px solid #D8D8D8; border-b
 		text-align: center;
 		font-size: 15px;
 		border-bottom: 1pt solid #808080;
+		background-color: #ffac59;
 	}
 	.showListPosting tr{
 		border-bottom: 1pt solid #808080;

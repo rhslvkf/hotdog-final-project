@@ -130,7 +130,7 @@
     <section class="section-white">
       <div class="container">
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel"
-        data-interval="4000">
+        data-interval="3000">
           <!-- Indicators -->
           <ol class="carousel-indicators">
             <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -140,19 +140,19 @@
           <!-- Wrapper for slides -->
           <div class="carousel-inner">
             <div class="item active">
-              <img src="${initParam.root}image/choa.jpg" alt="..." id="slideimg">
+              <img src="${initParam.root}image/iu1.jpg" alt="..." id="slideimg">
               <div class="carousel-caption">
                 <h2>Heading</h2>
               </div>
             </div>
             <div class="item">
-              <img src="${initParam.root}image/choa1.png" alt="..." id="slideimg">
+              <img src="${initParam.root}image/iu2.jpg" alt="..." id="slideimg">
               <div class="carousel-caption">
                 <h2>Heading</h2>
               </div>
             </div>
             <div class="item">
-              <img src="${initParam.root}image/choa2.jpg" alt="..." id="slideimg">
+              <img src="${initParam.root}image/iu3.png" alt="..." id="slideimg">
               <div class="carousel-caption">
                 <h2>HotDog</h2>
               </div>
