@@ -9,11 +9,13 @@
         	}else{
         		$("input:radio[id='petGender2']").prop("checked", true);
         	}
+          	
           	if(${requestScope.bvo.petVO.petNeutralInfo=="예"}){
                 $("input:radio[id='petNeutralInfo1']").prop("checked", true);
           	}else{
         		$("input:radio[id='petNeutralInfo2']").prop("checked", true);
           	}
+          	
           	if(${requestScope.bvo.petVO.petSize=="소형"}){
                 $("input:radio[id='petSize1']").prop("checked", true);
           	}else if(${requestScope.bvo.petVO.petSize=="중형"}){
@@ -21,10 +23,11 @@
           	}else{
           		$("input:radio[id='petSize3']").prop("checked", true);
           	}
-          	        	
-          	
-          	
-         
+           	
+          	$("#residence").val("${requestScope.bvo.residence}");
+          	$("#petType").val("${requestScope.bvo.petVO.petType}");
+          	$("#petAge").val("${requestScope.bvo.petVO.petAge}");
+			
           	var file0 = document.querySelector('#file0');
         	var file1 = document.querySelector('#file1');
         	var file2 = document.querySelector('#file2');
@@ -257,7 +260,7 @@
 			</select>
 		</td>
 		<td>애견종류 : 
-				<select class="selectpicker" data-style="btn-info" name="petType">
+				<select class="selectpicker" data-style="btn-info" id="petType" name="petType">
 				<option value="삽살개">삽살개</option>
 				<option value="진돗개">진돗개</option>
 				<option value="풍산개">풍산개</option>
@@ -267,7 +270,7 @@
                         </tr>
                         <tr>
 		<td>애견나이 : 
-				<select class="selectpicker" data-style="btn-info" name="petAge">
+				<select class="selectpicker" data-style="btn-info" id="petAge" name="petAge">
 				<c:forEach var="i" begin="1" end="15">
 				<option value="${i}">${i}</option>
 			    </c:forEach>

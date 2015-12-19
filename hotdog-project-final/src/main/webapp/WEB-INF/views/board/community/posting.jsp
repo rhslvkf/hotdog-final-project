@@ -171,8 +171,6 @@
                         </tr>
                         <tr>
 
-
-					
 					<tr><td colspan="3">
 								<div class="form-group">
 
@@ -209,7 +207,7 @@
 					
 				</ul>
 			</div>
-</div>
+			</div>
             </div>
         </div>
       </div>

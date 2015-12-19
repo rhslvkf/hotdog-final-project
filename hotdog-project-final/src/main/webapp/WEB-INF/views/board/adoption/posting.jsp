@@ -166,21 +166,7 @@
 </script>
 <br>
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 <form id="write_form" method=post action="${initParam.root}auth_posting.do?type=board_adoption" enctype="multipart/form-data">
  <div class="section text-left">
       <div class="container">
