@@ -24,6 +24,7 @@
           		$("input:radio[id='petSize3']").prop("checked", true);
           	}
            	
+          	
           	$("#residence").val("${requestScope.bvo.residence}");
           	$("#petType").val("${requestScope.bvo.petVO.petType}");
           	$("#petAge").val("${requestScope.bvo.petVO.petAge}");
@@ -281,16 +282,18 @@
 					성별 :
 					<label class="radio-inline"> <input type="radio"
 						name="petGender" id="petGender1" value="수컷">수컷
-						 <label class="radio-inline"> <input type="radio"
-						name="petGender" id="petGender2" value="암컷">암컷
+						 
 					</label>
+					<label class="radio-inline"> <input type="radio"
+						name="petGender" id="petGender2" value="암컷">암컷
 					</label>
 		</td>
 		<td>중성화여부 : 	<label class="radio-inline"> <input type="radio"
 						name="petNeutralInfo" id="petNeutralInfo1" value="예">예
-						<label class="radio-inline"> <input type="radio"
-						name="petNeutralInfo" id="petNeutralInfo2" value="아니오">아니오
+						
 					</label>
+					<label class="radio-inline"> <input type="radio"
+						name="petNeutralInfo" id="petNeutralInfo2" value="아니오">아니오
 					</label> 
 		</td>
                         </tr>
