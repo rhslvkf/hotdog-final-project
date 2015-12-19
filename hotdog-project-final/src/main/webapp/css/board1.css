@@ -50,7 +50,7 @@
 
 .list th,td {padding:5px 10px} /* 상하 여백 5 좌우 여백 10
 	thead의 배경색과 폰트 색상, 오른쪽 경계선의 색상을 지정한다.  */
- 	.list thead th {background:#fcd583; color:#8d8985; text-align:center; border-right:1px solid #fff}	 
+ 	.list thead th {background:#d2f9c4; color:#8d8985; text-align:center; border-right:1px solid #fff}	 
 	 .list tfoot tr {border-top:6px solid #E9F7F6; color:#1BA6B2}
 	.list tbody tr {background:#ffffff;}  /* tbody 배경 색 */ 
 	.list tbody tr:hover {background:#cdec93;} /* 각 행에 마우스 커서를 올렸을 때 배경 색 */
