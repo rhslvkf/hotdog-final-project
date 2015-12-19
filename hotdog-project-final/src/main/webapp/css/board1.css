@@ -53,7 +53,7 @@
  	.list thead th {background:#d2f9c4; color:#8d8985; text-align:center; border-right:1px solid #fff}	 
 	 .list tfoot tr {border-top:6px solid #E9F7F6; color:#1BA6B2}
 	.list tbody tr {background:#ffffff;}  /* tbody 배경 색 */ 
-	.list tbody tr:hover {background:#cdec93;} /* 각 행에 마우스 커서를 올렸을 때 배경 색 */
+	.list tbody tr:hover {background:#cdec93;} /* 각 행에 마우스 커서를 올렸을 때 `배경 색 */
 
 	/* .list caption{font-size:15px; padding:5px; margin-bottom: 15px}
 	.list .no{
