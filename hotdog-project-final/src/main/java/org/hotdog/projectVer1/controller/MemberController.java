@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hotdog.projectVer1.model.LoginManager;
+
 import org.hotdog.projectVer1.model.MemberService;
 import org.hotdog.projectVer1.model.MemberVO;
 import org.springframework.stereotype.Controller;
@@ -139,21 +139,6 @@ public class MemberController {
 		MemberVO loginVo=memberService.login(vo);	
 		String path="";
 		String domain=vo.getMemberId().substring(vo.getMemberId().indexOf('@'));
-		
-		
-				//중복 로그인
-				HttpSession session=request.getSession(false);
-				ArrayList beforeLogin=new ArrayList();
-				//HttpSessionBindingListener
-		        LoginManager loginM=LoginManager.getInstance();
-		        //접속 중인 사용자 목록
-		        Collection allUser=loginM.getUsers();
-		        //중복 확인, 초기값 false
-		        boolean dupl=false;
-		        //로그인 전 접속 중인 사용자 목록
-		        for(int i=0;i<allUser.size();i++){
-		        	beforeLogin.add(allUser);
-		        }
 		        
 		if(loginVo!=null){
 			if(loginVo.getMemberStatus().equals("deactive")){
@@ -167,21 +152,8 @@ public class MemberController {
 			}else{
 				//로그인 성공시 세션에 정보 저장
 				request.getSession().setAttribute("loginVo", loginVo);
-				//중복 로그인 체크
-		        request.getSession().setAttribute(loginVo.getMemberId(), loginM);
-		            for(int j=0;j<beforeLogin.size();j++){
-			        	//로그인 전 접속자 목록에 현재 로그인한 id가 포함되어 있으면 중복 true 
-			        	if(beforeLogin.get(j).toString().contains(loginM.getUserID(session))){
-			        			dupl=true;
-				        	}
-			        }  
 				
-				
-				  //로그인 확인 우선순위 : 중복 로그인, 등급, 비밀번호90일
-	            if(dupl==true){      	
-	        		loginM.removeSession(loginM.getUserID(session));
-	        		path="duplicate";
-	            }else if(loginVo.getUpdateGrade() != null){
+				if(loginVo.getUpdateGrade() != null){
 					if(loginVo.getUpdateGrade().equals("x")){
 						path = "home.do?updateGrade=SILVER";
 					}

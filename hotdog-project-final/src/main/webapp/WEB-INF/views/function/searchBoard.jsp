@@ -49,7 +49,7 @@
 	</c:otherwise>
 	</c:choose>
      ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
-	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>	
+	<i>${bvo.boardDate}</i> &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>	
 </c:when>
 
 <c:when test="${bvo.boardType =='분양게시판'}">
@@ -63,7 +63,7 @@
 	</c:otherwise>
 	</c:choose>
      ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
-	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
+	<i>${bvo.boardDate}</i> &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
 <c:when test="${bvo.boardType =='자유게시판'}">
@@ -77,7 +77,7 @@
 	</c:otherwise>
 	</c:choose>
      ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
-	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
+	<i>${bvo.boardDate}</i> &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
 <c:when test="${bvo.boardType =='공지사항'}">
@@ -91,7 +91,7 @@
 	</c:otherwise>
 	</c:choose>
      ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
-	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
+	<i>${bvo.boardDate}</i> &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
 <c:when test="${bvo.boardType =='애견정보'}">
@@ -105,7 +105,7 @@
 	</c:otherwise>
 	</c:choose>
      ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
-	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
+	<i>${bvo.boardDate}</i> &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
 <c:when test="${bvo.boardType =='애견사진'}">
@@ -119,7 +119,7 @@
 	</c:otherwise>
 	</c:choose>
      ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
-	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
+	<i>${bvo.boardDate}</i> &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 
 <c:when test="${bvo.boardType =='Q&A'}">
@@ -133,7 +133,7 @@
 	</c:otherwise>
 	</c:choose>
      ${fn:replace(bvo.boardContent,requestScope.lvo.map.word,changeWord)}<br><br>
-	${bvo.boardDate} &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
+	<i>${bvo.boardDate}</i> &nbsp <b>${bvo.memberVO.memberNickName}</b><hr>
 </c:when>
 </c:choose>
 </c:forEach>

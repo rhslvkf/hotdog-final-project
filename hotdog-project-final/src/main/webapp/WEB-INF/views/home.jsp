@@ -140,19 +140,19 @@
           <!-- Wrapper for slides -->
           <div class="carousel-inner">
             <div class="item active">
-              <img src="${initParam.root}image/choa2.jpg" alt="..." id="slideimg">
+              <img src="${initParam.root}image/dog5.jpg" alt="..." id="slideimg">
               <div class="carousel-caption">
                 <h2>HotDog</h2>
               </div>
             </div>
             <div class="item">
-              <img src="${initParam.root}image/choa.jpg" alt="..." id="slideimg">
+              <img src="${initParam.root}image/dog7.jpg" alt="..." id="slideimg">
               <div class="carousel-caption">
                 <h2>HotDog</h2>
               </div>
             </div>
             <div class="item">
-              <img src="${initParam.root}image/choa1.png" alt="..." id="slideimg">
+              <img src="${initParam.root}image/dog9.jpg" alt="..." id="slideimg">
               <div class="carousel-caption">
                 <h2>HotDog</h2>
               </div>

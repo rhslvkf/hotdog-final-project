@@ -142,7 +142,7 @@ function showMyPostingList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfC
 			title += "<input type='hidden' id='startPageOfPetPicture' value='"+(result.board_petPicture_paging.startPageOfPageGroup-1)+"'>";
 			title += "<table class='showListPosting'>";
 			if(result.board_abandoned.length != 0){
-				title += "<tr><td colspan='5' align='left'><h3>"+result.board_abandoned[0].boardType+"</h3></td></tr>";
+				title += "<caption><h3>"+result.board_abandoned[0].boardType+"</h3></caption>";
 				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_abandoned.length;i++){
 					title += "<tr><td>"+result.board_abandoned[i].boardNumber
@@ -175,7 +175,7 @@ function showMyPostingList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfC
 				title += "</div>";
 			}
 			if(result.board_adoption.length != 0){
-				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_adoption[0].boardType+"</h3></td></tr>";
+				title += "<table class='showListPosting'><caption><h3>"+result.board_adoption[0].boardType+"</h3></caption>";
 				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_adoption.length;i++){
 					title += "<tr><td>"+result.board_adoption[i].boardNumber
@@ -208,7 +208,7 @@ function showMyPostingList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfC
 				title += "</div>";
 			}
 			if(result.board_community.length != 0){
-				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_community[0].boardType+"</h3></td></tr>";
+				title += "<table class='showListPosting'><caption><h3>"+result.board_community[0].boardType+"</h3></caption>";
 				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_community.length;i++){
 					title += "<tr><td>"+result.board_community[i].boardNumber
@@ -241,7 +241,7 @@ function showMyPostingList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfC
 				title += "</div>";
 			}
 			if(result.board_petInfo.length != 0){
-				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_petInfo[0].boardType+"</h3></td></tr>";
+				title += "<table class='showListPosting'><caption><h3>"+result.board_petInfo[0].boardType+"</h3></caption>";
 				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_petInfo.length;i++){
 					title += "<tr><td>"+result.board_petInfo[i].boardNumber
@@ -274,7 +274,7 @@ function showMyPostingList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfC
 				title += "</div>";
 			}
 			if(result.board_petPicture.length != 0){
-				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_petPicture[0].boardType+"</h3></td></tr>";
+				title += "<table class='showListPosting'><caption><h3>"+result.board_petPicture[0].boardType+"</h3></caption>";
 				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_petPicture.length;i++){
 					title += "<tr><td>"+result.board_petPicture[i].boardNumber
@@ -369,7 +369,7 @@ function showMyScrapeList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfPe
 			title += "<input type='hidden' id='startPageOfPetInfoScrape' value='"+(result.board_petInfo_paging.startPageOfPageGroup-1)+"'>";
 			title += "<table class='showListPosting'>";
 			if(result.board_abandoned.length != 0){
-				title += "<tr><td colspan='5' align='left'><h3>"+result.board_abandoned[0].boardType+"</h3></td></tr>";
+				title += "<caption><h3>"+result.board_abandoned[0].boardType+"</h3></caption>";
 				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_abandoned.length;i++){
 					title += "<tr><td>"+result.board_abandoned[i].boardNumber
@@ -402,7 +402,7 @@ function showMyScrapeList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfPe
 				title += "</div>";
 			}
 			if(result.board_adoption.length != 0){
-				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_adoption[0].boardType+"</h3></td></tr>";
+				title += "<table class='showListPosting'><caption><h3>"+result.board_adoption[0].boardType+"</h3></caption>";
 				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_adoption.length;i++){
 					title += "<tr><td>"+result.board_adoption[i].boardNumber
@@ -435,7 +435,7 @@ function showMyScrapeList(memberId,pageNoOfAbandoned,pageNoOfAdoption,pageNoOfPe
 				title += "</div>";
 			}
 			if(result.board_petInfo.length != 0){
-				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_petInfo[0].boardType+"</h3></td></tr>";
+				title += "<table class='showListPosting'><caption><h3>"+result.board_petInfo[0].boardType+"</h3></caption>";
 				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_petInfo.length;i++){
 					title += "<tr><td>"+result.board_petInfo[i].boardNumber
@@ -573,7 +573,7 @@ function showMyCommentList(memberNickName,pageNoOfAbandoned,pageNoOfAdoption,pag
 			title += "<input type='hidden' id='startPageOfPetPictureComment' value='"+(result.board_petPicture_paging.startPageOfPageGroup-1)+"'>";
 			title += "<table class='showListPosting'>";
 			if(result.board_abandoned.length != 0){
-				title += "<tr><td colspan='5' align='left'><h3>"+result.board_abandoned[0].boardType+"</h3></td></tr>";
+				title += "<caption><h3>"+result.board_abandoned[0].boardType+"</h3></caption>";
 				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_abandoned.length;i++){
 					title += "<tr><td>"+result.board_abandoned[i].boardNumber
@@ -606,7 +606,7 @@ function showMyCommentList(memberNickName,pageNoOfAbandoned,pageNoOfAdoption,pag
 				title += "</div>";
 			}
 			if(result.board_adoption.length != 0){
-				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_adoption[0].boardType+"</h3></td></tr>";
+				title += "<table class='showListPosting'><caption><h3>"+result.board_adoption[0].boardType+"</h3></caption>";
 				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_adoption.length;i++){
 					title += "<tr><td>"+result.board_adoption[i].boardNumber
@@ -639,7 +639,7 @@ function showMyCommentList(memberNickName,pageNoOfAbandoned,pageNoOfAdoption,pag
 				title += "</div>";
 			}
 			if(result.board_community.length != 0){
-				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_community[0].boardType+"</h3></td></tr>";
+				title += "<table class='showListPosting'><caption><h3>"+result.board_community[0].boardType+"</h3></caption>";
 				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_community.length;i++){
 					title += "<tr><td>"+result.board_community[i].boardNumber
@@ -672,7 +672,7 @@ function showMyCommentList(memberNickName,pageNoOfAbandoned,pageNoOfAdoption,pag
 				title += "</div>";
 			}
 			if(result.board_petInfo.length != 0){
-				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_petInfo[0].boardType+"</h3></td></tr>";
+				title += "<table class='showListPosting'><caption><h3>"+result.board_petInfo[0].boardType+"</h3></caption>";
 				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_petInfo.length;i++){
 					title += "<tr><td>"+result.board_petInfo[i].boardNumber
@@ -705,7 +705,7 @@ function showMyCommentList(memberNickName,pageNoOfAbandoned,pageNoOfAdoption,pag
 				title += "</div>";
 			}
 			if(result.board_petPicture.length != 0){
-				title += "<table class='showListPosting'><tr align='left'><td colspan='5'><h3>"+result.board_petPicture[0].boardType+"</h3></td></tr>";
+				title += "<table class='showListPosting'><caption><h3>"+result.board_petPicture[0].boardType+"</h3></caption>";
 				title += "<tr><th width='15%'>번호</th><th width='30%'>제목</th><th width='15%'>닉네임</th><th width='10%'>작성일</th><th width='10%'>조회수</th></tr>";
 				for(var i=0;i<result.board_petPicture.length;i++){
 					title += "<tr><td>"+result.board_petPicture[i].boardNumber
@@ -1215,9 +1215,7 @@ function findAllTheEmailAddresses(StrObj) {
                         					if(data=="passfail"){//틀린 패스워드
                         					alert("비밀번호가 일치하지 않습니다.");
                         					$("#loginMemPass").focus();
-                        					}else if(data=="duplicate"){//로그인 중복
-                        						alert("해당 계정이 이미 접속중인 상태입니다.\n 로그인을 원하시면 팝업 종료 후 재로그인 해주세요.");
-                            				}else{
+                        					}else{
                         						location.replace(data);
                         					}
                            				}			
