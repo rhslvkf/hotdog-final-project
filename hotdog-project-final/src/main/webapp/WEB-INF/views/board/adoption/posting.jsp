@@ -243,7 +243,7 @@
 						name="petSize" id="petSize" value="대형">대형
 					</label>
 					</td>
-                        </tr>
+                    </tr>
                         
 
 
@@ -286,5 +286,5 @@
             </div>
         </div>
       </div>
-              </div>
+     </div>
 </form>
