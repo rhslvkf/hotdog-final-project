@@ -15,7 +15,7 @@
 		text-align: center; /* 가운데로 정렬 */
 	}
 	
-	.list { clear: both;width: 100%;border-collapse:collapse;border:1px solid #e0e0e0;}
+.list { clear: both;width: 100%;border-collapse:collapse;border:1px solid #e0e0e0;}
 .list { border-left:1px solid #e0e0e0;border-top:1px solid #e0e0e0; height:29px;font-size:11px;vertical-align:middle;color:#979797;padding:0 0px;text-align:center;background:#eff0f0;}
 .list a {color:#979797;}
 
@@ -39,6 +39,38 @@
 	.list tbody tr:hover {background:#cdec93;} /* 각 행에 마우스 커서를 올렸을 때 `배경 색 */
 
 
+	
+		table.list1{	    
+		width:100%;
+		margin: auto;
+		text-align: center; /* 가운데로 정렬 */
+	}
+	
+.list1 { clear: both;width: 100%;border-collapse:collapse;border:1px solid #e0e0e0;}
+.list1 { border-left:1px solid #e0e0e0;border-top:1px solid #e0e0e0; height:29px;font-size:11px;vertical-align:middle;color:#979797;padding:0 0px;text-align:center;background:#eff0f0;}
+.list1 a {color:#979797;}
+
+.list1 { clear: both;width: 100%;border-collapse:collapse;margin:15px 0 0 0;}
+.list1 th {background:#6f6f6f;}
+.list1 td { border-bottom:1px solid #c7c7c7; font-size:11px;vertical-align:middle;color:#333333;padding:60px 60px;text-align:center;padding:10px 30px;}
+.list1 a {color:#333333;}
+.list1 a:link    {color:#333333;}
+.list1 a:visited {color:#0080ff;}
+.list1 a:hover  {background:#FFE6E6;}
+.list1 a:active  {color:#333333;}
+
+
+
+
+.list1 th,td {padding:5px 10px} /* 상하 여백 5 좌우 여백 10
+	thead의 배경색과 폰트 색상, 오른쪽 경계선의 색상을 지정한다.  */
+ 	.list1 thead th {background:#d2f9c4; color:#8d8985; text-align:center; border-right:1px solid #fff}	 
+	 .list1 tfoot tr {border-top:6px solid #E9F7F6; color:#1BA6B2}
+	.list1 tbody tr {background:#ffffff;}  /* tbody 배경 색 */ 
+	.list1 tbody tr:hover {background:#cdec93;} /* 각 행에 마우스 커서를 올렸을 때 `배경 색 */
+	
+	
+	
 	
 	
 	p.paging{
@@ -114,6 +146,9 @@
 		text-align: center;
 	}
 	.list  td:nth-child(2){
+		text-align: left;
+	}
+		.list1  td:nth-child(3){
 		text-align: left;
 	}
 

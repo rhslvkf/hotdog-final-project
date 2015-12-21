@@ -170,7 +170,7 @@ function SendMessage(){
 	    	      <h1>애견사진</h1><br>
     <div class="showListPosting">
       <div class="col-md-12">
-      <table class="list">
+      <table class="list1">
         <thead>
           <tr>
                         <th width="80">번 호</th>
