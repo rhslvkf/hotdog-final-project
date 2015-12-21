@@ -42,7 +42,7 @@
 	   C:\java-kosta\WAS\spring2-tomcat\webapps\springmvc25-fileupload-inst\upload
 	 -->
 	<bean id="uploadPath" class="java.lang.String" >
-	 <constructor-arg value="C:\\Users\\bokyu\\git\\hotdog-project-test2\\hotdog-project-test\\src\\main\\webapp\\upload\\"/>
+	 <constructor-arg value="C:\\Users\\KOSTA\\git\\hotdog-final-project\\hotdog-project-final\\src\\main\\webapp\\upload\\"/>
 
 	</bean>
 	

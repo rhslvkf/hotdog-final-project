@@ -32,7 +32,6 @@ public class BoardServiceImpl implements BoardService{
 		if(!fileName.isEmpty()){
 			for(int i=0;i<fileName.size();i++){
 				vo.setFileName(fileName.get(i));
-				boardDAO.uploadFile(vo,type);
 			}
 		}
 	}

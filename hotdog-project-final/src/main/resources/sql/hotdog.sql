@@ -1,94 +1,13 @@
-select b.adoption_content,b.adoption_number,b.adoption_title,b.adoption_date,b.adoption_hits,b.member_id,m.member_nickname from(
-	select adoption_content,adoption_number,adoption_title,adoption_date,adoption_hits,ceil(rownum/8) as page,member_id,member_nickname from(
-		select adoption_content,adoption_number,adoption_title,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,adoption_hits,member_id,member_nickname from(
-				select adoption_content,adoption_number,adoption_title,adoption_date,adoption_hits,m.member_id,m.member_nickname from(
-					select * from board_adoption b, hotdog_member m where b.member_id = m.member_id order by adoption_number desc
-				)b, hotdog_member m where m.member_nickname like '%' || '핫도그' || '%' 
-		)
-	)
-) b,hotdog_member m where b.member_id=m.member_id and page='1';
-
-select b.petinfo_title,b.board_type,b.petinfo_number,b.petinfo_hits,to_char(petinfo_date,'YYYY.MM.DD') as petinfo_date,m.member_nickname,b.page from(
-			select	b.petinfo_title,b.board_type,b.petinfo_number,b.petinfo_hits,b.petinfo_date,b.member_id,ceil(rownum/3) as page from(
-				select board_number from board_petinfo_scrape where member_id = 'rhslvkf@gmail.com'
-			)s, board_petinfo b, hotdog_member m where petinfo_number = s.board_number and m.member_id = 'rhslvkf@gmail.com' order by board_number desc
-		)b, hotdog_member m where b.member_id = m.member_id and page = '1'
-
-select	count(*) from(
-	select board_number from board_petinfo_scrape where member_id = 'rhslvkf@gmail.com'
-)s, board_petinfo b, hotdog_member m where petinfo_number = s.board_number and m.member_id = 'rhslvkf@gmail.com'
-		
-select count(*) from board_petinfo_scrape where member_id = 'rhslvkf@gmail.com'
-select abandoned_title,board_type,abandoned_number,abandoned_hits,abandoned_date,member_nickname,page from(
-	select b.abandoned_title,b.board_type,b.abandoned_number,b.abandoned_hits,b.abandoned_date,m.member_nickname,ceil(rownum/3) as page from(
-		select abandoned_title,board_type,abandoned_number,abandoned_hits,to_char(abandoned_date,'YYYY.MM.DD') as abandoned_date,rownum
-		from board_abandoned	where member_id = 'gonipal@naver.com' order by abandoned_number desc
-	)b, hotdog_member m where m.member_id = 'gonipal@naver.com'
-) where page = '1';
-select petpicture_number, petpicture_title, petpicture_content from(
-	select petpicture_number, petpicture_title, petpicture_content from board_petpicture order by petpicture_number desc
-)where 13 > rownum;
-
-select adoption_title,board_type,adoption_number,adoption_hits,adoption_date,member_nickname,page from(
-	select b.adoption_title,b.board_type,b.adoption_number,b.adoption_hits,b.adoption_date,m.member_nickname,ceil(rownum/3) as page from(
-		select adoption_title,board_type,adoption_number,adoption_hits,to_char(adoption_date,'YYYY.MM.DD') as adoption_date,rownum
-		from board_adoption	where member_id = 'gonipal@naver.com' order by adoption_number desc
-	)b, hotdog_member m where m.member_id = 'gonipal@naver.com'
-) where page = '1';
-
-select board_type, abandoned_number, abandoned_title, member_nickname, abandoned_date, abandoned_hits,page from(
-			select board_type, abandoned_number, abandoned_title, member_nickname, abandoned_date, abandoned_hits,ceil(rownum/3) as page from(
-				select b.board_type, b.abandoned_number, b.abandoned_title, m.member_nickname, b.abandoned_date, b.abandoned_hits,rownum from(
-					select distinct(board_number) from board_abandoned_comment where member_nickname = '핫도그'
-				)c, board_abandoned b, hotdog_member m where c.board_number = b.abandoned_number and b.member_id = m.member_id order by board_number desc
-			)
-		) where page = '2';
 	
-update hotdog_member set member_attendance = '9' where member_id = 'gonipal1@gmail.com';
-update hotdog_member set member_grade = 'BRONZE' where member_id = 'baba9024@gmail.com';
-update hotdog_member set member_grade = 'GOLD' where member_id = 'baba9024@gmail.com';
+update hotdog_member set member_attendance = '9' where member_id = 'gonipal@naver.com';
+update hotdog_member set member_grade = 'SILVER' where member_id = 'gonipal@naver.com';
+update hotdog_member set member_grade = 'GOLD' where member_id = 'dbtn751@gmail.com';
 update hotdog_member set member_latestdate = '20151214' where member_id = 'gonipal1@gmail.com';
 update hotdog_member set member_grade = 'GOLD';
-update hotdog_member set member_grade = 'ADMIN' where member_id = 'gonipal@naver.com';
+update hotdog_member set member_grade = 'ADMIN' where member_id = 'rhslvkf@gmail.com';
 select * from hotdog_member where member_id = 'gonipal@naver.com';
-select petpicture_number, petpicture_title, petpicture_content from board_petpicture where rownum < 13 order by petpicture_number desc;
-select petpicture_number, petpicture_title, petpicture_content from board_petpicture where 13 > rownum order by petpicture_number desc
-select * from hotdog_member;
-select * from board_abandoned_comment;
-select b.petpicture_number, b.petpicture_title, f.file_name as file_name from(
-	select petpicture_number, petpicture_title from board_petpicture 
-)b, board_petpicture_file f where b.petpicture_number = f.board_number;
-SELECT petpicture_number, petpicture_title, file_name
-    FROM(
-    select b.petpicture_number, b.petpicture_title, f.file_name as file_name from(
-	select petpicture_number, petpicture_title from board_petpicture 
-	)b, board_petpicture_file f where b.petpicture_number = f.board_number
-    ) bp
-    WHERE ROWID IN(SELECT MAX(ROWID) FROM (
-    select b.petpicture_number, b.petpicture_title, f.file_name as file_name from(
-	select petpicture_number, petpicture_title from board_petpicture 
-	)b, board_petpicture_file f where b.petpicture_number = f.board_number
-    ) WHERE petpicture_number = bp.petpicture_number) order by petpicture_number desc
-    GROUP BY petpicture_number;
-    
-SELECT petpicture_number, petpicture_title, file_name
-    FROM(
-    	select b.petpicture_number, b.petpicture_title, f.file_name as file_name from(
-			select petpicture_number, petpicture_title from board_petpicture 
-		)b, board_petpicture_file f where b.petpicture_number = f.board_number
-    ) bp
-    WHERE ROWID IN(SELECT MAX(ROWID) FROM(
-    	select b.petpicture_number, b.petpicture_title, f.file_name as file_name from(
-			select petpicture_number, petpicture_title from board_petpicture 
-		)b, board_petpicture_file f where b.petpicture_number = f.board_number
-    ) WHERE petpicture_number = bp.petpicture_number)
-    GROUP BY BOARD_SEQ
-    
-select b.board_type, b.community_number, b.community_title, m.member_nickname, b.community_date, b.community_hits from(
-	select distinct(board_number) from board_community_comment where member_nickname = '핫도그'
-)c, board_community b, hotdog_member m where c.board_number = b.community_number
-select * from board_community
-select * from board_community_comment
+update hotdog_member set member_latestdate = '20151219';
+
 -- 쪽지 테이블 만들기!!!
 create table message_box(
 	sender varchar2(30) not null,
@@ -108,11 +27,13 @@ drop table board_adoption_comment;
 drop table board_community_comment;
 drop table board_petInfo_comment;
 drop table board_petPicture_comment;
+-- 댓글 시퀀스 드랍
+drop sequence abandoned_comment_seq;
+drop sequence adoption_comment_seq;
+drop sequence community_comment_seq;
+drop sequence petInfo_comment_seq;
+drop sequence petPicture_comment_seq;
 
-select member_id,member_name,member_password,member_nickname,member_grade,member_attendance,member_tel,member_status,member_latestdate,TO_DATE(sysdate)-TO_DATE(pass_period) as pass_period from hotdog_member
-		where member_id='baba9024@gmail.com' and member_password='!dkssud12'
-		
-		select * from hotdog_member
 -- 테이블 전부 드랍시키고 다시 만들기!!!(content 타입 clob으로 변경, 제약조건 변경)
 drop table board_abandoned cascade constraints;
 drop table board_adoption cascade constraints;
@@ -121,9 +42,32 @@ drop table board_notice cascade constraints;
 drop table board_petInfo cascade constraints;
 drop table board_petPicture cascade constraints;
 drop table board_QnA cascade constraints;
+-- 게시판 시퀀스 드랍
+drop sequence abandoned_seq;
+drop sequence adoption_seq;
+drop sequence community_seq;
+drop sequence petInfo_seq;
+drop sequence petPicture_seq;
+
+-- 회원 드랍
 drop table hotdog_member cascade constraints
 
+-- 스크랩 드랍
+drop table board_abandoned_scrape;
+drop table board_adoption_scrape;
+drop table board_petinfo_scrape;
 
+-- 파일 드랍
+drop table board_abandoned_file; 
+drop table board_adoption_file;
+drop table board_community_file;
+drop table board_notice_file;
+drop table board_petinfo_file;
+drop table board_petpicture_file;
+drop table board_QnA_file;
+
+-- 쪽지 드랍
+drop table message_box;
 
 -- select, drop 모음    
 select * from hotdog_member;
@@ -180,47 +124,18 @@ drop table board_QnA_comment;
 -- 회원 테이블
 select * from hotdog_member
 
-
-delete from hotdog_member where member_id='nabkbk@naver.com'
-
-
-
-		insert into
-		hotdog_member(member_id,member_name,member_password,member_nickname,member_grade,member_tel,member_status)
-		values('nabkbk@naver.com','김보규','1111','김보규','GOLD','01040897835','active')
-
-
-
 create table hotdog_member(
 	member_id varchar2(100) primary key,
 	member_name varchar2(100) not null,
 	member_password varchar2(100) not null,
 	member_nickname varchar2(100) not null,
-	member_grade varchar2(100) not null,
+	member_grade varchar2(100) default 'NULL',
 	member_attendance number default 0,
 	member_tel varchar2(100) not null,
 	member_status varchar2(100) not null,
 	member_latestdate varchar2(100) default '0',
 	pass_period date default sysdate
 )
-drop table hotdog_member cascade constraints;
-alter table hotdog_member add(member_latestdate varchar2(100) default 0);
-alter table hotdog_member modify(member_attendance number default 0);
-alter table hotdog_member modify(member_grade varchar2(100) default 'NULL');
--- number는 0으로 시작하는 숫자를 입력할 수 없으므로 varchar2로 변경
-alter table hotdog_member modify(member_tel varchar2(100));
--- 회원 가입시 default grade를 줌
-alter table hotdog_member modify(member_grade varchar2(100));
--- 회원 상태 표시
-alter table hotdog_member add(member_status varchar2(100));
-
-
-alter table hotdog_member modify(member_tel varchar2(100) default ,not null);
-
-select member_id,member_name,member_password,member_nickname,member_grade,member_attendance,member_tel,member_status,member_latestdate,TO_DATE(sysdate)-TO_DATE(pass_period) as pass_period from hotdog_member
-		where member_id='hdtest104@yopmail.com'
-update member set address='성남' where id='jdbc';
-
 
 -- 유기견 테이블
 drop table pet;
@@ -325,6 +240,7 @@ create table board_notice(
 -- 공지사항 테이블 시퀀스
 
 create sequence notice_seq nocache;
+drop sequence notice_seq;
 
 -- 공지사항 파일 테이블
 drop table board_notice_file
@@ -593,6 +509,7 @@ alter table board_QnA add(QnA_relevel number not null); -- 답변글레벨 , 답
 -- Q&A 게시판 테이블 시퀀스
 
 create sequence QnA_seq nocache;
+drop sequence QnA_seq;
 
 -- Q&A 게시판 댓글 테이블
 drop table board_QnA_comment
@@ -611,7 +528,7 @@ create table board_QnA_comment(
 )
 
 -- Q&A 게시판 댓글 테이블 시퀀스
-
+drop sequence QnA_comment_seq;
 create sequence QnA_comment_seq nocache;
 
 -- Q&A 게시판 파일 테이블

@@ -96,6 +96,9 @@
     				return;
     			}
     		}
+    		$("#img0").attr("src", "");
+    		$("#img1").attr("src", "");
+    		$("#img2").attr("src", "");
     		$("#boardContentHidden").val($("#boardContent").html());
     		$("#write_form").submit();
     	});

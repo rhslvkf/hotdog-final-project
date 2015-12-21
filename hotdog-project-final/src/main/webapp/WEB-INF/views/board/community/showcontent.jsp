@@ -4,6 +4,31 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
     <script type="text/javascript">
     $(document).ready(function(){
+    	if($("#img0").length != 0){
+    		$("#img0").attr("src","${initParam.root}upload/${requestScope.bvo.fileNameList[0]}");
+    		if($("#img1").length != 0){
+    			$("#img1").attr("src","${initParam.root}upload/${requestScope.bvo.fileNameList[1]}");
+    			if($("#img2").length != 0){
+    				$("#img2").attr("src","${initParam.root}upload/${requestScope.bvo.fileNameList[2]}");
+    			}
+    		}else{
+    			if($("#img2").length != 0){
+    				$("#img2").attr("src","${initParam.root}upload/${requestScope.bvo.fileNameList[1]}");
+    			}
+    		}
+    	}else{
+    		if($("#img1").length != 0){
+    			$("#img1").attr("src","${initParam.root}upload/${requestScope.bvo.fileNameList[0]}");
+    			if($("#img2").length != 0){
+    				$("#img2").attr("src","${initParam.root}upload/${requestScope.bvo.fileNameList[1]}");
+    			}
+    		}else{
+    			if($("#img2").length != 0){
+    				$("#img2").attr("src","${initParam.root}upload/${requestScope.bvo.fileNameList[0]}");
+    			}
+    		}
+    	}
+    	
     	$("#listImg").click(function(){    		
     		location.href = "${initParam.root}getPostingList.do?type=board_community";
     	});

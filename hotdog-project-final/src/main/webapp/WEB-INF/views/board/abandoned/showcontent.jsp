@@ -250,23 +250,29 @@ function SendMessage(){
 				dataType : "json",
 				success : function(data) {
 					 $.each(data, function(i, value) {
-						 
-						indent=value.commentIndent;
-						var attach="";
-						for(var i = 0 ; i<indent;i++){
-							attach+=" &nbsp; &nbsp; ";
-						}
-						if(indent!=0){
-							attach+="<img src='${initParam.root }img/reply.jpg'></img>";
-						}
-						comment = attach + value.commentContent;
-						 var commentParentText = 
-										'<tr id="r1" name="commentParentCode">'+
-										'<td colspan=2>'+
-				                    	"<a style='display: none;' id='commentNumber'>"+value.commentNumber+"</a>"+
-				                        '<strong>'+value.memberNickName+" "+value.commentDate+'</strong> '+' <a style="cursor:pointer;" name="pAdd">댓글</a> | <a style="cursor:pointer;" name="pDel">삭제</a><p>'+comment+'</p>'+
-				                        '</td>'+
-				                   		 '</tr>';
+		                   var flag='';
+		                     if(   '${sessionScope.loginVo.memberNickName }'==value.memberNickName){
+		                        flag='<strong>'+value.memberNickName+" "+value.commentDate+'</strong> '+' <a style="cursor:pointer;" name="pAdd">댓글</a> | <a style="cursor:pointer;" name="pDel">삭제</a><p>'+comment+'</p>';   
+		                     }else{
+		                        flag='<strong>'+value.memberNickName+" "+value.commentDate+'</strong> '+' <a style="cursor:pointer;" name="pAdd">댓글</a><p>'+comment+'</p>';
+		                                
+		                     }
+		                  indent=value.commentIndent;
+		                  var attach="";
+		                  for(var i = 0 ; i<indent;i++){
+		                     attach+=" &nbsp; &nbsp; ";
+		                  }
+		                  if(indent!=0){
+		                     attach+="<img src='${initParam.root }img/reply.jpg'></img>";
+		                  }
+		                  comment = attach + value.commentContent;
+		                   var commentParentText = 
+		                              '<tr id="r1" name="commentParentCode">'+
+		                              '<td colspan=2>'+
+		                                   "<a style='display: none;' id='commentNumber'>"+value.commentNumber+"</a>"+
+		                                    flag+
+		                                   '</td>'+
+		                                      '</tr>';
 						 if($('#commentTable').contents().size()==0){
                               $('#commentTable').append(commentParentText);
                  		   }else{
