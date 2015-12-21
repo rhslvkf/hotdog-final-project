@@ -291,25 +291,10 @@ function SendMessage(){
         </table>
       </div>
     </div>
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-	<form class="navbar-form navbar-left" role="search"
+		<br>
+	<form class="navbar-form navbar-left" role="search"           
 		action="${initParam.root}searchPosting.do">
 		<input type="hidden" name="type" value="board_community">
-		<br>
 		<div class="form-group">
 		<c:choose>
 			<c:when test="${sessionScope.loginVo !=null}">

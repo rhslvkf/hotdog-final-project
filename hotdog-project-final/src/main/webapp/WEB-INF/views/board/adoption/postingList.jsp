@@ -191,6 +191,7 @@ function SendMessage(){
               <th width="150">닉네임</th>
               <th width="150">작성일</th>
               <th width="100">조회수</th>
+              <!-- ADMIN(관리자)등급을 비교해서 관리자만 삭제할수있도록 -->
               <c:if test="${sessionScope.loginVo.memberGrade=='ADMIN' }">
               <th class="text-center" width="150">삭제</th>
               </c:if>
@@ -238,8 +239,7 @@ function SendMessage(){
 							<c:if test="${sessionScope.loginVo.memberGrade=='ADMIN'}">
 							<td class="text-center">   
 
-								<a
-									href="auth_deletePosting.do?no=${bvo.boardNumber }&type=board_adoption" onclick="return confirm('삭제하시겠습니까?')"
+								<a href="auth_deletePosting.do?no=${bvo.boardNumber }&type=board_adoption" onclick="return confirm('삭제하시겠습니까?')"
 									class="btn btn-danger btn-xs"> <span
 									class="glyphicon glyphicon-remove"></span> 삭제
 								</a>

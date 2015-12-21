@@ -21,22 +21,12 @@
 
 .list { clear: both;width: 100%;border-collapse:collapse;margin:15px 0 0 0;}
 .list th {background:#6f6f6f;}
-.list td { border-bottom:1px solid #c7c7c7; font-size:11px;vertical-align:middle;color:#333333;padding:0 0px;text-align:center;padding:10px 0;}
+.list td { border-bottom:1px solid #c7c7c7; font-size:11px;vertical-align:middle;color:#333333;padding:60px 60px;text-align:center;padding:10px 30px;}
 .list a {color:#333333;}
 .list a:link    {color:#333333;}
 .list a:visited {color:#0080ff;}
 .list a:hover  {background:#FFE6E6;}
 .list a:active  {color:#333333;}
-
-.inputForm { clear: both;width: 100%;border-collapse:collapse;border:1px solid #e0e0e0;}
-.inputForm {background:#f9f9f9;border-left:1px solid #e0e0e0;border-top:1px solid #e0e0e0;padding:5px 10px;font-weight:normal !important;text-align:center !important;font-size:12px;}
-.inputForm td { border-left:1px solid #e0e0e0;border-top:1px solid #e0e0e0; height:29px;font-size:12px;vertical-align:middle;color:#979797;padding:5px 10px;background:#fff;}
-.inputForm a {color:#979797;}
-
-.content { clear: both;width: 100%;border-collapse:collapse;border:1px solid #e0e0e0;}
-.content {background:#f9f9f9;border-left:1px solid #e0e0e0;border-top:1px solid #e0e0e0;padding:5px 10px;font-weight:normal !important;text-align:left !important;font-size:12px;}
-.content td { border-left:1px solid #e0e0e0;border-top:1px solid #e0e0e0; height:29px;font-size:12px;vertical-align:middle;color:#979797;padding:5px 10px;background:#fff;}
-.content a {color:#979797;}
 
 
 
@@ -48,49 +38,7 @@
 	.list tbody tr {background:#ffffff;}  /* tbody 배경 색 */ 
 	.list tbody tr:hover {background:#cdec93;} /* 각 행에 마우스 커서를 올렸을 때 `배경 색 */
 
-	/* .list caption{font-size:15px; padding:5px; margin-bottom: 15px}
-	.list .no{
-		width: 10%;
-	}
-	.list .title{
-		width: 45%;
-	}
-	.list .name{
-		width: 15%;
-	}
-	.list .date{
-		width: 10%;
-	}
-	.list .hit{
-		width: 20%;
-	} */
-    /* 상세 게시물보기  */
-	table.content{	    
-		width:50%;
-		text-align: left; /* 가운데로 정렬 */			
-	}
-	.content caption{font-size:15px; padding:5px; margin-bottom: 15px}
-	.content th,td {padding:5px 10px} /* 상하 여백 5 좌우 여백 10 */
-	/* thead의 배경색과 폰트 색상, 오른쪽 경계선의 색상을 지정한다.  */
-	.content thead th {background:#ABC668; color:#fff; text-align:left; border-right:1px solid #fff}	
-	.content tbody tr {background:#f4ffee}  /*tbody 배경 색  */
-	/* .content tbody tr:hover {background:#F3F5BB} 각 행에 마우스 커서를 올렸을 때 배경 색  */
-	.content tfoot tr {border-top:6px solid #E9F7F6; color:#1BA6B2}
-	
-	/* 글쓰기 입력폼  */
-	table.inputForm{	    
-		width:50%;
-		text-align: center; /* 가운데로 정렬 */		
-	}
-	.inputForm caption{font-size:15px; padding:5px; margin-bottom: 15px}
-	.inputForm th,td {padding:5px 10px} /* 상하 여백 5 좌우 여백 10 */
-	/* thead의 배경색과 폰트 색상, 오른쪽 경계선의 색상을 지정한다.  */
-	.inputForm thead th {background:#ABC668; color:#fff; text-align:center; border-right:1px solid #fff; border-bottom:1px solid #fff}	
-	.inputForm tbody tr {background:#f9f9f9}  /*tbody 배경 색  */
-	/* .inputForm tbody tr:hover {background:#F3F5BB} */ /* 각 행에 마우스 커서를 올렸을 때 배경 색  */
-	.inputForm tfoot tr {border-top:6px solid #E9F7F6; color:#1BA6B2}
-	
-	.inputForm 
+
 	
 	
 	p.paging{
@@ -114,42 +62,7 @@
 		width:110%;
 		text-align: center;
 	}
-	
-/* body, td, p, input, button, textarea, select, .c1 { font-family:Tahoma,援대┝; font-size:9pt; color:#222222; }
 
-form { margin:0px; }
-
-img {border:0px;}
-
-a:link, a:visited, a:active { text-decoration:none; color:#466C8A; }
-a:hover { text-decoration:underline; }
-
-a.menu:link, a.menu:visited, a.menu:active { text-decoration:none; color:#454545; }
-a.menu:hover { text-decoration:none; }
-
-.member {font-weight:bold;color:#888888;}
-.guest  {font-weight:normal;color:#888888;}
-
-.lh { line-height: 150%; }
-.jt { text-align:justify; }
-
-.li { font-weight:bold; font-size:18px; vertical-align:-4px; color:#66AEAD; }
-
-.ul { list-style-type:square; color:#66AEAD; }
-
-.ct { font-family: Verdana, 援대┝; color:#222222; } 
-
-.ed { border:1px solid #CCCCCC; } 
-.tx { border:1px solid #CCCCCC; } 
-
-.small { font-size:8pt; font-family:�뗭�; }
-.cloudy, a.cloudy {color:#888888;} �먮┝
-
-input.ed { height:20px; border:1px solid #9A9A9A; border-right:1px solid #D8D8D8; border-bottom:1px solid #D8D8D8; padding:3px 2px 0 2px; }
-input.ed_password { height:20px; border:1px solid #9A9A9A; border-right:1px solid #D8D8D8; border-bottom:1px solid #D8D8D8; padding:3px 2px 0 2px; font:10px Tahoma; }
-textarea.tx { border:1px solid #9A9A9A; border-right:1px solid #D8D8D8; border-bottom:1px solid #D8D8D8; padding:2px; }
-	 */
-	
 	
 	.memberInfo{
 		font-size: 12px;
@@ -180,11 +93,6 @@ textarea.tx { border:1px solid #9A9A9A; border-right:1px solid #D8D8D8; border-b
 	
 		.showListPosting tr:hover {background:#cdec93;} /* 각 행에 마우스 커서를 올렸을 때 배경 색 */
 	
-	
-
-	
-	
-	
 	#highlightimg{
 	 width: 100px;
 	 height: 180px;
@@ -205,4 +113,8 @@ textarea.tx { border:1px solid #9A9A9A; border-right:1px solid #D8D8D8; border-b
 	.messageList th{
 		text-align: center;
 	}
+	.list  td:nth-child(2){
+		text-align: left;
+	}
+
 	

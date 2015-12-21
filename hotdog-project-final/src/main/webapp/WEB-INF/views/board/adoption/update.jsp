@@ -4,6 +4,9 @@
     <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
         <script type="text/javascript">
         $(document).ready(function(){
+        	
+        	//수정시 그 글에 사용자가 선택한값을 라디오버튼에 찍히게 하기
+        	
           	if(${requestScope.bvo.petVO.petGender=="수컷"}){
                 $("input:radio[id='petGender1']").prop("checked", true);
         	}else{
@@ -24,11 +27,14 @@
           		$("input:radio[id='petSize3']").prop("checked", true);
           	}
            	
+          	//수정시 그 글 에대한 값을 셀렉트박스에 찍히게하기
           	
           	$("#residence").val("${requestScope.bvo.residence}");
           	$("#petType").val("${requestScope.bvo.petVO.petType}");
           	$("#petAge").val("${requestScope.bvo.petVO.petAge}");
 			
+          	
+          	
           	var file0 = document.querySelector('#file0');
         	var file1 = document.querySelector('#file1');
         	var file2 = document.querySelector('#file2');

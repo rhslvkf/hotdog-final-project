@@ -77,15 +77,19 @@
 				alert("성별을 선택해주세요!");
 				return;
 			}
-			
+			// 라디오버튼 유효성 검사(라디오버튼을 아무것도 선택하지 않을시 유효성검사)
 			if ($(':radio[name="petGender"]:checked').length < 1){
 				alert("성별을 선택해주세요!");
 				return;
 			}
+			
+			// 라디오버튼 유효성 검사(라디오버튼을 아무것도 선택하지 않을시 유효성검사)
 			if ($(':radio[name="petNeutralInfo"]:checked').length < 1){
 				alert("중성화여부를 선택해주세요!");
 				return;
 			}
+			
+			// 라디오버튼 유효성 검사(라디오버튼을 아무것도 선택하지 않을시 유효성검사)
 			if ($(':radio[name="petSize"]:checked').length < 1){
 				alert("애견크기를 선택해주세요!");
 				return;
@@ -244,10 +248,6 @@
 					</label>
 					</td>
                     </tr>
-                        
-
-
-					
 					<tr><td colspan="4">
 								<div class="form-group">
 
@@ -270,10 +270,8 @@
 				    <font color="red">* 이미지 파일만 업로드 가능합니다.<br>
 				    * 용량 제한은 5MB입니다.</font> 
 				  </div>
-
                 </div>                
-                
-                
+
 			<div class="modal-footer">
 				<ul class="nav navbar-nav navbar-left">
 					<li>

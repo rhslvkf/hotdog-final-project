@@ -26,7 +26,6 @@
 	<link rel="stylesheet" type="text/css" href="${initParam.root}css/board1.css">
 	<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" /> -->
 	<link href="http://getbootstrap.com/assets/css/docs.min.css" rel="stylesheet" />
-<title></title>
 <script type="text/javascript">
 
 //회원 가입 완료시 controller에서 보내준 request 값을 받아오기 위한 javascript
