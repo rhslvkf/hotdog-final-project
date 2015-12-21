@@ -60,7 +60,7 @@ function allLayerClose(idx,length,flag) {
      <h1>유기견분양</h1>
     <div class="showListPosting">
       <div class="col-md-12">
-        <table class="list">
+        <table class="list1">
           <thead>
             <tr>
               <th width="80">번 호</th>
@@ -131,22 +131,7 @@ function allLayerClose(idx,length,flag) {
     </div>
     
     
-    
-    	 <style>
-      .custab{
-          border: 1px solid #ccc;
-          padding: 5px;
-          margin: 5% 0;
-          box-shadow: 3px 3px 2px #ccc;
-          transition: 0.5s;
-          }
-      .custab:hover{
-          box-shadow: 3px 3px 0px transparent;
-          transition: 0.5s;
-          }
-    </style>
-    
-    
+
     
     
     

@@ -4,16 +4,21 @@
     <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
         <script type="text/javascript">
         $(document).ready(function(){
+        	
+        	//수정시 그 글에 사용자가 선택한값을 라디오버튼에 찍히게 하기
+        	
           	if(${requestScope.bvo.petVO.petGender=="수컷"}){
                 $("input:radio[id='petGender1']").prop("checked", true);
         	}else{
         		$("input:radio[id='petGender2']").prop("checked", true);
         	}
+          	
           	if(${requestScope.bvo.petVO.petNeutralInfo=="예"}){
                 $("input:radio[id='petNeutralInfo1']").prop("checked", true);
           	}else{
         		$("input:radio[id='petNeutralInfo2']").prop("checked", true);
           	}
+          	
           	if(${requestScope.bvo.petVO.petSize=="소형"}){
                 $("input:radio[id='petSize1']").prop("checked", true);
           	}else if(${requestScope.bvo.petVO.petSize=="중형"}){
@@ -21,10 +26,15 @@
           	}else{
           		$("input:radio[id='petSize3']").prop("checked", true);
           	}
-          	        	
+           	
+          	//수정시 그 글 에대한 값을 셀렉트박스에 찍히게하기
+          	
+          	$("#residence").val("${requestScope.bvo.residence}");
+          	$("#petType").val("${requestScope.bvo.petVO.petType}");
+          	$("#petAge").val("${requestScope.bvo.petVO.petAge}");
+			
           	
           	
-         
           	var file0 = document.querySelector('#file0');
         	var file1 = document.querySelector('#file1');
         	var file2 = document.querySelector('#file2');
@@ -257,7 +267,7 @@
 			</select>
 		</td>
 		<td>애견종류 : 
-				<select class="selectpicker" data-style="btn-info" name="petType">
+				<select class="selectpicker" data-style="btn-info" id="petType" name="petType">
 				<option value="삽살개">삽살개</option>
 				<option value="진돗개">진돗개</option>
 				<option value="풍산개">풍산개</option>
@@ -267,7 +277,7 @@
                         </tr>
                         <tr>
 		<td>애견나이 : 
-				<select class="selectpicker" data-style="btn-info" name="petAge">
+				<select class="selectpicker" data-style="btn-info" id="petAge" name="petAge">
 				<c:forEach var="i" begin="1" end="15">
 				<option value="${i}">${i}</option>
 			    </c:forEach>
@@ -278,16 +288,18 @@
 					성별 :
 					<label class="radio-inline"> <input type="radio"
 						name="petGender" id="petGender1" value="수컷">수컷
-						 <label class="radio-inline"> <input type="radio"
-						name="petGender" id="petGender2" value="암컷">암컷
+						 
 					</label>
+					<label class="radio-inline"> <input type="radio"
+						name="petGender" id="petGender2" value="암컷">암컷
 					</label>
 		</td>
 		<td>중성화여부 : 	<label class="radio-inline"> <input type="radio"
 						name="petNeutralInfo" id="petNeutralInfo1" value="예">예
-						<label class="radio-inline"> <input type="radio"
-						name="petNeutralInfo" id="petNeutralInfo2" value="아니오">아니오
+						
 					</label>
+					<label class="radio-inline"> <input type="radio"
+						name="petNeutralInfo" id="petNeutralInfo2" value="아니오">아니오
 					</label> 
 		</td>
                         </tr>

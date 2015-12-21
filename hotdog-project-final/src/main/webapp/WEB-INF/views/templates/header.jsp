@@ -1854,7 +1854,7 @@ body {
 					
 					<div class="form-group">
 						<div class="col-sm-2">
-							<label for="inputEmail3" class="control-label">아이디</label>
+							<label class="control-label">아이디</label>
 						</div>
 						<div class="col-sm-10">
 							<input type="email" class="form-control" id="loginMemId"
@@ -1864,7 +1864,7 @@ body {
 					</div>
 					<div class="form-group">
 						<div class="col-sm-2">
-							<label for="inputPassword3" class="control-label">비밀번호</label>
+							<label class="control-label">비밀번호</label>
 						</div>
 						<div class="col-sm-10">
 							<input type="password" class="form-control" id="loginMemPass"
@@ -1927,7 +1927,7 @@ body {
 
 
 							<div class="col-sm-2">
-								<label for="inputEmail3" class="control-label">아이디</label>
+								<label class="control-label">아이디</label>
 							</div>
 							<div class="col-sm-10">
 								<input type="email" class="form-control" name="memberId"
@@ -1941,7 +1941,7 @@ body {
 
 						<div class="form-group">
 							<div class="col-sm-2">
-								<label for="inputPassword3" class="control-label">비밀번호</label>
+								<label class="control-label">비밀번호</label>
 							</div>
 							<div class="col-sm-10">
 								<input type="password" class="form-control"
@@ -1953,7 +1953,7 @@ body {
 
 						<div class="form-group">
 							<div class="col-sm-2">
-								<label for="inputPassword3" class="control-label"></label>
+								<label class="control-label"></label>
 							</div>
 							<div class="col-sm-10">
 								<input type="password" class="form-control"
@@ -1965,7 +1965,7 @@ body {
 
 						<div class="form-group">
 							<div class="col-sm-2">
-								<label for="inputEmail3" class="control-label">이름</label>
+								<label class="control-label">이름</label>
 							</div>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" name="memberName"
@@ -1975,7 +1975,7 @@ body {
 						</div>
 						<div class="form-group">
 							<div class="col-sm-2">
-								<label for="inputEmail3" class="control-label">별명</label>
+								<label class="control-label">별명</label>
 							</div>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" name="memberNickName"
@@ -1989,7 +1989,7 @@ body {
 						</div>
 						<div class="form-group">
 							<div class="col-sm-2">
-								<label for="inputEmail3" class="control-label">전화번호</label>
+								<label class="control-label">전화번호</label>
 							</div>
 							<div class="col-sm-10">
 								<input type="tel" class="form-control" name="memberTel"
@@ -2030,7 +2030,7 @@ body {
 					name="loginForm" method="post">
 					<div class="form-group">
 						<div class="col-sm-2">
-							<label for="inputEmail3" class="control-label">아이디</label>
+							<label class="control-label">아이디</label>
 						</div>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="loginMemId"
@@ -2039,7 +2039,7 @@ body {
 					</div>
 					<div class="form-group">
 						<div class="col-sm-2">
-							<label for="inputPassword3" class="control-label">이름</label>
+							<label class="control-label">이름</label>
 						</div>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="loginMemPass"
@@ -2083,7 +2083,7 @@ body {
 					<!-- 아이디 -->
 					<div class="form-group">
 						<div class="col-sm-2">
-							<label for="inputEmail3" class="control-label">아이디</label>
+							<label class="control-label">아이디</label>
 						</div>
 						<div class="col-sm-10">
 							<input type="email" class="form-control" id="inputEmail3"
@@ -2095,7 +2095,7 @@ body {
 					<!-- 비밀번호  -->
 					<div class="form-group">
 						<div class="col-sm-2">
-							<label for="inputPassword3" class="control-label">비밀번호</label>
+							<label class="control-label">비밀번호</label>
 						</div>
 						<div class="col-sm-10">
 							<input type="password" name="memberPassword" class="form-control"
@@ -2108,7 +2108,7 @@ body {
 					<!-- 비밀번호확인 -->
 					<div class="form-group">
 						<div class="col-sm-2">
-							<label for="inputPassword3" class="control-label"></label>
+							<label class="control-label"></label>
 						</div>
 						<div class="col-sm-10">
 							<input type="password" class="form-control"
@@ -2121,7 +2121,7 @@ body {
 					<!-- 이름 -->
 					<div class="form-group">
 						<div class="col-sm-2">
-							<label for="inputEmail3" class="control-label">이름</label>
+							<label class="control-label">이름</label>
 						</div>
 						<div class="col-sm-10">
 							<input type="text" name="memberName" class="form-control"
@@ -2137,7 +2137,7 @@ body {
 					<!-- 별명 -->
 					<div class="form-group">
 						<div class="col-sm-2">
-							<label for="inputEmail3" class="control-label">별명</label>
+							<label class="control-label">별명</label>
 						</div>
 						<div class="col-sm-10">
 							<input type="text" name="memberNickName" class="form-control"
@@ -2154,7 +2154,7 @@ body {
 					<!-- 전화번호 -->
 					<div class="form-group">
 						<div class="col-sm-2">
-							<label for="inputEmail3" class="control-label">전화번호</label>
+							<label class="control-label">전화번호</label>
 						</div>
 						<div class="col-sm-10">
 							<input type="text" name="memberTel" class="form-control"
@@ -2199,7 +2199,7 @@ body {
 					<!-- 아이디 -->
 					<div class="form-group">
 						<div class="col-sm-2">
-							<label for="inputEmail3" class="control-label">아이디</label>
+							<label class="control-label">아이디</label>
 						</div>
 						<div class="col-sm-10">
 							<input type="email" class="form-control" id="deleteMemId"
@@ -2211,7 +2211,7 @@ body {
 					<!-- 비밀번호  -->
 					<div class="form-group">
 						<div class="col-sm-2">
-							<label for="inputPassword3" class="control-label">비밀번호</label>
+							<label class="control-label">비밀번호</label>
 						</div>
 						<div class="col-sm-10">
 							<input type="password" name="memberPassword" class="form-control"
@@ -2223,7 +2223,7 @@ body {
 					<!-- 비밀번호확인 -->
 					<div class="form-group">
 						<div class="col-sm-2">
-							<label for="inputPassword3" class="control-label"></label>
+							<label class="control-label"></label>
 						</div>
 						<div class="col-sm-10">
 							<input type="password" class="form-control"
@@ -2414,9 +2414,7 @@ body {
 				<div id="ListName"><h1></h1></div>
 				
 				<div id="listMessage"></div>
-			<!-- 	<ul class="list-group">
-					<li class="list-group-item">도리도르</li>
-				</ul> -->
+
 			</div>
 			<div class="modal-footer">
 				<ul class="nav navbar-nav navbar-right">

@@ -72,18 +72,29 @@
 				$("#boardTitle").focus();
 				return;
 			}
+			
 			if ($("#petGender").val() == "") {
 				alert("성별을 선택해주세요!");
 				return;
 			}
-			if ($("#petNeutralInfo").val() == "") {
+			// 라디오버튼 유효성 검사(라디오버튼을 아무것도 선택하지 않을시 유효성검사)
+			if ($(':radio[name="petGender"]:checked').length < 1){
+				alert("성별을 선택해주세요!");
+				return;
+			}
+			
+			// 라디오버튼 유효성 검사(라디오버튼을 아무것도 선택하지 않을시 유효성검사)
+			if ($(':radio[name="petNeutralInfo"]:checked').length < 1){
 				alert("중성화여부를 선택해주세요!");
 				return;
 			}
-			if ($("#petSize").val() == "") {
+			
+			// 라디오버튼 유효성 검사(라디오버튼을 아무것도 선택하지 않을시 유효성검사)
+			if ($(':radio[name="petSize"]:checked').length < 1){
 				alert("애견크기를 선택해주세요!");
 				return;
 			}
+			
 			if ($("#boardContent").text() == "") {
 				alert("글 내용을 입력하세요!");
 				$("#boardContent").focus();
@@ -166,21 +177,7 @@
 </script>
 <br>
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 <form id="write_form" method=post action="${initParam.root}auth_posting.do?type=board_adoption" enctype="multipart/form-data">
  <div class="section text-left">
       <div class="container">
@@ -200,7 +197,7 @@
                         </tr>
                         <tr >
                         <td colspan="1">거주지역 : 			
-				<select class="selectpicker" data-style="btn-info" name="residence">
+				<select class="selectpicker" data-style="btn-info" name="residence" id="residence">
 				<option value="서울">서울</option>
 				<option value="경기도">경기도</option>
 				<option value="강원도">강원도</option>
@@ -211,7 +208,7 @@
 
 				</td>
                         <td colspan="1">애견종류 : 
-                <select class="selectpicker" data-style="btn-info" name="petType">
+                <select class="selectpicker" data-style="btn-info" name="petType" id="petType">
 				<option value="삽살개">삽살개</option>
 				<option value="진돗개">진돗개</option>
 				<option value="풍산개">풍산개</option>
@@ -219,7 +216,7 @@
 			</select>
                         </td>
                         <td colspan="1">애견나이 :
-                 <select class="selectpicker" data-style="btn-info" name="petAge">
+                 <select class="selectpicker" data-style="btn-info" name="petAge" id="petAge">
 				<c:forEach var="i" begin="1" end="15">
 				<option value="${i}">${i}</option>
 			    </c:forEach>
@@ -250,11 +247,7 @@
 						name="petSize" id="petSize" value="대형">대형
 					</label>
 					</td>
-                        </tr>
-                        
-
-
-					
+                    </tr>
 					<tr><td colspan="4">
 								<div class="form-group">
 
@@ -277,23 +270,19 @@
 				    <font color="red">* 이미지 파일만 업로드 가능합니다.<br>
 				    * 용량 제한은 5MB입니다.</font> 
 				  </div>
-
                 </div>                
-                
-                
+
 			<div class="modal-footer">
 				<ul class="nav navbar-nav navbar-left">
 					<li>
 					
 					<a id="writeBtn" class="action">글쓰기</a></li>
 										<li><a id="resetBtn" class="action">닫기</a></li>
-					
-					
 				</ul>
 			</div>
-</div>
+			</div>
             </div>
         </div>
       </div>
-              </div>
+     </div>
 </form>
