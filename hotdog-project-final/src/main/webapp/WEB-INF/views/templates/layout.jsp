@@ -56,7 +56,9 @@ var passfailcount=0;
 		alert("이미 이메일 인증을 완료하셨습니다.");
 		location.href = "home.do";
 	}else if("${requestScope.result.certification}" == "no"){
-		if(confirm("이메일 인증을 하셔야 로그인하실 수 있습니다.\n이메일 인증을 위해 해당 도메인으로 이동하시겠습니까?\n(이동시 인증 이메일이 재전송됩니다.)")){
+		if(confirm("이메일 인증을 하셔야 로그인하실 수 있습니다."+
+				"\n이메일 인증을 위해 해당 도메인으로 이동하시겠습니까?"+
+				"\n(이동시 인증 이메일이 재전송됩니다.)")){
 			location.href="http://"+request.getParameter("domain");
 		}else{
 			location.href = "home.do";	
@@ -68,11 +70,13 @@ var passfailcount=0;
 		alert("해당하는 아이디가 없거나 아이디와 이름이 일치하지 않습니다.");
 		location.href = "home.do";
 	}else if("${requestScope.result.register}" == "success"){
-		if(confirm("회원가입이 완료되었습니다.\n\n이메일 인증을 하셔야 로그인 가능합니다.\n이메일 인증 페이지로 이동하시겠습니까?")){
+		if(confirm("회원가입이 완료되었습니다.\n\n이메일 인증을 하셔야 로그인 가능합니다."+
+				"\n이메일 인증 페이지로 이동하시겠습니까?")){
 			location.href="http://"+request.getParameter("domain");
 		}else{
 			location.href="home.do";
-		}//회원 가입 완료 팝업에서 ok시 입력한 이메일 홈페이지로 이동
+		}
+		//회원 가입 완료 팝업에서 ok시 입력한 이메일 홈페이지로 이동
 	}else if("${requestScope.result.update}" == "success"){
 		alert("회원 정보 수정되었습니다.");
 		location.href = "home.do";

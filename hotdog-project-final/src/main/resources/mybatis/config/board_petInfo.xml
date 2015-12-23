@@ -73,33 +73,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="searchPostingByTitle"  resultMap="boardRM">
-		select b.petInfo_number,b.petInfo_title,b.petInfo_date,b.petInfo_hits,b.member_id,m.member_nickname from(
-			select petInfo_number,petInfo_title,petInfo_date,petInfo_hits,ceil(rownum/8) as page,member_id from(
-				select petInfo_number,petInfo_title,to_char(petInfo_date,'YYYY.MM.DD') as petInfo_date,
-				petInfo_hits,member_id from(
-				select * from board_petInfo where petInfo_title like '%' || #{word} || '%' order by petInfo_number desc
+		select petinfo_content, b.petinfo_number,b.petinfo_title,b.petinfo_date,b.petinfo_hits,b.member_id,m.member_nickname from(
+			select petinfo_content, petinfo_number,petinfo_title,petinfo_date,petinfo_hits,ceil(rownum/8) as page,member_id from(
+				select petinfo_content, petinfo_number,petinfo_title,to_char(petinfo_date,'YYYY.MM.DD') as petinfo_date, petinfo_hits,member_id from(
+					select * from board_petinfo where petinfo_title like '%' || #{word} || '%' order by petinfo_number desc
 				)
 			)
 		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
 	</select>
 	
 	<select id="searchPostingByContent" resultMap="boardRM">
-		select b.petInfo_number,b.petInfo_title,b.petInfo_date,b.petInfo_hits,b.member_id,m.member_nickname from(
-			select petInfo_content,petInfo_number,petInfo_title,petInfo_date,petInfo_hits,ceil(rownum/8) as page,member_id from(
-				select petInfo_content,petInfo_number,petInfo_title,to_char(petInfo_date,'YYYY.MM.DD') as petInfo_date,
-				petInfo_hits,member_id from(
-				select * from board_petInfo where petInfo_content like '%' || #{word} || '%' order by petInfo_number desc
+		select b.petinfo_content,b.petinfo_number,b.petinfo_title,b.petinfo_date,b.petinfo_hits,b.member_id,m.member_nickname from(
+			select petinfo_content,petinfo_number,petinfo_title,petinfo_date,petinfo_hits,ceil(rownum/8) as page,member_id from(
+				select petinfo_content,petinfo_number,petinfo_title,to_char(petinfo_date,'YYYY.MM.DD') as petinfo_date, petinfo_hits,member_id from(
+					select * from board_petinfo where petinfo_content like '%' || #{word} || '%' order by petinfo_number desc
 				)
 			)
 		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
 	</select>
 	
 	<select id="searchPostingByNickName" resultMap="boardRM">
-		select b.petInfo_number,b.petInfo_title,b.petInfo_date,b.petInfo_hits,b.member_id,m.member_nickname from(
-			select petInfo_content,petInfo_number,petInfo_title,petInfo_date,petInfo_hits,ceil(rownum/8) as page,member_id,member_nickname from(
-				select petInfo_content,petInfo_number,petInfo_title,to_char(petInfo_date,'YYYY.MM.DD') as petInfo_date,petInfo_hits,member_id,member_nickname from(
-						select petInfo_content,petInfo_number,petInfo_title,petInfo_date,petInfo_hits,m.member_id,m.member_nickname from(
-							select * from board_petInfo b, hotdog_member m where b.member_id = m.member_id order by petInfo_number desc
+		select b.petinfo_content,b.petinfo_number,b.petinfo_title,b.petinfo_date,b.petinfo_hits,b.member_id,m.member_nickname from(
+			select petinfo_content,petinfo_number,petinfo_title,petinfo_date,petinfo_hits,ceil(rownum/8) as page,member_id,member_nickname from(
+				select petinfo_content,petinfo_number,petinfo_title,to_char(petinfo_date,'YYYY.MM.DD') as petinfo_date,petinfo_hits,member_id,member_nickname from(
+						select petinfo_content,petinfo_number,petinfo_title,petinfo_date,petinfo_hits,m.member_id,m.member_nickname from(
+							select * from board_petinfo b, hotdog_member m where b.member_id = m.member_id order by petinfo_number desc
 						)b, hotdog_member m where m.member_nickname like '%' || #{word} || '%' 
 				)
 			)

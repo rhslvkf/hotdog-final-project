@@ -105,6 +105,7 @@ public class BoardServiceImpl implements BoardService{
 		}
 		PagingBean paging=new PagingBean(total,Integer.parseInt(pageNo));
 		for(int i=0;i<list.size();i++){
+			System.out.println(list.get(i));
 			if(list.get(i).getBoardContent().contains("data:image")){
 				list.get(i).setFileName(list.get(i).getBoardContent().substring(list.get(i).getBoardContent().indexOf("data:image"), list.get(i).getBoardContent().indexOf("\">")));
 			}

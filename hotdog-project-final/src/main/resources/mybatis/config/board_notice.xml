@@ -75,29 +75,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="searchPostingByTitle"  resultMap="boardRM">
-		select b.notice_number,b.notice_title,b.notice_date,b.notice_hits,b.member_id,m.member_nickname from(
-			select notice_number,notice_title,notice_date,notice_hits,ceil(rownum/8) as page,member_id from(
-				select notice_number,notice_title,to_char(notice_date,'YYYY.MM.DD') as notice_date,
-				notice_hits,member_id from(
-				select * from board_notice where notice_title like '%' || #{word} || '%' order by notice_number desc
+		select notice_content, b.notice_number,b.notice_title,b.notice_date,b.notice_hits,b.member_id,m.member_nickname from(
+			select notice_content, notice_number,notice_title,notice_date,notice_hits,ceil(rownum/8) as page,member_id from(
+				select notice_content, notice_number,notice_title,to_char(notice_date,'YYYY.MM.DD') as notice_date, notice_hits,member_id from(
+					select * from board_notice where notice_title like '%' || #{word} || '%' order by notice_number desc
 				)
 			)
 		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
 	</select>
 	
 	<select id="searchPostingByContent" resultMap="boardRM">
-		select b.notice_number,b.notice_title,b.notice_date,b.notice_hits,b.member_id,m.member_nickname from(
+		select b.notice_content,b.notice_number,b.notice_title,b.notice_date,b.notice_hits,b.member_id,m.member_nickname from(
 			select notice_content,notice_number,notice_title,notice_date,notice_hits,ceil(rownum/8) as page,member_id from(
-				select notice_content,notice_number,notice_title,to_char(notice_date,'YYYY.MM.DD') as notice_date,
-				notice_hits,member_id from(
-				select * from board_notice where notice_content like '%' || #{word} || '%' order by notice_number desc
+				select notice_content,notice_number,notice_title,to_char(notice_date,'YYYY.MM.DD') as notice_date, notice_hits,member_id from(
+					select * from board_notice where notice_content like '%' || #{word} || '%' order by notice_number desc
 				)
 			)
 		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
 	</select>
 	
 	<select id="searchPostingByNickName" resultMap="boardRM">
-		select b.notice_number,b.notice_title,b.notice_date,b.notice_hits,b.member_id,m.member_nickname from(
+		select b.notice_content,b.notice_number,b.notice_title,b.notice_date,b.notice_hits,b.member_id,m.member_nickname from(
 			select notice_content,notice_number,notice_title,notice_date,notice_hits,ceil(rownum/8) as page,member_id,member_nickname from(
 				select notice_content,notice_number,notice_title,to_char(notice_date,'YYYY.MM.DD') as notice_date,notice_hits,member_id,member_nickname from(
 						select notice_content,notice_number,notice_title,notice_date,notice_hits,m.member_id,m.member_nickname from(

@@ -1,4 +1,12 @@
-	
+select b.community_number,b.community_title,b.community_date,b.community_hits,b.member_id,m.member_nickname from(
+			select community_number,community_title,community_date,community_hits,ceil(rownum/8) as page,member_id from(
+				select community_number,community_title,to_char(community_date,'YYYY.MM.DD') as community_date,
+				community_hits,member_id from(
+				select * from board_community where community_title like '%' || 'asd' || '%' order by community_number desc
+				)
+			)
+		) b,hotdog_member m where b.member_id=m.member_id and page='1'
+
 update hotdog_member set member_attendance = '9' where member_id = 'gonipal@naver.com';
 update hotdog_member set member_grade = 'SILVER' where member_id = 'gonipal@naver.com';
 update hotdog_member set member_grade = 'GOLD' where member_id = 'dbtn751@gmail.com';
