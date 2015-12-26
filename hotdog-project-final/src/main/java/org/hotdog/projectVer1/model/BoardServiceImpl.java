@@ -77,7 +77,8 @@ public class BoardServiceImpl implements BoardService{
 		List<BoardVO> list= boardDAO.getPostingList(pageNo, type);
 		for(int i=0;i<list.size();i++){
 			if(list.get(i).getBoardContent() != null && list.get(i).getBoardContent().contains("data:image")){
-				list.get(i).setFileName(list.get(i).getBoardContent().substring(list.get(i).getBoardContent().indexOf("data:image"), list.get(i).getBoardContent().indexOf("\">")));
+				list.get(i).setFileName(list.get(i).getBoardContent().substring(list.get(i).getBoardContent().indexOf("data:image"), 
+						list.get(i).getBoardContent().indexOf("\">")));
 			}
 		}
 		int total=boardDAO.totalContent(type);
