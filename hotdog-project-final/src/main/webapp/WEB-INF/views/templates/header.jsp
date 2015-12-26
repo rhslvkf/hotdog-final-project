@@ -1913,19 +1913,12 @@ body {
 			<div class="modal-header">
 				<h4 class="modal-title">개인정보이용약관</h4>
 				<div class="modal-body">
-					<form class="form-horizontal" role="form" id="regMemForm"
-						action="member_register.do">
+					<form class="form-horizontal" role="form" id="regMemForm" action="member_register.do">
 						<div class="form-group">
-							<pre>
-<textarea id="regAgreeArea" style="resize: none; wrap: hard;" rows="5"
-									cols="75" readonly>
-</textarea>
-</pre>
-
+							<pre><textarea id="regAgreeArea" style="resize: none; wrap: hard;" rows="5" cols="75" readonly>
+							</textarea></pre>
 							&nbsp; &nbsp;<input type="checkbox" name="agree">개인정보이용약관에
 							동의합니다. <br> <br>
-
-
 							<div class="col-sm-2">
 								<label class="control-label">아이디</label>
 							</div>
@@ -1933,12 +1926,10 @@ body {
 								<input type="email" class="form-control" name="memberId"
 									id="regMemId" placeholder="인증가능한 이메일을 입력하세요"
 									onfocus="this.select()" required maxlength="50"><span id="idCheckView"></span>
-									
 							</div>
 						</div>
 						<input type="hidden" name="memberStatus" value="active">
 						<input type="hidden" name="memberGrade" value="NULL">
-
 						<div class="form-group">
 							<div class="col-sm-2">
 								<label class="control-label">비밀번호</label>
@@ -1950,7 +1941,6 @@ body {
 									id="passCheckView"></span>
 							</div>
 						</div>
-
 						<div class="form-group">
 							<div class="col-sm-2">
 								<label class="control-label"></label>
@@ -1962,7 +1952,6 @@ body {
 									id="passConfirmCheckView"></span>
 							</div>
 						</div>
-
 						<div class="form-group">
 							<div class="col-sm-2">
 								<label class="control-label">이름</label>
@@ -2026,8 +2015,7 @@ body {
 			<div class="modal-body">
 
 				<!-- 이름&아이디 체크 폼 -->
-				<form class="form-horizontal" role="form" action="searchPassword.do"
-					name="loginForm" method="post">
+				<form class="form-horizontal" role="form" action="searchPassword.do" name="loginForm" method="post">
 					<div class="form-group">
 						<div class="col-sm-2">
 							<label class="control-label">아이디</label>

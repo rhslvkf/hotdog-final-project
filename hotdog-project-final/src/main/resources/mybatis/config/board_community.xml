@@ -72,29 +72,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="searchPostingByTitle"  resultMap="boardRM">
-		select b.community_number,b.community_title,b.community_date,b.community_hits,b.member_id,m.member_nickname from(
-			select community_number,community_title,community_date,community_hits,ceil(rownum/8) as page,member_id from(
-				select community_number,community_title,to_char(community_date,'YYYY.MM.DD') as community_date,
-				community_hits,member_id from(
-				select * from board_community where community_title like '%' || #{word} || '%' order by community_number desc
+		select community_content, b.community_number,b.community_title,b.community_date,b.community_hits,b.member_id,m.member_nickname from(
+			select community_content, community_number,community_title,community_date,community_hits,ceil(rownum/8) as page,member_id from(
+				select community_content, community_number,community_title,to_char(community_date,'YYYY.MM.DD') as community_date, community_hits,member_id from(
+					select * from board_community where community_title like '%' || #{word} || '%' order by community_number desc
 				)
 			)
 		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
 	</select>
 	
 	<select id="searchPostingByContent" resultMap="boardRM">
-		select b.community_number,b.community_title,b.community_date,b.community_hits,b.member_id,m.member_nickname from(
+		select b.community_content,b.community_number,b.community_title,b.community_date,b.community_hits,b.member_id,m.member_nickname from(
 			select community_content,community_number,community_title,community_date,community_hits,ceil(rownum/8) as page,member_id from(
-				select community_content,community_number,community_title,to_char(community_date,'YYYY.MM.DD') as community_date,
-				community_hits,member_id from(
-				select * from board_community where community_content like '%' || #{word} || '%' order by community_number desc
+				select community_content,community_number,community_title,to_char(community_date,'YYYY.MM.DD') as community_date, community_hits,member_id from(
+					select * from board_community where community_content like '%' || #{word} || '%' order by community_number desc
 				)
 			)
 		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
 	</select>
 	
 	<select id="searchPostingByNickName" resultMap="boardRM">
-		select b.community_number,b.community_title,b.community_date,b.community_hits,b.member_id,m.member_nickname from(
+		select b.community_content,b.community_number,b.community_title,b.community_date,b.community_hits,b.member_id,m.member_nickname from(
 			select community_content,community_number,community_title,community_date,community_hits,ceil(rownum/8) as page,member_id,member_nickname from(
 				select community_content,community_number,community_title,to_char(community_date,'YYYY.MM.DD') as community_date,community_hits,member_id,member_nickname from(
 						select community_content,community_number,community_title,community_date,community_hits,m.member_id,m.member_nickname from(

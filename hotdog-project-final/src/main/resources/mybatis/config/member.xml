@@ -44,8 +44,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 회원가입 -->
 	<insert id="register" parameterType="mvo">
 		insert into
-		hotdog_member(member_id,member_name,member_password,member_nickname,member_grade,member_tel,member_status,pass_period)
-		values(#{memberId},#{memberName},#{memberPassword},#{memberNickName},#{memberGrade},#{memberTel},#{memberStatus},sysdate)
+		hotdog_member(member_id,member_name,member_password,member_nickname,
+		member_grade,member_tel,member_status,pass_period)
+		values(#{memberId},#{memberName},#{memberPassword},#{memberNickName},
+		#{memberGrade},#{memberTel},#{memberStatus},sysdate)
 	</insert>
 	
 	<!-- 회원정보수정 -->

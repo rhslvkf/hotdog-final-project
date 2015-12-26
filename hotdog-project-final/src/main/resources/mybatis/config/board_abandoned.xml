@@ -92,59 +92,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		|| '%'
 	</select>
 
-	<select id="searchPostingByTitle" resultMap="boardRM">
-		select
-		b.abandoned_number,b.abandoned_title,b.abandoned_date,b.abandoned_hits,b.member_id,m.member_nickname
-		from(
-		select
-		abandoned_number,abandoned_title,abandoned_date,abandoned_hits,ceil(rownum/8)
-		as page,member_id from(
-		select abandoned_number,abandoned_title,to_char(abandoned_date,'YYYY.MM.DD')
-		as abandoned_date,
-		abandoned_hits,member_id from(
-		select * from board_abandoned where abandoned_title like '%' || #{word} ||
-		'%' order by abandoned_number desc
-		)
-		)
+	<select id="searchPostingByTitle"  resultMap="boardRM">
+		select abandoned_content, b.abandoned_number,b.abandoned_title,b.abandoned_date,b.abandoned_hits,b.member_id,m.member_nickname from(
+			select abandoned_content, abandoned_number,abandoned_title,abandoned_date,abandoned_hits,ceil(rownum/8) as page,member_id from(
+				select abandoned_content, abandoned_number,abandoned_title,to_char(abandoned_date,'YYYY.MM.DD') as abandoned_date, abandoned_hits,member_id from(
+					select * from board_abandoned where abandoned_title like '%' || #{word} || '%' order by abandoned_number desc
+				)
+			)
 		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
 	</select>
-
+	
 	<select id="searchPostingByContent" resultMap="boardRM">
-		select
-		b.abandoned_number,b.abandoned_title,b.abandoned_date,b.abandoned_hits,b.member_id,m.member_nickname
-		from(
-		select
-		abandoned_content,abandoned_number,abandoned_title,abandoned_date,abandoned_hits,ceil(rownum/8)
-		as page,member_id from(
-		select
-		abandoned_content,abandoned_number,abandoned_title,to_char(abandoned_date,'YYYY.MM.DD')
-		as abandoned_date,
-		abandoned_hits,member_id from(
-		select * from board_abandoned where abandoned_content like '%' || #{word} ||
-		'%' order by abandoned_number desc
-		)
-		)
+		select b.abandoned_content,b.abandoned_number,b.abandoned_title,b.abandoned_date,b.abandoned_hits,b.member_id,m.member_nickname from(
+			select abandoned_content,abandoned_number,abandoned_title,abandoned_date,abandoned_hits,ceil(rownum/8) as page,member_id from(
+				select abandoned_content,abandoned_number,abandoned_title,to_char(abandoned_date,'YYYY.MM.DD') as abandoned_date, abandoned_hits,member_id from(
+					select * from board_abandoned where abandoned_content like '%' || #{word} || '%' order by abandoned_number desc
+				)
+			)
 		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
 	</select>
-
+	
 	<select id="searchPostingByNickName" resultMap="boardRM">
-		select
-		b.abandoned_number,b.abandoned_title,b.abandoned_date,b.abandoned_hits,b.member_id,m.member_nickname
-		from(
-		select
-		abandoned_content,abandoned_number,abandoned_title,abandoned_date,abandoned_hits,ceil(rownum/8)
-		as page,member_id,member_nickname from(
-		select
-		abandoned_content,abandoned_number,abandoned_title,to_char(abandoned_date,'YYYY.MM.DD')
-		as abandoned_date,abandoned_hits,member_id,member_nickname from(
-		select
-		abandoned_content,abandoned_number,abandoned_title,abandoned_date,abandoned_hits,m.member_id,m.member_nickname
-		from(
-		select * from board_abandoned b, hotdog_member m where b.member_id =
-		m.member_id order by abandoned_number desc
-		)b, hotdog_member m where m.member_nickname like '%' || #{word} || '%'
-		)
-		)
+		select b.abandoned_content,b.abandoned_number,b.abandoned_title,b.abandoned_date,b.abandoned_hits,b.member_id,m.member_nickname from(
+			select abandoned_content,abandoned_number,abandoned_title,abandoned_date,abandoned_hits,ceil(rownum/8) as page,member_id,member_nickname from(
+				select abandoned_content,abandoned_number,abandoned_title,to_char(abandoned_date,'YYYY.MM.DD') as abandoned_date,abandoned_hits,member_id,member_nickname from(
+						select abandoned_content,abandoned_number,abandoned_title,abandoned_date,abandoned_hits,m.member_id,m.member_nickname from(
+							select * from board_abandoned b, hotdog_member m where b.member_id = m.member_id order by abandoned_number desc
+						)b, hotdog_member m where m.member_nickname like '%' || #{word} || '%' 
+				)
+			)
 		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
 	</select>
 

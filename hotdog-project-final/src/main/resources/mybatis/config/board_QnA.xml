@@ -76,33 +76,31 @@ select b.QnA_number,b.QnA_title,b.QnA_date,b.QnA_hits,b.member_id,b.QnA_ref,b.Qn
 	</select>
 	
 	<select id="searchPostingByTitle"  resultMap="boardRM">
-		select b.QnA_number,b.QnA_title,b.QnA_date,b.QnA_hits,b.member_id,b.QnA_ref,b.QnA_restep,b.QnA_relevel,m.member_nickname from(
-			select QnA_number,QnA_title,QnA_date,QnA_hits,ceil(rownum/8) as page,QnA_ref,QnA_restep,QnA_relevel,member_id from(
-				select QnA_number,QnA_title,to_char(QnA_date,'YYYY.MM.DD') as QnA_date,
-				QnA_hits,QnA_ref,QnA_restep,QnA_relevel,member_id from(
-				select * from board_QnA where QnA_title like '%' || #{word} || '%' order by QnA_ref desc, QnA_restep asc
+		select QnA_content, b.QnA_number,b.QnA_title,b.QnA_date,b.QnA_hits,b.member_id,m.member_nickname from(
+			select QnA_content, QnA_number,QnA_title,QnA_date,QnA_hits,ceil(rownum/8) as page,member_id from(
+				select QnA_content, QnA_number,QnA_title,to_char(QnA_date,'YYYY.MM.DD') as QnA_date, QnA_hits,member_id from(
+					select * from board_QnA where QnA_title like '%' || #{word} || '%' order by QnA_number desc
 				)
 			)
 		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
 	</select>
 	
 	<select id="searchPostingByContent" resultMap="boardRM">
-			select b.QnA_number,b.QnA_title,b.QnA_date,b.QnA_hits,b.member_id,b.QnA_ref,b.QnA_restep,b.QnA_relevel,m.member_nickname from(
-			select QnA_content,QnA_number,QnA_title,QnA_date,QnA_hits,ceil(rownum/8) as page,QnA_ref,QnA_restep,QnA_relevel,member_id from(
-				select QnA_content,QnA_number,QnA_title,to_char(QnA_date,'YYYY.MM.DD') as QnA_date,
-				QnA_hits,QnA_ref,QnA_restep,QnA_relevel,member_id from(
-				select * from board_QnA where QnA_content like '%' || #{word} || '%' order by QnA_ref desc, QnA_restep asc
+		select b.QnA_content,b.QnA_number,b.QnA_title,b.QnA_date,b.QnA_hits,b.member_id,m.member_nickname from(
+			select QnA_content,QnA_number,QnA_title,QnA_date,QnA_hits,ceil(rownum/8) as page,member_id from(
+				select QnA_content,QnA_number,QnA_title,to_char(QnA_date,'YYYY.MM.DD') as QnA_date, QnA_hits,member_id from(
+					select * from board_QnA where QnA_content like '%' || #{word} || '%' order by QnA_number desc
 				)
 			)
 		) b,hotdog_member m where b.member_id=m.member_id and page=#{pageNo}
 	</select>
 	
 	<select id="searchPostingByNickName" resultMap="boardRM">
-			select b.QnA_number,b.QnA_title,b.QnA_date,b.QnA_hits,b.QnA_ref,b.QnA_restep,b.QnA_relevel,b.member_id,m.member_nickname from(
-			select QnA_content,QnA_number,QnA_title,QnA_date,QnA_hits,ceil(rownum/8) as page,member_id,QnA_ref,QnA_restep,QnA_relevel,member_nickname from(
-				select QnA_content,QnA_number,QnA_title,to_char(QnA_date,'YYYY.MM.DD') as QnA_date,QnA_ref,QnA_restep,QnA_relevel,QnA_hits,member_id,member_nickname from(
-						select QnA_content,QnA_number,QnA_title,QnA_date,QnA_hits,QnA_ref,QnA_restep,QnA_relevel,m.member_id,m.member_nickname from(
-							select * from board_QnA b, hotdog_member m where b.member_id = m.member_id order by QnA_ref desc, QnA_restep asc
+		select b.QnA_content,b.QnA_number,b.QnA_title,b.QnA_date,b.QnA_hits,b.member_id,m.member_nickname from(
+			select QnA_content,QnA_number,QnA_title,QnA_date,QnA_hits,ceil(rownum/8) as page,member_id,member_nickname from(
+				select QnA_content,QnA_number,QnA_title,to_char(QnA_date,'YYYY.MM.DD') as QnA_date,QnA_hits,member_id,member_nickname from(
+						select QnA_content,QnA_number,QnA_title,QnA_date,QnA_hits,m.member_id,m.member_nickname from(
+							select * from board_QnA b, hotdog_member m where b.member_id = m.member_id order by QnA_number desc
 						)b, hotdog_member m where m.member_nickname like '%' || #{word} || '%' 
 				)
 			)
